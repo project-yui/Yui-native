@@ -1,0 +1,20 @@
+#include "./hook.hh"
+
+namespace NTNative {
+class LinuxHook: public Hook {
+public:
+  /**
+   * @brief Construct a new Hook object
+   *
+   * @param name 模块名称
+   *
+   */
+  LinuxHook(pid_t _pid, std::string &name) {
+    pid = _pid;
+    m_moduleName = name;
+  };
+
+protected:
+  std::pair<unsigned long, unsigned long> get_module_address();
+};
+}

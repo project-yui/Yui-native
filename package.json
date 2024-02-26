@@ -1,0 +1,21 @@
+{
+  "name": "nt-native",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "cmake-js compile",
+    "c": "cmake-js compile"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "cmake-js": "^7.3.0",
+    "node-addon-api": "^7.1.0"
+  },
+  "binary": {
+    "napi_versions": [7]
+  }
+}

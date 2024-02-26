@@ -4,7 +4,7 @@
         "/home/msojocs/github/vcpkg/buildtrees",
         "/home/msojocs/github/vcpkg/installed/x64-linux/include"
     ],
-    "clangd.path": "clangd-18",
+    "clangd.path": "clangd",
     "clangd.arguments": [
         // 让 Clangd 生成更详细的日志
         "--log=verbose",

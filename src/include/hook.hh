@@ -44,6 +44,13 @@ public:
    */
   virtual bool install(void * dest);
 
+  /**
+   * @brief Get the trampoline address
+   * 
+   * @return void* 
+   */
+  void * get_trampoline();
+
 protected:
   /**
    * @brief 获取函数的起始地址
@@ -77,7 +84,7 @@ protected:
    * @param targetModule 
    * @return std::pair<unsigned long, unsigned long> (startAddr, endAddr)
    */
-  virtual std::pair<unsigned long, unsigned long> get_module_address();
+  virtual std::pair<unsigned long, unsigned long> get_module_address() = 0;
   
   subhook::Hook hook;
   // 进程id

@@ -47,4 +47,8 @@ const uint8_t *Hook::search_feature_code(const uint8_t *data, size_t size) {
   }
   return nullptr;
 }
+
+void * Hook::get_trampoline() {
+  return hook.GetTrampoline();
+}
 } // namespace NTNative

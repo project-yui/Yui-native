@@ -8,7 +8,7 @@ add_definitions(-DNAPI_VERSION=4)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC")
 include(~/github/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 set(PKG_TOOL pnpm)
@@ -58,20 +58,28 @@ include_directories(${NODE_ADDON_API_DIR})
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
 
 set(SUBHOOK_TESTS OFF)
-
-# set(SUBHOOK_STATIC ON)
+set(SUBHOOK_STATIC ON)
 set(SUBHOOK_INSTALL OFF)
 add_subdirectory(thirds/subhook)
 
-file(GLOB SOURCE_FILES "src/*.cc" "src/*.hh")
+message("CMAKE_JS_SRC: ${CMAKE_JS_SRC}")
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
+set(MODULE_NAME nt_native)
+add_library(${MODULE_NAME}
+        SHARED
+        src/main.cc
+        src/include/hook.hh
+        src/include/linux_hook.hh
+        src/hook/hook.cc
+        src/hook/linux_hook.cc
+        ${CMAKE_JS_SRC}
+        )
 
-target_link_libraries(${PROJECT_NAME} subhook)
-target_link_libraries(${PROJECT_NAME} unofficial::sqlite3::sqlite3)
+target_link_libraries(${MODULE_NAME} subhook)
+target_link_libraries(${MODULE_NAME} unofficial::sqlite3::sqlite3)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
-target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
+set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
+target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 
 ################test##################
 

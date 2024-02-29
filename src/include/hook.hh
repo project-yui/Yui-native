@@ -45,7 +45,7 @@ public:
   virtual bool install(void * dest);
 
   /**
-   * @brief Get the trampoline address
+   * @brief 获取原始函数地址
    * 
    * @return void* 
    */

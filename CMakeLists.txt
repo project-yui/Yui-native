@@ -5,14 +5,20 @@ cmake_policy(SET CMP0042 NEW)
 project("nt_native")
 
 add_definitions(-DNAPI_VERSION=4)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
+set(VCPKG_BUILD_TYPE Debug)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC")
-include(~/github/vcpkg/scripts/buildsystems/vcpkg.cmake)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+
+# include(~/github/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 set(PKG_TOOL pnpm)
 set(TARGET_ARCH x64)
+
+message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 # message("安装 Node 包")
 # execute_process(COMMAND
@@ -55,12 +61,13 @@ message("CMAKE_JS_INC: ${CMAKE_JS_INC}")
 include_directories(${CMAKE_JS_INC})
 include_directories(${NODE_ADDON_API_DIR})
 
-find_package(unofficial-sqlite3 CONFIG REQUIRED)
-
 set(SUBHOOK_TESTS OFF)
 set(SUBHOOK_STATIC ON)
 set(SUBHOOK_INSTALL OFF)
 add_subdirectory(thirds/subhook)
+
+add_definitions(-DSQLITE_DEBUG=1)
+add_subdirectory(thirds/sqlite3)
 
 message("CMAKE_JS_SRC: ${CMAKE_JS_SRC}")
 
@@ -74,17 +81,19 @@ add_library(${MODULE_NAME}
         src/hook/linux_hook.cc
         ${CMAKE_JS_SRC}
         )
+target_link_libraries(${MODULE_NAME} PRIVATE sqlite3)
 
-target_link_libraries(${MODULE_NAME} subhook)
-target_link_libraries(${MODULE_NAME} unofficial::sqlite3::sqlite3)
+target_link_libraries(${MODULE_NAME} PRIVATE subhook)
 
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
+message("CMAKE_JS_LIB:"${CMAKE_JS_LIB})
 target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 
 ################test##################
 
 add_executable(test_sqlite
-        test/sqlite3.cc
+        test/test_sqlite3.cc
 )
-target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
+# target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
+target_link_libraries(test_sqlite PRIVATE sqlite3)
 

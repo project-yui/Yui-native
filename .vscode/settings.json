@@ -7,7 +7,7 @@
     "clangd.path": "clangd",
     "clangd.arguments": [
         // 让 Clangd 生成更详细的日志
-        "--log=verbose",
+        // "--log=verbose",
         // 输出的 JSON 文件更美观
         "--pretty",
         // 全局补全(输入时弹出的建议将会提供 CMakeLists.txt 里配置的所有文件中可能的符号，会自动补充头文件)

@@ -10,7 +10,7 @@
       "name": "Debug",
       "program": "${workspaceFolder}/build/test_sqlite",
       "args": [],
-      "cwd": "${workspaceFolder}/test"
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

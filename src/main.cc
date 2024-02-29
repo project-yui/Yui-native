@@ -1,7 +1,8 @@
 #include "include/linux_hook.hh"
-#include "include/sqlite3/base.hh"
-#include "include/sqlite3/vdbe.hh"
-#include "include/sqlite3/sqlite3.hh"
+#include "include/nt_sqlite3/base.hh"
+#include "include/nt_sqlite3/vdbe.hh"
+#include "include/nt_sqlite3/sqlite3.hh"
+#include "include/nt_sqlite3/base.hh"
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -9,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <random>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdio.h>
@@ -112,6 +114,347 @@ void printRow(sqlite3_stmt * stmt) {
   }
 
 }
+u8 data_1[] = {0x82, 0xf6, 0x13, 0x29, 0xc8, 0xfc, 0x15, 0x97, 0x84, 0x8e, 0xdb, 0xa7, 0xab, 0xd8, 0xec, 0x65, 0xd0, 0xfc, 0x15, 0x01, 0xea, 0x82, 0x16, 0x11, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0xf0, 0x82, 0x16, 0x00};
+u8 data_2[] = {0xc2, 0xe9, 0x13, 0x04, 0xa8, 0xd1, 0x14, 0x00};
+u8 data_3[] = {0x8a, 0xf6, 0x13, 0x4a, 0xe8, 0xa1, 0x14, 0x96, 0x84, 0x8e, 0xdb, 0xa7, 0xab, 0xd8, 0xec, 0x65, 0xf0, 0xa1, 0x14, 0x00, 0xb0, 0xa2, 0x14, 0x00, 0xb8, 0xa2, 0x14, 0xe1, 0xb1, 0xe4, 0xba, 0x05, 0xf8, 0xa2, 0x14, 0x00, 0x80, 0xa3, 0x14, 0x00, 0x90, 0xa3, 0x14, 0x00, 0x98, 0xa3, 0x14, 0x00, 0xa0, 0xa3, 0x14, 0x00, 0xa8, 0xa3, 0x14, 0x00, 0xc8, 0xa3, 0x14, 0x00, 0xd0, 0xa3, 0x14, 0x00, 0xd8, 0xa3, 0x14, 0xa7, 0xc0, 0x04, 0xe8, 0xa3, 0x14, 0x00, 0xf8, 0xa3, 0x14, 0x00};
+char uid[] = "u_K54_tDilsiaIV_m0q4XgCg";
+char nickName[] = "msojocs";
+char groupId[] = "933286835";
+NTMem rowTest[33] = {
+  // INSERT INTO "main"."group_msg_table" ("40001", "40002", "40003", "40010", "40011", "40012", "40013", "40020", "40026", "40021", "40027", "40040", "40041", "40050", "40052", "40090", "40093", "40800", "40900", "40105", "40005", "40058", "40006", "40100", "40600", "40060", "40850", "40851", "40601", "40801", "40605", "40030", "40033") VALUES ('7339004109022003736', '3581593724', '9991', '2', '2', '1', '0', 'u_K54_tDilsiaIV_m0q4XgCg', '1', '933286835', '933286835', '0', '2', '1708603154', '0', '', 'msojocs', X'82f61329c8fc1597848edba7abd8ec65d0fc1501ea8216113737363737363737363737363737363737f0821600', '', '0', '0', '1708531200', '0', '0', X'c2e91304a8d11400', '0', '0', '0', '', X'8af6134ae8a11496848edba7abd8ec65f0a11400b0a21400b8a214e1b1e4ba05f8a2140080a3140090a3140098a31400a0a31400a8a31400c8a31400d0a31400d8a314a7c004e8a31400f8a31400', '', '933286835', '1690127128');
+	// "40001"	INTEGER,
+  {
+    7337665346128031342ul,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40002"	INTEGER,
+  {
+    3581593724,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40003"	INTEGER,
+  {
+    9991,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40010"	INTEGER,
+  {
+    2,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40011"	INTEGER,
+  {
+    2,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40012"	INTEGER,
+  {
+    1,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40013"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40020"	TEXT,
+  {
+    0,
+    MEM_Str | MEM_Term,
+    SQLITE_UTF8,
+    0,
+    24,
+    uid,
+    uid
+  },
+	// "40026"	INTEGER,
+  {
+    1,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40021"	TEXT,
+  {
+    1,
+    MEM_Str,
+    SQLITE_UTF8,
+    0,
+    9,
+    groupId,
+    groupId
+  },
+	// "40027"	INTEGER,
+  {
+    933286835,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40040"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40041"	INTEGER,
+  {
+    2,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40050"	INTEGER,
+  {
+    1708603154,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40052"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40090"	TEXT,
+  {
+    0,
+    MEM_Str,
+    SQLITE_UTF8,
+    0,
+    0,
+    "",
+    ""
+  },
+	// "40093"	TEXT,
+  {
+    0,
+    MEM_Str,
+    SQLITE_UTF8,
+    0,
+    7,
+    nickName,
+    nickName
+  },
+	// "40800"	BLOB,
+  {
+    0,
+    MEM_Blob,
+    SQLITE_UTF8,
+    0,
+    45,
+    (char *)data_1,
+    (char *)data_1
+  },
+	// "40900"	BLOB,
+  {
+    0,
+    MEM_Blob,
+    SQLITE_UTF8,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40105"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40005"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40058"	INTEGER,
+  {
+    1708531200,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40006"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40100"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40600"	BLOB,
+  {
+    0,
+    MEM_Blob,
+    SQLITE_UTF8,
+    0,
+    8,
+    (char *)data_2,
+    (char *)data_2
+  },
+	// "40060"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40850"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40851"	INTEGER,
+  {
+    0,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40601"	BLOB,
+  {
+    0,
+    MEM_Blob,
+    SQLITE_UTF8,
+    0,
+    0,
+    "",
+    ""
+  },
+	// "40801"	BLOB,
+  {
+    0,
+    MEM_Blob,
+    SQLITE_UTF8,
+    0,
+    78,
+    (char *)data_3,
+    (char *)data_3
+  },
+	// "40605"	BLOB,
+  {
+    0,
+    MEM_Blob,
+    SQLITE_UTF8,
+    0,
+    0,
+    "",
+    ""
+  },
+	// "40030"	INTEGER,
+  {
+    933286835,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+	// "40033"	INTEGER,
+  {
+    1690127128,
+    MEM_Int,
+    0,
+    0,
+    0,
+    nullptr,
+    nullptr
+  },
+
+};
+
 int execute(void * a1
 , void * a2
 , void *  a3
@@ -128,10 +471,9 @@ int execute(void * a1
         printf("[%s]error nullptr!!!\n", u);
         return -1;
     }
-    sqlite3_stmt *stmt0 = nullptr;
-    stmt0 = (sqlite3_stmt *)a1;
-    NTVdbe * v = (NTVdbe *)stmt0;
-    printf("[%s] sql: %s\n", u, _sqlite3_sql(stmt0));
+    sqlite3_stmt *ntStmt = (sqlite3_stmt *)a1;
+    NTVdbe * ntVdbe = (NTVdbe *)ntStmt;
+    printf("[%s] sql: %s\n", u, _sqlite3_sql(ntStmt));
     // if (sql_global != nullptr) {
     //   printf("[%s]compare%x <-> %x!!!\n", u, sql_global, v->zSql);
     //   if (sql_global == v->zSql) {
@@ -143,10 +485,19 @@ int execute(void * a1
     if (nt2custom.find(a1) != nt2custom.end()) {
       sqlite3_stmt * customStmt = nt2custom[a1];
       // 找到sql实例
-      int rc = _sqlite3_step(customStmt);
-      if (rc == SQLITE_ROW) {
-        // 还有数据，读取并转换
-      }
+      // int rc = _sqlite3_step(customStmt);
+      // if (rc == SQLITE_ROW) {
+      //   // 还有数据，读取并转换
+      //   int colCOunt = _sqlite3_column_count(customStmt);
+      //   NTMem * row = (NTMem *)malloc(colCOunt * sizeof(NTMem));
+      //   // ntVdbe->pResultRow = row;
+      //   for (int i=0; i < colCOunt; i++) {
+      //     // row[i].db = 
+      //   }
+      // }
+      // else if (rc == SQLITE_DONE) {
+      //   // _sqlite3_close(sqlite3 *)
+      // }
       return SQLITE_DONE;
     }
     // 1. 执行原来的调用
@@ -159,11 +510,13 @@ int execute(void * a1
     );
     // 2. SQLITE_ROW就返回
     if (ret == SQLITE_ROW) {
-      if (v->zSql != nullptr) {
-        std::string sql(v->zSql);
+      if (ntVdbe->zSql != nullptr) {
+        std::string sql(ntVdbe->zSql);
         if (sql.find("FROM group_msg_table") != std::string::npos) {
+          printf("replace row data\n");
           // 还有数据，直接返回
-          printRow(stmt0);
+          // printRow(ntStmt);
+          ntVdbe->pResultRow = rowTest;
         }
       }
       return ret;
@@ -173,18 +526,18 @@ int execute(void * a1
     
     // std::cout << "foo(" << (char *)a << "," << *(char **)b << "," << *(char **)c  << "," << (char *)d << ") called" << std::endl;
     std::cout << "stmt(..." << ") called" << std::endl;
-    if (stmt0 != nullptr)
+    if (ntStmt != nullptr)
     {
         printf("actual sql0 -> %s\n", *((const char **)a1 + 32));
         printf("read from v\n");
         // 4. 取sql执行
-        std::cout << "sql0:" << v->zSql << std::endl;
-        printf("actual sql1 -> %s\n", v->zSql);
-        if (v->zSql == nullptr) {
+        std::cout << "sql0:" << ntVdbe->zSql << std::endl;
+        printf("actual sql1 -> %s\n", ntVdbe->zSql);
+        if (ntVdbe->zSql == nullptr) {
             return ret;
         }
         // 5. 有数据就替换stmt的row内容，并返回SQLITE_ROW
-        std::string sql(v->zSql);
+        std::string sql(ntVdbe->zSql);
         printf("sql1:%s\n", sql.c_str());
         printf("ret:%d\n", ret);
         if (sql.find("FROM group_msg_table") != std::string::npos) {
@@ -194,7 +547,7 @@ int execute(void * a1
               return SQLITE_DONE;
             }
             _sqlite3_initialize();
-            sql_global = v->zSql;
+            sql_global = ntVdbe->zSql;
             isTest = false;
             printf("try to read record from custom db!\n");
             sqlite3 *db = nullptr;
@@ -212,8 +565,8 @@ int execute(void * a1
             // Now we create an SQL command which is stored in an sqlite3_stmt data structure.
             // Note symColName_ is a member of EquityDataLocator
             sqlite3_stmt *newStmt = nullptr;
-            printf("try to prepare sql[%ld]: %s\n", strlen(v->zSql), v->zSql);
-            rc = _sqlite3_prepare_v2(db, v->zSql, strlen(v->zSql), &newStmt, nullptr);
+            printf("try to prepare sql[%ld]: %s\n", strlen(ntVdbe->zSql), ntVdbe->zSql);
+            rc = _sqlite3_prepare_v2(db, ntVdbe->zSql, strlen(ntVdbe->zSql), &newStmt, nullptr);
             if (rc != SQLITE_OK)
             {
                 _sqlite3_finalize(newStmt);
@@ -235,7 +588,7 @@ int execute(void * a1
                 void *p = const_cast<unsigned char *>(_sqlite3_column_text(newStmt, 1));
                 const char *ret = static_cast<const char *>(p);
                 printf("data:%s\n", ret);
-                int colCount = v->nResColumn;
+                int colCount = ntVdbe->nResColumn;
                 printf("column num: %d\n", colCount);
 
                 auto result = ((NTVdbe *)newStmt)->pResultRow;

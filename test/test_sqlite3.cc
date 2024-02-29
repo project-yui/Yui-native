@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <sqlite3.h>
-#include "../src/include/sqlite3/vdbe.hh"
-#include "../src/include/sqlite3/sqlite3.hh"
+#include "../src/include/nt_sqlite3/vdbe.hh"
+#include "../src/include/nt_sqlite3/sqlite3.hh"
 
 void printValue(const char* name, unsigned long v) {
   printf("[%s] %ld, %x\n", name, v, v);
@@ -49,6 +49,8 @@ auto main(int argc, char const *argv[]) -> int
   
   // Now we retrieve the row
   rc = _sqlite3_step(stmt);
+  rc = _sqlite3_step(stmt);
+  rc = _sqlite3_step(stmt);
   if (rc == SQLITE_ROW)
   {
     // Here we get a pointer to the location text ( stored in the second column of the table )
@@ -75,7 +77,7 @@ auto main(int argc, char const *argv[]) -> int
       printValue("szMalloc", (unsigned long) data.szMalloc);
       printValue("uTemp", (unsigned long) data.uTemp);
       printValue("zMalloc", (unsigned long) data.zMalloc);
-      printValue("xDel", (unsigned long) data.xDel);
+      // printValue("xDel", (unsigned long) data.xDel);
       // printValue("pScopyFrom", (unsigned long) data.pScopyFrom);
       // printValue("mScopyFlags", (unsigned long) data.mScopyFlags);
       printf("=====================\n");

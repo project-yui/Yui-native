@@ -13,12 +13,12 @@ set(CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
-# include(~/github/vcpkg/scripts/buildsystems/vcpkg.cmake)
-
 set(PKG_TOOL pnpm)
 set(TARGET_ARCH x64)
 
 message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
+
+find_package(protobuf CONFIG REQUIRED)
 
 # message("安装 Node 包")
 # execute_process(COMMAND
@@ -82,8 +82,8 @@ add_library(${MODULE_NAME}
         ${CMAKE_JS_SRC}
         )
 target_link_libraries(${MODULE_NAME} PRIVATE sqlite3)
-
 target_link_libraries(${MODULE_NAME} PRIVATE subhook)
+target_link_libraries(${MODULE_NAME} PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 message("CMAKE_JS_LIB:"${CMAKE_JS_LIB})
@@ -96,4 +96,12 @@ add_executable(test_sqlite
 )
 # target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 target_link_libraries(test_sqlite PRIVATE sqlite3)
+
+
+add_executable(test_protobuf
+        test/test_protobuf.cc
+        ./src/proto/message.pb.cc
+)
+# target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
+target_link_libraries(test_protobuf PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 

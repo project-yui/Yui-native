@@ -516,7 +516,7 @@ int execute(void * a1
           printf("replace row data\n");
           // 还有数据，直接返回
           // printRow(ntStmt);
-          ntVdbe->pResultRow = rowTest;
+          // ntVdbe->pResultRow = rowTest;
         }
       }
       return ret;

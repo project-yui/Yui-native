@@ -482,8 +482,8 @@ class Element final :
     kImageUrl198FieldNumber = 45802,
     kImageUrl720FieldNumber = 45803,
     kOriginImageUrlFieldNumber = 45804,
-    kMsgIdFieldNumber = 45001,
-    kMsgTypeFieldNumber = 45002,
+    kElementIdFieldNumber = 45001,
+    kElementTypeFieldNumber = 45002,
     kAtTypeFieldNumber = 45102,
     kFileSizeFieldNumber = 45405,
     kPicWidthFieldNumber = 45411,
@@ -657,24 +657,24 @@ class Element final :
   std::string* _internal_mutable_originimageurl();
 
   public:
-  // int64 msgId = 45001;
-  void clear_msgid() ;
-  ::int64_t msgid() const;
-  void set_msgid(::int64_t value);
+  // int64 elementId = 45001;
+  void clear_elementid() ;
+  ::int64_t elementid() const;
+  void set_elementid(::int64_t value);
 
   private:
-  ::int64_t _internal_msgid() const;
-  void _internal_set_msgid(::int64_t value);
+  ::int64_t _internal_elementid() const;
+  void _internal_set_elementid(::int64_t value);
 
   public:
-  // .nt_msg.Element.MsgType msgType = 45002;
-  void clear_msgtype() ;
-  ::nt_msg::Element_MsgType msgtype() const;
-  void set_msgtype(::nt_msg::Element_MsgType value);
+  // int32 elementType = 45002;
+  void clear_elementtype() ;
+  ::int32_t elementtype() const;
+  void set_elementtype(::int32_t value);
 
   private:
-  ::nt_msg::Element_MsgType _internal_msgtype() const;
-  void _internal_set_msgtype(::nt_msg::Element_MsgType value);
+  ::int32_t _internal_elementtype() const;
+  void _internal_set_elementtype(::int32_t value);
 
   public:
   // optional int32 atType = 45102;
@@ -909,8 +909,8 @@ class Element final :
     ::google::protobuf::internal::ArenaStringPtr imageurl198_;
     ::google::protobuf::internal::ArenaStringPtr imageurl720_;
     ::google::protobuf::internal::ArenaStringPtr originimageurl_;
-    ::int64_t msgid_;
-    int msgtype_;
+    ::int64_t elementid_;
+    ::int32_t elementtype_;
     ::int32_t attype_;
     ::int32_t filesize_;
     ::int32_t picwidth_;
@@ -1237,50 +1237,50 @@ inline void Element_SourceMsgTextElem::set_allocated_textelemcontent(std::string
 
 // Element
 
-// int64 msgId = 45001;
-inline void Element::clear_msgid() {
+// int64 elementId = 45001;
+inline void Element::clear_elementid() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.msgid_ = ::int64_t{0};
+  _impl_.elementid_ = ::int64_t{0};
 }
-inline ::int64_t Element::msgid() const {
-  // @@protoc_insertion_point(field_get:nt_msg.Element.msgId)
-  return _internal_msgid();
+inline ::int64_t Element::elementid() const {
+  // @@protoc_insertion_point(field_get:nt_msg.Element.elementId)
+  return _internal_elementid();
 }
-inline void Element::set_msgid(::int64_t value) {
-  _internal_set_msgid(value);
-  // @@protoc_insertion_point(field_set:nt_msg.Element.msgId)
+inline void Element::set_elementid(::int64_t value) {
+  _internal_set_elementid(value);
+  // @@protoc_insertion_point(field_set:nt_msg.Element.elementId)
 }
-inline ::int64_t Element::_internal_msgid() const {
+inline ::int64_t Element::_internal_elementid() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.msgid_;
+  return _impl_.elementid_;
 }
-inline void Element::_internal_set_msgid(::int64_t value) {
+inline void Element::_internal_set_elementid(::int64_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ;
-  _impl_.msgid_ = value;
+  _impl_.elementid_ = value;
 }
 
-// .nt_msg.Element.MsgType msgType = 45002;
-inline void Element::clear_msgtype() {
+// int32 elementType = 45002;
+inline void Element::clear_elementtype() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.msgtype_ = 0;
+  _impl_.elementtype_ = 0;
 }
-inline ::nt_msg::Element_MsgType Element::msgtype() const {
-  // @@protoc_insertion_point(field_get:nt_msg.Element.msgType)
-  return _internal_msgtype();
+inline ::int32_t Element::elementtype() const {
+  // @@protoc_insertion_point(field_get:nt_msg.Element.elementType)
+  return _internal_elementtype();
 }
-inline void Element::set_msgtype(::nt_msg::Element_MsgType value) {
-  _internal_set_msgtype(value);
-  // @@protoc_insertion_point(field_set:nt_msg.Element.msgType)
+inline void Element::set_elementtype(::int32_t value) {
+  _internal_set_elementtype(value);
+  // @@protoc_insertion_point(field_set:nt_msg.Element.elementType)
 }
-inline ::nt_msg::Element_MsgType Element::_internal_msgtype() const {
+inline ::int32_t Element::_internal_elementtype() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return static_cast<::nt_msg::Element_MsgType>(_impl_.msgtype_);
+  return _impl_.elementtype_;
 }
-inline void Element::_internal_set_msgtype(::nt_msg::Element_MsgType value) {
+inline void Element::_internal_set_elementtype(::int32_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ;
-  _impl_.msgtype_ = value;
+  _impl_.elementtype_ = value;
 }
 
 // optional string textStr = 45101;

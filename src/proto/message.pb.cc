@@ -73,8 +73,8 @@ inline constexpr Element::Impl_::Impl_(
         originimageurl_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        msgid_{::int64_t{0}},
-        msgtype_{static_cast< ::nt_msg::Element_MsgType >(0)},
+        elementid_{::int64_t{0}},
+        elementtype_{0},
         attype_{0},
         filesize_{0},
         picwidth_{0},
@@ -152,8 +152,8 @@ const ::uint32_t TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABL
     ~0u,  // no _inlined_string_donated_
     ~0u,  // no _split_
     ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.msgid_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.msgtype_),
+    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.elementid_),
+    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.elementtype_),
     PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.textstr_),
     PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.attype_),
     PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.filename_),
@@ -234,51 +234,50 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::nt_msg::_Elements_default_instance_._instance,
 };
 const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-    "\n\rmessage.proto\022\006nt_msg\"\246\013\n\007Element\022\017\n\005m"
-    "sgId\030\311\337\002 \001(\003\022*\n\007msgType\030\312\337\002 \001(\0162\027.nt_msg"
-    ".Element.MsgType\022\026\n\007textStr\030\255\340\002 \001(\tH\000\210\001\001"
-    "\022\025\n\006atType\030\256\340\002 \001(\005H\001\210\001\001\022\027\n\010fileName\030\332\342\002 "
-    "\001(\tH\002\210\001\001\022\027\n\010fileSize\030\335\342\002 \001(\005H\003\210\001\001\022\034\n\runk"
-    "nown_45406\030\336\342\002 \001(\tH\004\210\001\001\022\027\n\010picWidth\030\343\342\002 "
-    "\001(\005H\005\210\001\001\022\030\n\tpicHeight\030\344\342\002 \001(\005H\006\210\001\001\022\034\n\run"
-    "known_45413\030\345\342\002 \001(\005H\007\210\001\001\022\034\n\runknown_4541"
-    "4\030\346\342\002 \001(\005H\010\210\001\001\022\026\n\007picType\030\350\342\002 \001(\005H\t\210\001\001\022\034"
-    "\n\runknown_45418\030\352\342\002 \001(\005H\n\210\001\001\022\027\n\010fileUuid"
-    "\030\277\343\002 \001(\tH\013\210\001\001\022\032\n\013imageUrl198\030\352\345\002 \001(\tH\014\210\001"
-    "\001\022\032\n\013imageUrl720\030\353\345\002 \001(\tH\r\210\001\001\022\035\n\016originI"
-    "mageUrl\030\354\345\002 \001(\tH\016\210\001\001\022\034\n\runknown_45805\030\355\345"
-    "\002 \001(\005H\017\210\001\001\022\034\n\runknown_45806\030\356\345\002 \001(\005H\020\210\001\001"
-    "\022\034\n\runknown_45807\030\357\345\002 \001(\005H\021\210\001\001\022\034\n\runknow"
-    "n_45829\030\205\346\002 \001(\005H\022\210\001\001\022\033\n\014senderUidStr\030\324\270\002"
-    " \001(\tH\023\210\001\001\022\033\n\014replayMsgSeq\030\252\362\002 \001(\005H\024\210\001\001\022\030"
-    "\n\tsenderUid\030\253\362\002 \001(\005H\025\210\001\001\022\033\n\014replyMsgTime"
-    "\030\254\362\002 \001(\005H\026\210\001\001\022\034\n\runknown_47411\030\263\362\002 \001(\005H\027"
-    "\210\001\001\022\034\n\runknown_47416\030\270\362\002 \001(\003H\030\210\001\001\022\034\n\runk"
-    "nown_47422\030\276\362\002 \001(\003H\031\210\001\001\022\?\n\022sourceMsgText"
-    "Elems\030\277\362\002 \003(\0132!.nt_msg.Element.SourceMsg"
-    "TextElem\032c\n\021SourceMsgTextElem\022\027\n\runknown"
-    "_45001\030\311\337\002 \001(\003\022\032\n\020replyAbsElemType\030\312\337\002 \001"
-    "(\005\022\031\n\017textElemContent\030\255\340\002 \001(\t\"B\n\007MsgType"
-    "\022\022\n\016MSG_TYPE_ERROR\020\000\022\021\n\rMSG_TYPE_TEXT\020\001\022"
-    "\020\n\014MSG_TYPE_PIC\020\002B\n\n\010_textStrB\t\n\007_atType"
-    "B\013\n\t_fileNameB\013\n\t_fileSizeB\020\n\016_unknown_4"
-    "5406B\013\n\t_picWidthB\014\n\n_picHeightB\020\n\016_unkn"
-    "own_45413B\020\n\016_unknown_45414B\n\n\010_picTypeB"
-    "\020\n\016_unknown_45418B\013\n\t_fileUuidB\016\n\014_image"
-    "Url198B\016\n\014_imageUrl720B\021\n\017_originImageUr"
-    "lB\020\n\016_unknown_45805B\020\n\016_unknown_45806B\020\n"
-    "\016_unknown_45807B\020\n\016_unknown_45829B\017\n\r_se"
-    "nderUidStrB\017\n\r_replayMsgSeqB\014\n\n_senderUi"
-    "dB\017\n\r_replyMsgTimeB\020\n\016_unknown_47411B\020\n\016"
-    "_unknown_47416B\020\n\016_unknown_47422\"+\n\010Elem"
-    "ents\022\037\n\004elem\030\340\276\002 \003(\0132\017.nt_msg.Elementb\006p"
-    "roto3"
+    "\n\rmessage.proto\022\006nt_msg\"\225\013\n\007Element\022\023\n\te"
+    "lementId\030\311\337\002 \001(\003\022\025\n\013elementType\030\312\337\002 \001(\005\022"
+    "\026\n\007textStr\030\255\340\002 \001(\tH\000\210\001\001\022\025\n\006atType\030\256\340\002 \001("
+    "\005H\001\210\001\001\022\027\n\010fileName\030\332\342\002 \001(\tH\002\210\001\001\022\027\n\010fileS"
+    "ize\030\335\342\002 \001(\005H\003\210\001\001\022\034\n\runknown_45406\030\336\342\002 \001("
+    "\tH\004\210\001\001\022\027\n\010picWidth\030\343\342\002 \001(\005H\005\210\001\001\022\030\n\tpicHe"
+    "ight\030\344\342\002 \001(\005H\006\210\001\001\022\034\n\runknown_45413\030\345\342\002 \001"
+    "(\005H\007\210\001\001\022\034\n\runknown_45414\030\346\342\002 \001(\005H\010\210\001\001\022\026\n"
+    "\007picType\030\350\342\002 \001(\005H\t\210\001\001\022\034\n\runknown_45418\030\352"
+    "\342\002 \001(\005H\n\210\001\001\022\027\n\010fileUuid\030\277\343\002 \001(\tH\013\210\001\001\022\032\n\013"
+    "imageUrl198\030\352\345\002 \001(\tH\014\210\001\001\022\032\n\013imageUrl720\030"
+    "\353\345\002 \001(\tH\r\210\001\001\022\035\n\016originImageUrl\030\354\345\002 \001(\tH\016"
+    "\210\001\001\022\034\n\runknown_45805\030\355\345\002 \001(\005H\017\210\001\001\022\034\n\runk"
+    "nown_45806\030\356\345\002 \001(\005H\020\210\001\001\022\034\n\runknown_45807"
+    "\030\357\345\002 \001(\005H\021\210\001\001\022\034\n\runknown_45829\030\205\346\002 \001(\005H\022"
+    "\210\001\001\022\033\n\014senderUidStr\030\324\270\002 \001(\tH\023\210\001\001\022\033\n\014repl"
+    "ayMsgSeq\030\252\362\002 \001(\005H\024\210\001\001\022\030\n\tsenderUid\030\253\362\002 \001"
+    "(\005H\025\210\001\001\022\033\n\014replyMsgTime\030\254\362\002 \001(\005H\026\210\001\001\022\034\n\r"
+    "unknown_47411\030\263\362\002 \001(\005H\027\210\001\001\022\034\n\runknown_47"
+    "416\030\270\362\002 \001(\003H\030\210\001\001\022\034\n\runknown_47422\030\276\362\002 \001("
+    "\003H\031\210\001\001\022\?\n\022sourceMsgTextElems\030\277\362\002 \003(\0132!.n"
+    "t_msg.Element.SourceMsgTextElem\032c\n\021Sourc"
+    "eMsgTextElem\022\027\n\runknown_45001\030\311\337\002 \001(\003\022\032\n"
+    "\020replyAbsElemType\030\312\337\002 \001(\005\022\031\n\017textElemCon"
+    "tent\030\255\340\002 \001(\t\"B\n\007MsgType\022\022\n\016MSG_TYPE_ERRO"
+    "R\020\000\022\021\n\rMSG_TYPE_TEXT\020\001\022\020\n\014MSG_TYPE_PIC\020\002"
+    "B\n\n\010_textStrB\t\n\007_atTypeB\013\n\t_fileNameB\013\n\t"
+    "_fileSizeB\020\n\016_unknown_45406B\013\n\t_picWidth"
+    "B\014\n\n_picHeightB\020\n\016_unknown_45413B\020\n\016_unk"
+    "nown_45414B\n\n\010_picTypeB\020\n\016_unknown_45418"
+    "B\013\n\t_fileUuidB\016\n\014_imageUrl198B\016\n\014_imageU"
+    "rl720B\021\n\017_originImageUrlB\020\n\016_unknown_458"
+    "05B\020\n\016_unknown_45806B\020\n\016_unknown_45807B\020"
+    "\n\016_unknown_45829B\017\n\r_senderUidStrB\017\n\r_re"
+    "playMsgSeqB\014\n\n_senderUidB\017\n\r_replyMsgTim"
+    "eB\020\n\016_unknown_47411B\020\n\016_unknown_47416B\020\n"
+    "\016_unknown_47422\"+\n\010Elements\022\037\n\004elem\030\340\276\002 "
+    "\003(\0132\017.nt_msg.Elementb\006proto3"
 };
 static ::absl::once_flag descriptor_table_message_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_message_2eproto = {
     false,
     false,
-    1525,
+    1508,
     descriptor_table_protodef_message_2eproto,
     "message.proto",
     &descriptor_table_message_2eproto_once,
@@ -700,11 +699,11 @@ Element::Element(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, msgid_),
+               offsetof(Impl_, elementid_),
            reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, msgid_),
+               offsetof(Impl_, elementid_),
            offsetof(Impl_, unknown_47411_) -
-               offsetof(Impl_, msgid_) +
+               offsetof(Impl_, elementid_) +
                sizeof(Impl_::unknown_47411_));
 
   // @@protoc_insertion_point(copy_constructor:nt_msg.Element)
@@ -726,10 +725,10 @@ inline PROTOBUF_NDEBUG_INLINE Element::Impl_::Impl_(
 inline void Element::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, msgid_),
+               offsetof(Impl_, elementid_),
            0,
            offsetof(Impl_, unknown_47411_) -
-               offsetof(Impl_, msgid_) +
+               offsetof(Impl_, elementid_) +
                sizeof(Impl_::unknown_47411_));
 }
 Element::~Element() {
@@ -785,9 +784,9 @@ PROTOBUF_NOINLINE void Element::Clear() {
       _impl_.originimageurl_.ClearNonDefaultToEmpty();
     }
   }
-  ::memset(&_impl_.msgid_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.msgtype_) -
-      reinterpret_cast<char*>(&_impl_.msgid_)) + sizeof(_impl_.msgtype_));
+  ::memset(&_impl_.elementid_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.elementtype_) -
+      reinterpret_cast<char*>(&_impl_.elementid_)) + sizeof(_impl_.elementtype_));
   if (cached_has_bits & 0x0000ff00u) {
     ::memset(&_impl_.attype_, 0, static_cast<::size_t>(
         reinterpret_cast<char*>(&_impl_.unknown_45418_) -
@@ -845,12 +844,12 @@ const ::_pbi::TcParseTable<0, 29, 1, 131, 48> Element::_table_ = {
     // optional string senderUidStr = 40020;
     {PROTOBUF_FIELD_OFFSET(Element, _impl_.senderuidstr_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // int64 msgId = 45001;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.msgid_), -1, 0,
+    // int64 elementId = 45001;
+    {PROTOBUF_FIELD_OFFSET(Element, _impl_.elementid_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // .nt_msg.Element.MsgType msgType = 45002;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.msgtype_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    // int32 elementType = 45002;
+    {PROTOBUF_FIELD_OFFSET(Element, _impl_.elementtype_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // optional string textStr = 45101;
     {PROTOBUF_FIELD_OFFSET(Element, _impl_.textstr_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
@@ -961,18 +960,18 @@ const ::_pbi::TcParseTable<0, 29, 1, 131, 48> Element::_table_ = {
     target = stream->WriteStringMaybeAliased(40020, _s, target);
   }
 
-  // int64 msgId = 45001;
-  if (this->_internal_msgid() != 0) {
+  // int64 elementId = 45001;
+  if (this->_internal_elementid() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(
-        45001, this->_internal_msgid(), target);
+        45001, this->_internal_elementid(), target);
   }
 
-  // .nt_msg.Element.MsgType msgType = 45002;
-  if (this->_internal_msgtype() != 0) {
+  // int32 elementType = 45002;
+  if (this->_internal_elementtype() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        45002, this->_internal_msgtype(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
+        45002, this->_internal_elementtype(), target);
   }
 
   // optional string textStr = 45101;
@@ -1239,16 +1238,16 @@ const ::_pbi::TcParseTable<0, 29, 1, 131, 48> Element::_table_ = {
     }
 
   }
-  // int64 msgId = 45001;
-  if (this->_internal_msgid() != 0) {
+  // int64 elementId = 45001;
+  if (this->_internal_elementid() != 0) {
     total_size += 3 + ::_pbi::WireFormatLite::Int64Size(
-                                    this->_internal_msgid());
+                                    this->_internal_elementid());
   }
 
-  // .nt_msg.Element.MsgType msgType = 45002;
-  if (this->_internal_msgtype() != 0) {
-    total_size += 3 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_msgtype());
+  // int32 elementType = 45002;
+  if (this->_internal_elementtype() != 0) {
+    total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
+                                    this->_internal_elementtype());
   }
 
   if (cached_has_bits & 0x0000ff00u) {
@@ -1413,11 +1412,11 @@ void Element::MergeImpl(::google::protobuf::Message& to_msg, const ::google::pro
       _this->_internal_set_originimageurl(from._internal_originimageurl());
     }
   }
-  if (from._internal_msgid() != 0) {
-    _this->_internal_set_msgid(from._internal_msgid());
+  if (from._internal_elementid() != 0) {
+    _this->_internal_set_elementid(from._internal_elementid());
   }
-  if (from._internal_msgtype() != 0) {
-    _this->_internal_set_msgtype(from._internal_msgtype());
+  if (from._internal_elementtype() != 0) {
+    _this->_internal_set_elementtype(from._internal_elementtype());
   }
   if (cached_has_bits & 0x0000ff00u) {
     if (cached_has_bits & 0x00000100u) {
@@ -1517,9 +1516,9 @@ void Element::InternalSwap(Element* PROTOBUF_RESTRICT other) {
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_47411_)
       + sizeof(Element::_impl_.unknown_47411_)
-      - PROTOBUF_FIELD_OFFSET(Element, _impl_.msgid_)>(
-          reinterpret_cast<char*>(&_impl_.msgid_),
-          reinterpret_cast<char*>(&other->_impl_.msgid_));
+      - PROTOBUF_FIELD_OFFSET(Element, _impl_.elementid_)>(
+          reinterpret_cast<char*>(&_impl_.elementid_),
+          reinterpret_cast<char*>(&other->_impl_.elementid_));
 }
 
 ::google::protobuf::Metadata Element::GetMetadata() const {

@@ -9,8 +9,8 @@ message Element {
     MSG_TYPE_PIC = 2;
   }
 
-  int64 msgId = 45001;
-  MsgType msgType = 45002;
+  int64 elementId = 45001;
+  int32 elementType = 45002;
 
   // TextElement
   optional string textStr = 45101;

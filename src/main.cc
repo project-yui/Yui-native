@@ -1,8 +1,11 @@
 #include "include/linux_hook.hh"
+#include "include/nt/element.hh"
+#include "include/nt/message.hh"
 #include "include/nt_sqlite3/base.hh"
 #include "include/nt_sqlite3/vdbe.hh"
 #include "include/nt_sqlite3/sqlite3.hh"
 #include "include/nt_sqlite3/base.hh"
+#include "proto/message.pb.h"
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -455,6 +458,62 @@ NTMem rowTest[33] = {
 
 };
 
+Message msg;
+
+void convertELements2buf(std::vector<Element>& elems, std::string &output) {
+  nt_msg::Elements elements;
+  for (auto elem : elems) {
+    auto e = elements.add_elem();
+    e->set_elementid(elem.elementId);
+    e->set_elementtype(elem.elementType);
+    e->set_textstr(elem.textElement.content);
+    e->set_attype(elem.textElement.atType);
+  }
+  elements.SerializeToString(&output);
+}
+void init() {
+  msg.msgId = 7040191714128545809;
+  msg.msgRandom = 123456;
+  msg.msgSeq = 66;
+  msg.cntSeq = 0;
+  msg.chatType = 2;
+  msg.msgType = 2;
+  msg.subMsgType = 1;
+  msg.senderUid = "u_K54_tDilsiaIV_m0q4XgCg";
+  msg.peerUid = "933286835";
+  msg.msgTime = 1708603150;
+  msg.sendStatus = 2;
+  msg.sendNickName = "msojocs";
+  msg.peerName = "测试";
+  msg.senderUin = "1690127128";
+  msg.peerUin = "933286835";
+  TextElemnt text;
+  text.content = "test test";
+  Element ele = {
+    1,
+    7040191714128545808,
+    "0x",
+    text,
+  };
+  msg.elements.push_back(ele);
+
+  std::string msgContext;
+  convertELements2buf(msg.elements, msgContext);
+
+  char * data = (char *)malloc(msgContext.length() + 1);
+  memset(data, 0, msgContext.length() + 1);
+  memcpy(data, msgContext.c_str(), msgContext.length());
+  rowTest[17] = {
+    0,
+    MEM_Blob,
+    SQLITE_UTF8,
+    0,
+    (int)msgContext.length(),
+    (char *)data,
+    (char *)data
+  };
+}
+
 int execute(void * a1
 , void * a2
 , void *  a3
@@ -516,7 +575,7 @@ int execute(void * a1
           printf("replace row data\n");
           // 还有数据，直接返回
           // printRow(ntStmt);
-          // ntVdbe->pResultRow = rowTest;
+          ntVdbe->pResultRow = rowTest;
         }
       }
       return ret;
@@ -644,6 +703,7 @@ void hook2(std::vector<uint8_t> & feature_code) {
     std::cout << "Hello, world!\n";
     
     std::string target = "wrapper.node";
+    init();
     _sqlite3_initialize();
     // printf("pid of this process:%d\n", pid);
     // getNameByPid(pid, task_name);

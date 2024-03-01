@@ -4,6 +4,8 @@ cmake_policy(SET CMP0042 NEW)
 
 project("nt_native")
 
+include(~/github/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
 add_definitions(-DNAPI_VERSION=4)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -19,6 +21,7 @@ set(TARGET_ARCH x64)
 message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 find_package(protobuf CONFIG REQUIRED)
+find_package(SqliteOrm CONFIG REQUIRED)
 
 # message("安装 Node 包")
 # execute_process(COMMAND
@@ -79,11 +82,14 @@ add_library(${MODULE_NAME}
         src/include/linux_hook.hh
         src/hook/hook.cc
         src/hook/linux_hook.cc
+        ./src/proto/message.pb.h
+        ./src/proto/message.pb.cc
         ${CMAKE_JS_SRC}
         )
 target_link_libraries(${MODULE_NAME} PRIVATE sqlite3)
 target_link_libraries(${MODULE_NAME} PRIVATE subhook)
 target_link_libraries(${MODULE_NAME} PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
+target_link_libraries(${MODULE_NAME} PRIVATE sqlite_orm::sqlite_orm)
 
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 message("CMAKE_JS_LIB:"${CMAKE_JS_LIB})

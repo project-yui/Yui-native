@@ -1,3 +1,5 @@
+#ifndef __LINUX_HOOK_HH__
+#define __LINUX_HOOK_HH__
 #include "./hook.hh"
 
 namespace NTNative {
@@ -18,3 +20,5 @@ protected:
   std::pair<unsigned long, unsigned long> get_module_address();
 };
 }
+
+#endif

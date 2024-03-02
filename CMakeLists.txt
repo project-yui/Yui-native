@@ -77,13 +77,19 @@ message("CMAKE_JS_SRC: ${CMAKE_JS_SRC}")
 set(MODULE_NAME nt_native)
 add_library(${MODULE_NAME}
         SHARED
-        src/main.cc
         src/include/hook.hh
         src/include/linux_hook.hh
+        src/include/db/group_msg_table.hh
+        src/proto/message.pb.h
+        src/main.cc
         src/hook/hook.cc
         src/hook/linux_hook.cc
-        ./src/proto/message.pb.h
-        ./src/proto/message.pb.cc
+        src/proto/message.pb.cc
+        src/test/test_sqlite3.cc
+        src/db/group_msg_table.cc
+        src/proto/message.pb.cc
+        src/yukihana/handle.cc
+        src/include/db/model/group_msg_table.hh
         ${CMAKE_JS_SRC}
         )
 target_link_libraries(${MODULE_NAME} PRIVATE sqlite3)
@@ -110,4 +116,19 @@ add_executable(test_protobuf
 )
 # target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 target_link_libraries(test_protobuf PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
+
+
+
+add_executable(test_orm
+        test/test_orm.cc
+        src/hook/hook.cc
+        src/hook/linux_hook.cc
+        src/yukihana/handle.cc
+        src/db/group_msg_table.cc
+        src/proto/message.pb.cc
+)
+# target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
+target_link_libraries(test_orm PRIVATE sqlite_orm::sqlite_orm)
+target_link_libraries(test_orm PRIVATE subhook)
+target_link_libraries(test_orm PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 

@@ -1,5 +1,5 @@
-#ifndef __INT_HH__
-#define __INT_HH__
+#ifndef __NT_BASE_HH__
+#define __NT_BASE_HH__
 
 /*
 ** Integers of known sizes.  These typedefs might change for architectures

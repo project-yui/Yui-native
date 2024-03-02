@@ -1,5 +1,5 @@
-#ifndef __NT_HOOK__
-#define __NT_HOOK__
+#ifndef __NT_HOOK_HH__
+#define __NT_HOOK_HH__
 
 #include "subhook.h"
 #include <cstdint>

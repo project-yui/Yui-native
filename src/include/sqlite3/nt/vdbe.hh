@@ -1,5 +1,5 @@
-#ifndef __VDBE_HH__
-#define __VDBE_HH__
+#ifndef __NT_VDBE_HH__
+#define __NT_VDBE_HH__
 
 #include "base.hh"
 

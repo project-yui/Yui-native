@@ -37,18 +37,17 @@ struct Vdbe {
   void /*Op*/ *aOp;                /* Space to hold the virtual machine's program */
   int nOp;                /* Number of instructions in the program */
   int nOpAlloc;           /* Slots allocated for aOp[] */
-  void * t2;
   Mem *aColName;          /* Column names to return */
   Mem *pResultRow;        /* Current output row */
   char *zErrMsg;          /* Error message written here */
-  // void /*VList*/ *pVList;          /* Name of variables */
+  void /*VList*/ *pVList;          /* Name of variables */
 #ifndef SQLITE_OMIT_TRACE
   i64 startTime;          /* Time when query started - used for profiling */
 #endif
-#ifdef SQLITE_DEBUG
-  int rcApp;              /* errcode set by _sqlite3_result_error_code() */
-  u32 nWrite;             /* Number of write operations that have occurred */
-#endif
+// #ifdef SQLITE_DEBUG
+//   int rcApp;              /* errcode set by _sqlite3_result_error_code() */
+//   u32 nWrite;             /* Number of write operations that have occurred */
+// #endif
   u16 nResColumn;         /* Number of columns in one row of the result set */
   u16 nResAlloc;          /* Column slots allocated to aColName[] */
   u8 errorAction;         /* Recovery action to do in case of an error */

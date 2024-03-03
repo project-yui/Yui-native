@@ -56,6 +56,9 @@ namespace nt_model {
 
     /**
      * @brief 
+     * 0 - 别人发的
+     * 2 - 自己发的
+     * 
      * 40013
      * 
      */
@@ -146,10 +149,39 @@ namespace nt_model {
     /**
      * @brief 
      * 40100
+     * 0 - 无At
+     * 2 - 引用回复默认At
      * 
      */
-    int atType;
+    int atType = 0;
 
+    /**
+     * @brief 
+     * 40851
+     * 
+     */
+    int replyMsgSeq = 0;
+
+    /**
+     * @brief 本消息当天00:00
+     * 40058
+     * 
+     */
+    long todayZero;
+
+    /**
+     * @brief 是否可编辑
+     * 40105
+     * 
+     */
+    int editable = 0;
+
+    /**
+     * @brief 权限 1:群主 2:管理员 3:群成员
+     * 40026
+     * 
+     */
+    int userLevel;
   };
 }
 #endif

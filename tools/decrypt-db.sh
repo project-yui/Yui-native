@@ -2,12 +2,13 @@
 
 root_dir=$(cd `dirname $0`/.. && pwd -P)
 
-db_file="$root_dir/tmp/msg-example/nt_msg.db"
-db_clean_file="$root_dir/tmp/msg-example/nt_msg.clean.db"
-db_sql_file="$root_dir/tmp/msg-example/nt_msg.sql"
-db_decrypt_file="$root_dir/tmp/msg-example/nt_msg.decrypt.db"
+db_file="$root_dir/tmp/linux/nt_msg.db"
+db_clean_file="$root_dir/tmp/linux/nt_msg.clean.db"
+db_sql_file="$root_dir/tmp/linux/nt_msg.sql"
+db_decrypt_file="$root_dir/tmp/linux/nt_msg.decrypt.db"
 
-password="U2_Hs=p\`sy2{TUf="
+# password="U2_Hs=p\`sy2{TUf="
+password="=,#qEYFR4e<\$zYv_"
 
 cat "$db_file" | tail -c +1025 > "$db_clean_file"
 

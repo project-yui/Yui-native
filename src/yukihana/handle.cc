@@ -7,6 +7,9 @@
 #include <random>
 #include <sstream>
 #include <sqlite3.h>
+#include <string>
+#include <unistd.h>
+#include <utility>
 #include "../include/handle.hh"
 #include "../include/sqlite3/nt/vdbe.hh"
 #include "../include/sqlite3/nt/sqlite3.hh"
@@ -52,8 +55,16 @@ namespace uuid {
 
 namespace yukihana {
   const char* db_name = "/home/msojocs/ntqq/nt-native/test/test.db";
+  u8 data_1[] = {0x82, 0xf6, 0x13, 0x29, 0xc8, 0xfc, 0x15, 0x97, 0x84, 0x8e, 0xdb, 0xa7, 0xab, 0xd8, 0xec, 0x65, 0xd0, 0xfc, 0x15, 0x01, 0xea, 0x82, 0x16, 0x11, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0xf0, 0x82, 0x16, 0x00};
+  u8 data_2[] = {0xc2, 0xe9, 0x13, 0x04, 0xa8, 0xd1, 0x14, 0x00};
+  u8 data_3[] = {0x8a, 0xf6, 0x13, 0x4a, 0xe8, 0xa1, 0x14, 0x96, 0x84, 0x8e, 0xdb, 0xa7, 0xab, 0xd8, 0xec, 0x65, 0xf0, 0xa1, 0x14, 0x00, 0xb0, 0xa2, 0x14, 0x00, 0xb8, 0xa2, 0x14, 0xe1, 0xb1, 0xe4, 0xba, 0x05, 0xf8, 0xa2, 0x14, 0x00, 0x80, 0xa3, 0x14, 0x00, 0x90, 0xa3, 0x14, 0x00, 0x98, 0xa3, 0x14, 0x00, 0xa0, 0xa3, 0x14, 0x00, 0xa8, 0xa3, 0x14, 0x00, 0xc8, 0xa3, 0x14, 0x00, 0xd0, 0xa3, 0x14, 0x00, 0xd8, 0xa3, 0x14, 0xa7, 0xc0, 0x04, 0xe8, 0xa3, 0x14, 0x00, 0xf8, 0xa3, 0x14, 0x00};
+
+  struct CustomQuery {
+    sqlite3_stmt * stmt;
+    NTMem * row;
+  };
   std::shared_ptr<NTNative::LinuxHook> hook;
-  std::map<void *, sqlite3_stmt *> nt2custom;
+  std::map<sqlite3_stmt *, CustomQuery> nt2custom;
   
   typedef int (*stmt_func)(void * 
   ,void *
@@ -63,33 +74,178 @@ namespace yukihana {
   ,void *  
   //  ,int 
   );
+  NTMem * conver2NTMem(Vdbe *src, NTVdbe *dest) {
+    printf("conver2NTMem: %d\n", src->nResColumn);
+    // sleep(2);
+    // return rowTest;
+    std::map<std::string, Mem*> srcData;
+    for (int i=0; i < src->nResColumn; i++) {
+      auto col = src->aColName[i];
+      auto data = src->pResultRow +i;
+      printf("column name length: %d\n", col.n);
+      printf("column name: %s\n", col.z);
+      std::string name(col.z);
+      srcData.emplace(std::pair<std::string, Mem *>(name, data));
+    }
+    
+    printf("malloc column:%d\n", dest->nResColumn);
+    NTMem * result = (NTMem *)malloc(sizeof(NTMem) * dest->nResColumn);
 
-  NTMem * conver2NTMem(Mem *row, int count) {
-    NTMem * result = (NTMem *)malloc(sizeof(NTMem) * count);
-    for (int i=0; i<count; i++) {
-      Mem cur = row[i];
-      NTMem target = result[i];
-      if (cur.flags & MEM_Int) {
+    printf("start copy data\n");
+    for (int i=0; i < dest->nResColumn; i++) {
+      auto col = dest->aColName[i];
+      printf("[%s]copy data: %d\n", col.z, i);
+      std::string name(col.z);
+      NTMem* target = result + i;
+      
+      target->u.i = 0;
+      target->flags = MEM_Null;
+      target->enc = 0;
+      target->eSubtype = 0;
+      target->n = 0;
+      target->z = "";
+      target->zMalloc = "";
+      if (srcData.find(name) == srcData.end()) {
+        // if (name == "40600") {
+        //   printf("special 40600\n");
+        //   target->flags = MEM_Blob;
+        //   target->enc = SQLITE_UTF8;
+        //   target->n = 8;
+        //   target->z = (char *)data_2;
+        //   target->zMalloc = (char *)data_2;
+        //   continue;
+        // }
+        // else if(name == "40801") {
+        //   printf("special 40801\n");
+        //   target->flags = MEM_Blob;
+        //   target->enc = SQLITE_UTF8;
+        //   target->n = 78;
+        //   target->z = (char *)data_3;
+        //   target->zMalloc = (char *)data_3;
+        //   continue;
+        // }
+        // //
+        // else if(name == "40040") {
+        //   printf("special 40040\n");
+        //   target->u.i = 0;
+        //   target->flags = MEM_Int;
+        //   target->enc = 0;
+        //   target->eSubtype = 0;
+        //   target->n = 0;
+        //   target->z = nullptr;
+        //   target->zMalloc = nullptr;
+        //   continue;
+        // }
+        // else if(name == "40052") {
+        //   printf("special 40052\n");
+        //   target->u.i = 0;
+        //   target->flags = MEM_Int;
+        //   target->enc = 0;
+        //   target->eSubtype = 0;
+        //   target->n = 0;
+        //   target->z = nullptr;
+        //   target->zMalloc = nullptr;
+        //   continue;
+        // }
+        // else if(name == "40900") {
+        //   printf("special 40900\n");
+        //   target->flags = MEM_Blob;
+        //   target->enc = SQLITE_UTF8;
+        //   target->n = 0;
+        //   target->z = "";
+        //   target->zMalloc = "";
+        //   continue;
+        // }
+        // else if(name == "40006") {
+        //   printf("special 40006\n");
+        //   target->u.i = 0;
+        //   target->flags = MEM_Int;
+        //   target->enc = 0;
+        //   target->n = 0;
+        //   target->z = nullptr;
+        //   target->zMalloc = nullptr;
+        //   continue;
+        // }
+        // else if(name == "40060") {
+        //   printf("special 40060\n");
+        //   target->u.i = 0;
+        //   target->flags = MEM_Int;
+        //   target->enc = 0;
+        //   target->n = 0;
+        //   target->z = nullptr;
+        //   target->zMalloc = nullptr;
+        //   continue;
+        // }
+        // else if(name == "40851") {
+        //   printf("special 40851\n");
+        //   target->u.i = 0;
+        //   target->flags = MEM_Int;
+        //   target->enc = 0;
+        //   target->n = 0;
+        //   target->z = nullptr;
+        //   target->zMalloc = nullptr;
+        //   continue;
+        // }
+        // else if(name == "40601") {
+        //   printf("special 40601\n");
+        //   target->u.i = 0;
+        //   target->flags = MEM_Blob;
+        //   target->enc = SQLITE_UTF8;
+        //   target->n = 0;
+        //   target->z = "";
+        //   target->zMalloc = "";
+        //   continue;
+        // }
+        // else if(name == "40605") {
+        //   printf("special 40605\n");
+        //   target->u.i = 0;
+        //   target->flags = MEM_Blob;
+        //   target->enc = SQLITE_UTF8;
+        //   target->n = 0;
+        //   target->z = "";
+        //   target->zMalloc = "";
+        //   continue;
+        // }
+        printf("not found : %s\n", name.c_str());
+        target->n = 0;
+        target->flags = MEM_Null;
+        target->z = target->zMalloc = "";
+        continue;
+      }
+
+      Mem * cur = srcData[name];
+      if (cur->flags & MEM_Int) {
         // 数值
-        target.flags = MEM_Int;
-        target.u.i = cur.u.i;
+        target->flags = MEM_Int;
+        target->u.i = cur->u.i;
+        printf("MEM_Int: %ld\n", cur->u.i);
       }
-      else if (cur.flags & MEM_Str) {
+      else if (cur->flags & (MEM_Str | MEM_Term)) {
         // 字符串
-        target.flags = MEM_Str;
-        target.enc = cur.enc;
-        target.z = cur.z;
-        target.zMalloc = cur.zMalloc;
+        target->flags = MEM_Str | MEM_Term;
+        target->enc = SQLITE_UTF8;
+        target->n = cur->n;
+        target->z = cur->z;
+        target->zMalloc = cur->zMalloc;
+        printf("MEM_Str[%d]: %s\n", target->n, cur->z);
       }
-      else if (cur.flags & MEM_Blob) {
+      else if (cur->flags & MEM_Blob) {
         // 二进制
-        target.flags = MEM_Blob;
-        target.z = cur.z;
-        target.enc = cur.enc;
-        target.zMalloc = cur.zMalloc;
+        target->flags = MEM_Blob;
+        target->z = cur->z;
+        target->n = cur->n;
+        target->enc = SQLITE_UTF8;
+        target->zMalloc = cur->zMalloc;
+        printf("MEM_Blob[%d]\n", target->n);
+        // *target = rowTest[i];
       }
       else {
         printf("not supported!\n");
+        target->z = nullptr;
+        target->flags = MEM_Null;
+        target->zMalloc = nullptr;
+        target->n = 0;
+        target->u.i = 0;
       }
     }
     return result;
@@ -112,30 +268,32 @@ namespace yukihana {
     }
     sqlite3_stmt *ntStmt = (sqlite3_stmt *)a1;
     NTVdbe * ntVdbe = (NTVdbe *)ntStmt;
-    // printf("[%s] sql: %s\n", u, sqlite3_sql(ntStmt));
-    // if (sql_global != nullptr) {
-    //   printf("[%s]compare%x <-> %x!!!\n", u, sql_global, v->zSql);
-    //   if (sql_global == v->zSql) {
-    //     printf("[%s]equal!!!\n", u);
-    //     return SQLITE_DONE;
-    //   }
-    // }
-    // 替换
-    if (nt2custom.find(a1) != nt2custom.end()) {
-      sqlite3_stmt * customStmt = nt2custom[a1];
-      // 找到sql实例
-      int rc = sqlite3_step(customStmt);
-      if (rc == SQLITE_ROW) {
-        // TODO:对malloc的内存进行free
-        int colCount = sqlite3_column_count(customStmt);
-        auto newRow = conver2NTMem(((Vdbe *)customStmt)->pResultRow, colCount);
-        ntVdbe->pResultRow = newRow;
+    
+    printf("[%s]try to find handle\n", u);
+    if (ntStmt != nullptr) {
+      // 替换
+      if (nt2custom.find(ntStmt) != nt2custom.end()) {
+        auto customQuery = nt2custom[ntStmt];
+        // 找到sql实例
+        int rc = sqlite3_step(customQuery.stmt);
+        if (rc == SQLITE_ROW) {
+          printf("continue copy row, free old row\n");
+          free(customQuery.row);
+          int colCount = sqlite3_column_count(customQuery.stmt);
+          auto newRow = conver2NTMem((Vdbe *)customQuery.stmt, ntVdbe);
+          ntVdbe->pResultRow = newRow;
+          customQuery.row = newRow;
+          return SQLITE_ROW;
+        }
+        else {
+          printf("no row to copy, free old row and close db.\n");
+          free(customQuery.row);
+          sqlite3_finalize(customQuery.stmt);
+          sqlite3_close(*(sqlite3 **)customQuery.stmt);
+          nt2custom.erase(ntStmt);
+        }
+        return SQLITE_DONE;
       }
-      else {
-        sqlite3_finalize(customStmt);
-        sqlite3_close(*(sqlite3 **)customStmt);
-      }
-      return SQLITE_DONE;
     }
     // 1. 执行原来的调用
     int ret = fun(a1
@@ -147,15 +305,7 @@ namespace yukihana {
     );
     // 2. SQLITE_ROW就返回
     if (ret == SQLITE_ROW) {
-      // if (ntVdbe->zSql != nullptr) {
-      //   std::string sql(ntVdbe->zSql);
-      //   if (sql.find("FROM group_msg_table") != std::string::npos) {
-      //     printf("replace row data\n");
-      //     // 还有数据，直接返回
-      //     // printRow(ntStmt);
-      //     // ntVdbe->pResultRow = rowTest;
-      //   }
-      // }
+      printf("[%s]SQLITE_ROW return\n", u);
       return ret;
     }
     // 3. 非SQLITE_ROW继续
@@ -175,7 +325,7 @@ namespace yukihana {
         std::string sql(ntVdbe->zSql);
         printf("sql1:%s\n", sql.c_str());
         printf("ret:%d\n", ret);
-        if (sql.find("FROM group_msg_table") != std::string::npos) {
+        if (sql.find("SELECT * FROM group_msg_table") != std::string::npos) {
             printf("try to read record from custom db!\n");
             sqlite3 *db = nullptr;
             const char *vfs = nullptr;
@@ -213,21 +363,28 @@ namespace yukihana {
               // Here we get a pointer to the location text ( stored in the second column of the table )
               // The 1 in sqlite3_column_text( stmt, 1 ) is the column number (zero based).
               // sqlite3_column_text( sqlite_stmt* stmt, int cidx ) returns const unsigned char* so the casts are necessary.
-              void *p = const_cast<unsigned char *>(sqlite3_column_text(newStmt, 1));
-              const char *ret = static_cast<const char *>(p);
-              printf("data:%s\n", ret);
+              
+              auto newRow = conver2NTMem((Vdbe *)newStmt, ntVdbe);
 
-              auto row = ((Vdbe *)newStmt)->pResultRow;
-              int colCount = sqlite3_column_count(newStmt);
-              // int colCount = ntVdbe->nResColumn;
-              printf("column num: %d\n", colCount);
-              auto newRow = conver2NTMem(row, colCount);
+              // printf("read data\n");
+              // for (int i=0; i < ntVdbe->nResColumn; i++) {
+              //   auto cur = newRow[i];
+              //   if (cur.flags & MEM_Str) {
+              //     printf("MEM_Str[%d]: %s\n", cur.n, cur.z);
+              //   }
+              //   else if(cur.flags & MEM_Int) {
+              //     printf("MEM_Int[%ld]\n", cur.u.i);
+              //   }
+              //   else if (cur.flags & MEM_Blob) {
+              //     printf("MEM_Blob[%d]\n", cur.n);
+              //   }
+              // }
 
               printf("[%s]end!!!\n", u);
               ntVdbe->pResultRow = newRow;
-              // return SQLITE_ROW;
               // 成功
-              nt2custom.insert(std::pair<void *, sqlite3_stmt *>(a1, newStmt));
+              CustomQuery q = {newStmt, newRow};
+              nt2custom.emplace(std::pair<sqlite3_stmt *, CustomQuery>(ntStmt, q));
               return rc;
             }
             else

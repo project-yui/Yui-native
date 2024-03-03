@@ -45,10 +45,10 @@ struct NTVdbe {
 #ifndef SQLITE_OMIT_TRACE
   i64 startTime;          /* Time when query started - used for profiling */
 #endif
-#ifdef SQLITE_DEBUG
+// #ifdef SQLITE_DEBUG
   int rcApp;              /* errcode set by _sqlite3_result_error_code() */
   u32 nWrite;             /* Number of write operations that have occurred */
-#endif
+// #endif
   u16 nResColumn;         /* Number of columns in one row of the result set */
   u16 nResAlloc;          /* Column slots allocated to aColName[] */
   u8 errorAction;         /* Recovery action to do in case of an error */

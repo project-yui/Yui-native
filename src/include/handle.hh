@@ -8,7 +8,6 @@
 namespace yukihana {
   extern const char * db_name;
   extern std::shared_ptr<NTNative::LinuxHook> hook;
-  extern std::map<void *, sqlite3_stmt *> nt2custom;
   int execute(void* , void* , void* , void* , void* , void* );
 }
 #endif

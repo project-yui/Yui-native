@@ -69,7 +69,6 @@ set(SUBHOOK_STATIC ON)
 set(SUBHOOK_INSTALL OFF)
 add_subdirectory(thirds/subhook)
 
-add_definitions(-DSQLITE_DEBUG=1)
 add_subdirectory(thirds/sqlite3)
 
 message("CMAKE_JS_SRC: ${CMAKE_JS_SRC}")

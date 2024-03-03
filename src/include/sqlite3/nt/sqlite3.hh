@@ -36,8 +36,8 @@ struct nt_sqlite3_context {
  */
 struct nt_sqlite3_value {
   union MemValue {
-    double r;           /* Real value used when MEM_Real is set in flags */
     i64 i;              /* Integer value used when MEM_Int is set in flags */
+    double r;           /* Real value used when MEM_Real is set in flags */
     int nZero;          /* Extra zero bytes when MEM_Zero and MEM_Blob set */
     const char *zPType; /* Pointer type when MEM_Term|MEM_Subtype|MEM_Null */
     FuncDef *pDef;      /* Used only when flags==MEM_Agg */

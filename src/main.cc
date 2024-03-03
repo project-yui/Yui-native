@@ -258,6 +258,8 @@ static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
   std::cout << "atType" << std::endl;
   auto atType = data.Get("atType").As<Napi::Number>();
   m.atType = atType.Int32Value();
+  m.todayZero = m.msgTime - m.msgTime % (24 * 60 * 60) - 8 * 60 * 60;
+  m.userLevel = 3;
   
   nt_db::GroupMsgTableDb db;
   

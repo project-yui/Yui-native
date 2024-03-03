@@ -8,6 +8,7 @@ set(VCPKG_ROOT $ENV{VCPKG_ROOT})
 message("VCPKG_ROOT: " ${VCPKG_ROOT})
 
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
 add_definitions(-DNAPI_VERSION=4)
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -27,6 +28,13 @@ find_package(protobuf CONFIG REQUIRED)
 find_package(SqliteOrm CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
+find_program(PNPM_EXECUTABLE pnpm)
+if(NOT PNPM_EXECUTABLE)
+        message(FATAL_ERROR "pnpm not found!")
+endif()
+if(WIN32)
+        set(PNPM_EXECUTABLE "${PNPM_EXECUTABLE}.CMD")
+endif()
 # message("安装 Node 包")
 # execute_process(COMMAND
 #         ${PKG_TOOL} install
@@ -36,24 +44,32 @@ message("CMAKE_CXX_FLAGS:${CMAKE_CXX_FLAGS}")
 message("获取 cmake-js 配置")
 message(${PROJECT_SOURCE_DIR})
 execute_process(COMMAND
-        ${PKG_TOOL} --silent cmake-js --version
+        ${PNPM_EXECUTABLE} --silent cmake-js --version
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         OUTPUT_VARIABLE CMAKE_JS_VERSION
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 execute_process(COMMAND
-        ${PKG_TOOL} --silent cmake-js print-cmakejs-src --arch ${TARGET_ARCH}
+        ${PNPM_EXECUTABLE} cmake-js print-cmakejs-src --arch ${TARGET_ARCH} --silent -l error
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         OUTPUT_VARIABLE CMAKE_JS_SRC
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
+message("获取 CMAKE_JS_SRC 配置: ${CMAKE_JS_SRC}")
+
+message("PNPM_EXECUTABLE: "${PNPM_EXECUTABLE})
 execute_process(COMMAND
-        ${PKG_TOOL} --silent cmake-js print-cmakejs-include --arch ${TARGET_ARCH}
+        ${PNPM_EXECUTABLE} cmake-js print-cmakejs-include --silent -l error
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         OUTPUT_VARIABLE CMAKE_JS_INC
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-
+# string(REPLACE ";" "\;" CMAKE_JS_INC "${CMAKE_JS_INC}")
+message("CMAKE_JS_INC:" ${CMAKE_JS_INC})
+foreach(item IN LISTS CMAKE_JS_INC)
+    message("include: ${item}")
+    include_directories(${item})
+endforeach()
 
 message("获取 node-addon-api 配置")
 execute_process(COMMAND
@@ -64,8 +80,11 @@ execute_process(COMMAND
 )
 message("node-addon-api 路径:${NODE_ADDON_API_DIR}")
 
-message("CMAKE_JS_INC: ${CMAKE_JS_INC}")
-include_directories(${CMAKE_JS_INC})
+message("CMAKE_JS_INC: "${CMAKE_JS_INC})
+message("CMAKE_JS_SRC: "${CMAKE_JS_SRC})
+message("CMAKE_JS_LIB: "${CMAKE_JS_LIB})
+
+include_directories(${CMAKE_JS_SRC})
 include_directories(${NODE_ADDON_API_DIR})
 
 set(SUBHOOK_TESTS OFF)
@@ -73,7 +92,6 @@ set(SUBHOOK_STATIC ON)
 set(SUBHOOK_INSTALL OFF)
 add_subdirectory(thirds/subhook)
 
-message("CMAKE_JS_SRC: ${CMAKE_JS_SRC}")
 
 set(MODULE_NAME nt_native)
 add_library(${MODULE_NAME}
@@ -101,7 +119,6 @@ target_link_libraries(${MODULE_NAME} PRIVATE spdlog::spdlog)
 target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
 
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
-message("CMAKE_JS_LIB:"${CMAKE_JS_LIB})
 target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 
 ################test##################

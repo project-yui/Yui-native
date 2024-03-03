@@ -14,7 +14,7 @@
         "--all-scopes-completion",
         // 建议风格：打包(重载函数只会给出一个建议）
         // 相反可以设置为detailed
-        // "--completion-style=bundled",
+        "--completion-style=bundled",
         // 跨文件重命名变量
         "--cross-file-rename",
         // 允许补充头文件
@@ -30,7 +30,7 @@
         // 在参数前加入-，如-modernize-use-trailing-return-type，将会禁用某一规则
         "--clang-tidy-checks=cppcoreguidelines-*,performance-*,bugprone-*,portability-*,modernize-*,google-*",
         // 默认格式化风格: 谷歌开源项目代码指南
-        // "--fallback-style=file",
+        "--fallback-style=file",
         // 同时开启的任务数量
         "-j=2",
         // pch优化的位置(memory 或 disk，选择memory会增加内存开销，但会提升性能) 推荐在板子上使用disk

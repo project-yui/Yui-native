@@ -16,10 +16,8 @@
 #include <random>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/ptrace.h>
 #include <sstream>
 #include <utility>
 #include <vector>

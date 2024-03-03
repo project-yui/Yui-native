@@ -9,6 +9,8 @@
 #ifdef __linux__
 #include <sched.h>
 #elif _WIN32
+
+#define pid_t int
 #endif
 
 namespace NTNative {

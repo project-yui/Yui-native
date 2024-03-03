@@ -1,5 +1,4 @@
 #include "include/db/group_msg_table.hh"
-#include "include/linux_hook.hh"
 #include "include/nt/element.hh"
 #include "include/nt/message.hh"
 #include "include/sqlite3/nt/vdbe.hh"
@@ -17,7 +16,14 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <stdio.h>
+#ifdef __linux__
+#include "include/linux_hook.hh"
 #include <unistd.h>
+#endif
+#ifdef _WIN32
+#include <process.h>
+#include "include/windows_hook.hh"
+#endif
 #include <sstream>
 #include <utility>
 #include <vector>
@@ -58,7 +64,12 @@ static void install_hook(std::vector<uint8_t> & feature_code) {
     printf("task name is %s\n", task_name);
     getPidByName(task_name);
     */
+#ifdef __linux__
     pid_t p = getpid();
+#endif
+#ifdef _WIN32
+    pid_t p = _getpid();
+#endif
     spdlog::debug("current pid:%d\n", p);
     #ifdef __linux__
     yukihana::hook.reset(new NTNative::LinuxHook(p, target));

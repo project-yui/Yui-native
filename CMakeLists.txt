@@ -6,6 +6,11 @@ project("nt_native")
 
 set(VCPKG_ROOT $ENV{VCPKG_ROOT})
 message("VCPKG_ROOT: " ${VCPKG_ROOT})
+set(VCPKG_BUILD_TYPE Debug)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CXX_STANDARD 17)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
@@ -13,17 +18,12 @@ include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 add_definitions(-DNAPI_VERSION=4)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set(VCPKG_BUILD_TYPE Debug)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CXX_STANDARD 17)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-
 set(PKG_TOOL pnpm)
 set(TARGET_ARCH x64)
 
 message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
+find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(protobuf CONFIG REQUIRED)
 find_package(SqliteOrm CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)

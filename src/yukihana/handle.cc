@@ -25,7 +25,7 @@ namespace yukihana {
     NTMem * row;
   };
   #ifdef __linux__
-  std::shared_ptr<NTNative::LinuxHook> hook;
+  std::shared_ptr<NTNative::Hook> hook;
   #elif _WIN32
   std::shared_ptr<NTNative::WindowsHook> hook;
   #endif

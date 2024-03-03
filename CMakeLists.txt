@@ -6,7 +6,8 @@ project("nt_native")
 
 set(VCPKG_ROOT $ENV{VCPKG_ROOT})
 message("VCPKG_ROOT: " ${VCPKG_ROOT})
-include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+
+set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
 add_definitions(-DNAPI_VERSION=4)
 set(CMAKE_VERBOSE_MAKEFILE ON)

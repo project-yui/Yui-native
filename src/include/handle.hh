@@ -13,7 +13,7 @@
 namespace yukihana {
   extern const char * db_name;
   #ifdef __linux__
-  extern std::shared_ptr<NTNative::LinuxHook> hook;
+  extern std::shared_ptr<NTNative::Hook> hook;
   #elif _WIN32
   extern std::shared_ptr<NTNative::WindowsHook> hook;
   #endif

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <random>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <sqlite3.h>
 #include <string>
@@ -18,47 +19,8 @@
 #include "../include/sqlite3/official/sqlite3.hh"
 #include "../include/sqlite3/official/vdbe.hh"
 
-#define BUF_SIZE 1024
-namespace uuid {
-    static std::random_device              rd;
-    static std::mt19937                    gen(rd());
-    static std::uniform_int_distribution<> dis(0, 15);
-    static std::uniform_int_distribution<> dis2(8, 11);
-
-    std::string generate_uuid_v4() {
-        std::stringstream ss;
-        int i;
-        ss << std::hex;
-        for (i = 0; i < 8; i++) {
-            ss << dis(gen);
-        }
-        ss << "-";
-        for (i = 0; i < 4; i++) {
-            ss << dis(gen);
-        }
-        ss << "-4";
-        for (i = 0; i < 3; i++) {
-            ss << dis(gen);
-        }
-        ss << "-";
-        ss << dis2(gen);
-        for (i = 0; i < 3; i++) {
-            ss << dis(gen);
-        }
-        ss << "-";
-        for (i = 0; i < 12; i++) {
-            ss << dis(gen);
-        };
-        return ss.str();
-    }
-}
-
 namespace yukihana {
   const char* db_name = "/home/msojocs/ntqq/nt-native/test/test.db";
-  u8 data_1[] = {0x82, 0xf6, 0x13, 0x29, 0xc8, 0xfc, 0x15, 0x97, 0x84, 0x8e, 0xdb, 0xa7, 0xab, 0xd8, 0xec, 0x65, 0xd0, 0xfc, 0x15, 0x01, 0xea, 0x82, 0x16, 0x11, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0x36, 0x37, 0x37, 0xf0, 0x82, 0x16, 0x00};
-  u8 data_2[] = {0xc2, 0xe9, 0x13, 0x04, 0xa8, 0xd1, 0x14, 0x00};
-  u8 data_3[] = {0x8a, 0xf6, 0x13, 0x4a, 0xe8, 0xa1, 0x14, 0x96, 0x84, 0x8e, 0xdb, 0xa7, 0xab, 0xd8, 0xec, 0x65, 0xf0, 0xa1, 0x14, 0x00, 0xb0, 0xa2, 0x14, 0x00, 0xb8, 0xa2, 0x14, 0xe1, 0xb1, 0xe4, 0xba, 0x05, 0xf8, 0xa2, 0x14, 0x00, 0x80, 0xa3, 0x14, 0x00, 0x90, 0xa3, 0x14, 0x00, 0x98, 0xa3, 0x14, 0x00, 0xa0, 0xa3, 0x14, 0x00, 0xa8, 0xa3, 0x14, 0x00, 0xc8, 0xa3, 0x14, 0x00, 0xd0, 0xa3, 0x14, 0x00, 0xd8, 0xa3, 0x14, 0xa7, 0xc0, 0x04, 0xe8, 0xa3, 0x14, 0x00, 0xf8, 0xa3, 0x14, 0x00};
-
   struct CustomQuery {
     sqlite3_stmt * stmt;
     NTMem * row;
@@ -75,26 +37,26 @@ namespace yukihana {
   //  ,int 
   );
   NTMem * conver2NTMem(Vdbe *src, NTVdbe *dest) {
-    printf("conver2NTMem: %d\n", src->nResColumn);
+    spdlog::debug("conver2NTMem: %d\n", src->nResColumn);
     // sleep(2);
     // return rowTest;
     std::map<std::string, Mem*> srcData;
     for (int i=0; i < src->nResColumn; i++) {
       auto col = src->aColName[i];
       auto data = src->pResultRow +i;
-      printf("column name length: %d\n", col.n);
-      printf("column name: %s\n", col.z);
+      spdlog::debug("column name length: %d\n", col.n);
+      spdlog::debug("column name: %s\n", col.z);
       std::string name(col.z);
       srcData.emplace(std::pair<std::string, Mem *>(name, data));
     }
     
-    printf("malloc column:%d\n", dest->nResColumn);
+    spdlog::debug("malloc column:%d\n", dest->nResColumn);
     NTMem * result = (NTMem *)malloc(sizeof(NTMem) * dest->nResColumn);
 
-    printf("start copy data\n");
+    spdlog::debug("start copy data\n");
     for (int i=0; i < dest->nResColumn; i++) {
       auto col = dest->aColName[i];
-      printf("[%s]copy data: %d\n", col.z, i);
+      spdlog::debug("[%s]copy data: %d\n", col.z, i);
       std::string name(col.z);
       NTMem* target = result + i;
       
@@ -206,7 +168,7 @@ namespace yukihana {
         //   target->zMalloc = "";
         //   continue;
         // }
-        printf("not found : %s\n", name.c_str());
+        spdlog::debug("not found : %s\n", name.c_str());
         target->n = 0;
         target->flags = MEM_Null;
         target->z = target->zMalloc = "";
@@ -218,7 +180,7 @@ namespace yukihana {
         // 数值
         target->flags = MEM_Int;
         target->u.i = cur->u.i;
-        printf("MEM_Int: %ld\n", cur->u.i);
+        spdlog::debug("MEM_Int: %ld\n", cur->u.i);
       }
       else if (cur->flags & (MEM_Str | MEM_Term)) {
         // 字符串
@@ -227,7 +189,7 @@ namespace yukihana {
         target->n = cur->n;
         target->z = cur->z;
         target->zMalloc = cur->zMalloc;
-        printf("MEM_Str[%d]: %s\n", target->n, cur->z);
+        spdlog::debug("MEM_Str[%d]: %s\n", target->n, cur->z);
       }
       else if (cur->flags & MEM_Blob) {
         // 二进制
@@ -236,11 +198,11 @@ namespace yukihana {
         target->n = cur->n;
         target->enc = SQLITE_UTF8;
         target->zMalloc = cur->zMalloc;
-        printf("MEM_Blob[%d]\n", target->n);
+        spdlog::debug("MEM_Blob[%d]\n", target->n);
         // *target = rowTest[i];
       }
       else {
-        printf("not supported!\n");
+        spdlog::debug("not supported!\n");
         target->z = nullptr;
         target->flags = MEM_Null;
         target->zMalloc = nullptr;
@@ -258,18 +220,16 @@ namespace yukihana {
   void* a5,
   void* a6) {
     
-    std::string uuid = uuid::generate_uuid_v4();
-    const char * u = uuid.c_str();
-    printf("[%s]execute\n", u);
+    spdlog::debug("execute\n");
     stmt_func fun = (stmt_func)hook->get_trampoline();
     if (fun == nullptr) {
-        printf("[%s]error nullptr!!!\n", u);
+        spdlog::debug("error nullptr!!!\n");
         return -1;
     }
     sqlite3_stmt *ntStmt = (sqlite3_stmt *)a1;
     NTVdbe * ntVdbe = (NTVdbe *)ntStmt;
     
-    printf("[%s]try to find handle\n", u);
+    spdlog::debug("try to find handle\n");
     if (ntStmt != nullptr) {
       // 替换
       if (nt2custom.find(ntStmt) != nt2custom.end()) {
@@ -277,7 +237,7 @@ namespace yukihana {
         // 找到sql实例
         int rc = sqlite3_step(customQuery.stmt);
         if (rc == SQLITE_ROW) {
-          printf("continue copy row, free old row\n");
+          spdlog::debug("continue copy row, free old row\n");
           free(customQuery.row);
           int colCount = sqlite3_column_count(customQuery.stmt);
           auto newRow = conver2NTMem((Vdbe *)customQuery.stmt, ntVdbe);
@@ -286,7 +246,7 @@ namespace yukihana {
           return SQLITE_ROW;
         }
         else {
-          printf("no row to copy, free old row and close db.\n");
+          spdlog::debug("no row to copy, free old row and close db.\n");
           free(customQuery.row);
           sqlite3_finalize(customQuery.stmt);
           sqlite3_close(*(sqlite3 **)customQuery.stmt);
@@ -305,44 +265,44 @@ namespace yukihana {
     );
     // 2. SQLITE_ROW就返回
     if (ret == SQLITE_ROW) {
-      printf("[%s]SQLITE_ROW return\n", u);
+      spdlog::debug("SQLITE_ROW return\n");
       return ret;
     }
     // 3. 非SQLITE_ROW继续
     
     // std::cout << "foo(" << (char *)a << "," << *(char **)b << "," << *(char **)c  << "," << (char *)d << ") called" << std::endl;
-    printf("stmt(...) called\n");;
+    spdlog::debug("stmt(...) called\n");;
     if (ntStmt != nullptr)
     {
-        printf("actual sql0 -> %s\n", *((const char **)a1 + 32));
-        printf("read from v\n");
+        spdlog::debug("actual sql0 -> %s\n", *((const char **)a1 + 32));
+        spdlog::debug("read from v\n");
         // 4. 取sql执行
-        printf("actual sql1 -> %s\n", ntVdbe->zSql);
+        spdlog::debug("actual sql1 -> %s\n", ntVdbe->zSql);
         if (ntVdbe->zSql == nullptr) {
             return ret;
         }
         // 5. 有数据就替换stmt的row内容，并返回SQLITE_ROW
         std::string sql(ntVdbe->zSql);
-        printf("sql1:%s\n", sql.c_str());
-        printf("ret:%d\n", ret);
+        spdlog::debug("sql1:%s\n", sql.c_str());
+        spdlog::debug("ret:%d\n", ret);
         if (sql.find("SELECT * FROM group_msg_table") != std::string::npos) {
-            printf("try to read record from custom db!\n");
+            spdlog::debug("try to read record from custom db!\n");
             sqlite3 *db = nullptr;
             const char *vfs = nullptr;
             int rc = 0;
-            printf("try to open custom db!\n");
+            spdlog::debug("try to open custom db!\n");
             rc = sqlite3_open_v2(db_name, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, vfs);
             if (rc != SQLITE_OK)
             {
                 sqlite3_close(db);
-                printf("failed to open db!\n");
+                spdlog::debug("failed to open db!\n");
                 return ret;
             }
 
             // Now we create an SQL command which is stored in an sqlite3_stmt data structure.
             // Note symColName_ is a member of EquityDataLocator
             sqlite3_stmt *newStmt = nullptr;
-            printf("try to prepare sql[%ld]: %s\n", strlen(ntVdbe->zSql), ntVdbe->zSql);
+            spdlog::debug("try to prepare sql[%ld]: %s\n", strlen(ntVdbe->zSql), ntVdbe->zSql);
             rc = sqlite3_prepare_v2(db, ntVdbe->zSql, strlen(ntVdbe->zSql), &newStmt, nullptr);
             if (rc != SQLITE_OK)
             {
@@ -352,7 +312,7 @@ namespace yukihana {
                 return ret;
             }
             auto querySql = sqlite3_sql(newStmt);
-            printf("sql:%s\n", querySql);
+            spdlog::debug("sql:%s\n", querySql);
             // Vdbe * info = (Vdbe *)stmt;
             
             // Now we retrieve the row
@@ -380,7 +340,7 @@ namespace yukihana {
               //   }
               // }
 
-              printf("[%s]end!!!\n", u);
+              spdlog::debug("end!!!\n");
               ntVdbe->pResultRow = newRow;
               // 成功
               CustomQuery q = {newStmt, newRow};
@@ -389,7 +349,7 @@ namespace yukihana {
             }
             else
             {
-              printf("close db...\n");
+              spdlog::debug("close db...\n");
               sqlite3_finalize(newStmt);
               sqlite3_close(db);
               return rc;
@@ -400,7 +360,7 @@ namespace yukihana {
         // 6. 没数据就返回原值
     }
     
-    printf("[%s]result: %d\n", u, ret);
+    spdlog::debug("result: %d\n", ret);
     return SQLITE_DONE;
 
   }

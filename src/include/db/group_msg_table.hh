@@ -67,8 +67,6 @@ namespace nt_db {
   class NTDb {
     public:
     NTDb(){
-      printf("NTDb constructor\n");
-      printf("db file: %s\n", yukihana::db_name);
       storage.sync_schema(true);
     };
     virtual bool add(T &data) = 0;

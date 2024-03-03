@@ -22,6 +22,7 @@ message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 find_package(protobuf CONFIG REQUIRED)
 find_package(SqliteOrm CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 # message("安装 Node 包")
 # execute_process(COMMAND
@@ -89,10 +90,12 @@ add_library(${MODULE_NAME}
         src/include/db/model/group_msg_table.hh
         ${CMAKE_JS_SRC}
         )
-target_link_libraries(${MODULE_NAME} PRIVATE unofficial::sqlite3::sqlite3)
+# target_link_libraries(${MODULE_NAME} PRIVATE unofficial::sqlite3::sqlite3)
 target_link_libraries(${MODULE_NAME} PRIVATE subhook)
 target_link_libraries(${MODULE_NAME} PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 target_link_libraries(${MODULE_NAME} PRIVATE sqlite_orm::sqlite_orm)
+target_link_libraries(${MODULE_NAME} PRIVATE spdlog::spdlog)
+target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
 
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 message("CMAKE_JS_LIB:"${CMAKE_JS_LIB})

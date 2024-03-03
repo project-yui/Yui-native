@@ -1,5 +1,6 @@
 #include "../include/db/group_msg_table.hh"
 #include <cstdio>
+#include <spdlog/spdlog.h>
 
 /**
  * @brief 对数据库进行操作
@@ -12,7 +13,7 @@ namespace nt_db {
   // }
   bool GroupMsgTableDb::add(nt_model::GroupMsgTable& data) {
     storage.replace(data);
-    printf("GroupMsgTableDb add result\n");
+    spdlog::debug("GroupMsgTableDb add result\n");
     return true;
   }
 }

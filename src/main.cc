@@ -62,7 +62,12 @@ static void install_hook(std::vector<uint8_t> & feature_code) {
     */
     pid_t p = getpid();
     spdlog::debug("current pid:%d\n", p);
+    #ifdef __linux__
     yukihana::hook.reset(new NTNative::LinuxHook(p, target));
+    #endif
+    #ifdef _WIN32
+    yukihana::hook.reset(new NTNative::WindowsHook(p, target));
+    #endif
 
     spdlog::debug("set_signature\n");
     yukihana::hook->set_signature(feature_code);

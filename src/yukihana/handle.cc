@@ -24,11 +24,7 @@ namespace yukihana {
     sqlite3_stmt * stmt;
     NTMem * row;
   };
-  #ifdef __linux__
   std::shared_ptr<NTNative::Hook> hook;
-  #elif _WIN32
-  std::shared_ptr<NTNative::WindowsHook> hook;
-  #endif
   std::map<sqlite3_stmt *, CustomQuery> nt2custom;
   
   typedef int (*stmt_func)(void * 

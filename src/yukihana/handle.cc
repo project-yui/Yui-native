@@ -65,8 +65,9 @@ namespace yukihana {
       target->enc = 0;
       target->eSubtype = 0;
       target->n = 0;
-      target->z = "";
-      target->zMalloc = "";
+      target->z = nullptr;
+      target->zMalloc = nullptr;
+      
       if (srcData.find(name) == srcData.end()) {
         // if (name == "40600") {
         //   printf("special 40600");
@@ -171,7 +172,7 @@ namespace yukihana {
         spdlog::debug("not found : %s", name.c_str());
         target->n = 0;
         target->flags = MEM_Null;
-        target->z = target->zMalloc = "";
+        target->z = target->zMalloc = nullptr;
         continue;
       }
 
@@ -308,7 +309,7 @@ namespace yukihana {
             {
                 sqlite3_finalize(newStmt);
                 sqlite3_close(db);
-                printf("failed to prepare sql!");
+                spdlog::debug("failed to prepare sql!");
                 return ret;
             }
             auto querySql = sqlite3_sql(newStmt);
@@ -319,7 +320,7 @@ namespace yukihana {
             rc = sqlite3_step(newStmt);
             if (rc == SQLITE_ROW)
             {
-              printf("has external data!!");
+              spdlog::debug("has external data!!");
               // Here we get a pointer to the location text ( stored in the second column of the table )
               // The 1 in sqlite3_column_text( stmt, 1 ) is the column number (zero based).
               // sqlite3_column_text( sqlite_stmt* stmt, int cidx ) returns const unsigned char* so the casts are necessary.

@@ -4,537 +4,491 @@
 #include "message.pb.h"
 
 #include <algorithm>
-#include "google/protobuf/io/coded_stream.h"
-#include "google/protobuf/extension_set.h"
-#include "google/protobuf/wire_format_lite.h"
-#include "google/protobuf/descriptor.h"
-#include "google/protobuf/generated_message_reflection.h"
-#include "google/protobuf/reflection_ops.h"
-#include "google/protobuf/wire_format.h"
-#include "google/protobuf/generated_message_tctable_impl.h"
+
+#include <google/protobuf/io/coded_stream.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
+#include <google/protobuf/descriptor.h>
+#include <google/protobuf/generated_message_reflection.h>
+#include <google/protobuf/reflection_ops.h>
+#include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
+#include <google/protobuf/port_def.inc>
 
-// Must be included last.
-#include "google/protobuf/port_def.inc"
 PROTOBUF_PRAGMA_INIT_SEG
-namespace _pb = ::google::protobuf;
-namespace _pbi = ::google::protobuf::internal;
-namespace _fl = ::google::protobuf::internal::field_layout;
+
+namespace _pb = ::PROTOBUF_NAMESPACE_ID;
+namespace _pbi = _pb::internal;
+
 namespace nt_msg {
-
-inline constexpr Element_SourceMsgTextElem::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : textelemcontent_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        unknown_45001_{::int64_t{0}},
-        replyabselemtype_{0},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR Element_SourceMsgTextElem::Element_SourceMsgTextElem(::_pbi::ConstantInitialized)
-    : _impl_(::_pbi::ConstantInitialized()) {}
+PROTOBUF_CONSTEXPR Element_SourceMsgTextElem::Element_SourceMsgTextElem(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.textelemcontent_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.unknown_45001_)*/int64_t{0}
+  , /*decltype(_impl_.replyabselemtype_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct Element_SourceMsgTextElemDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR Element_SourceMsgTextElemDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR Element_SourceMsgTextElemDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~Element_SourceMsgTextElemDefaultTypeInternal() {}
   union {
     Element_SourceMsgTextElem _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Element_SourceMsgTextElemDefaultTypeInternal _Element_SourceMsgTextElem_default_instance_;
-
-inline constexpr Element::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        sourcemsgtextelems_{},
-        senderuidstr_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        textstr_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        filename_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        unknown_45406_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        fileuuid_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        imageurl198_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        imageurl720_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        originimageurl_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        elementid_{::int64_t{0}},
-        elementtype_{0},
-        attype_{0},
-        filesize_{0},
-        picwidth_{0},
-        picheight_{0},
-        unknown_45413_{0},
-        unknown_45414_{0},
-        pictype_{0},
-        unknown_45418_{0},
-        unknown_45805_{0},
-        unknown_45806_{0},
-        unknown_45807_{0},
-        unknown_45829_{0},
-        replaymsgseq_{0},
-        senderuid_{0},
-        replymsgtime_{0},
-        unknown_47416_{::int64_t{0}},
-        unknown_47422_{::int64_t{0}},
-        unknown_47411_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR Element::Element(::_pbi::ConstantInitialized)
-    : _impl_(::_pbi::ConstantInitialized()) {}
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Element_SourceMsgTextElemDefaultTypeInternal _Element_SourceMsgTextElem_default_instance_;
+PROTOBUF_CONSTEXPR Element::Element(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.sourcemsgtextelems_)*/{}
+  , /*decltype(_impl_.senderuidstr_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.textstr_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.filename_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.unknown_45406_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.fileuuid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.imageurl198_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.imageurl720_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.originimageurl_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.elementid_)*/int64_t{0}
+  , /*decltype(_impl_.elementtype_)*/0
+  , /*decltype(_impl_.attype_)*/0
+  , /*decltype(_impl_.filesize_)*/0
+  , /*decltype(_impl_.picwidth_)*/0
+  , /*decltype(_impl_.picheight_)*/0
+  , /*decltype(_impl_.unknown_45413_)*/0
+  , /*decltype(_impl_.unknown_45414_)*/0
+  , /*decltype(_impl_.pictype_)*/0
+  , /*decltype(_impl_.unknown_45418_)*/0
+  , /*decltype(_impl_.unknown_45805_)*/0
+  , /*decltype(_impl_.unknown_45806_)*/0
+  , /*decltype(_impl_.unknown_45807_)*/0
+  , /*decltype(_impl_.unknown_45829_)*/0
+  , /*decltype(_impl_.replaymsgseq_)*/0
+  , /*decltype(_impl_.senderuid_)*/0
+  , /*decltype(_impl_.replymsgtime_)*/0
+  , /*decltype(_impl_.unknown_47416_)*/int64_t{0}
+  , /*decltype(_impl_.unknown_47422_)*/int64_t{0}
+  , /*decltype(_impl_.unknown_47411_)*/0} {}
 struct ElementDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ElementDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR ElementDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~ElementDefaultTypeInternal() {}
   union {
     Element _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ElementDefaultTypeInternal _Element_default_instance_;
-
-inline constexpr Elements::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : elem_{},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR Elements::Elements(::_pbi::ConstantInitialized)
-    : _impl_(::_pbi::ConstantInitialized()) {}
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ElementDefaultTypeInternal _Element_default_instance_;
+PROTOBUF_CONSTEXPR Elements::Elements(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.elem_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct ElementsDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ElementsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR ElementsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~ElementsDefaultTypeInternal() {}
   union {
     Elements _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ElementsDefaultTypeInternal _Elements_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ElementsDefaultTypeInternal _Elements_default_instance_;
 }  // namespace nt_msg
 static ::_pb::Metadata file_level_metadata_message_2eproto[3];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_message_2eproto[1];
-static constexpr const ::_pb::ServiceDescriptor**
-    file_level_service_descriptors_message_2eproto = nullptr;
-const ::uint32_t TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
-    protodesc_cold) = {
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _impl_.unknown_45001_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _impl_.replyabselemtype_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _impl_.textelemcontent_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.elementid_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.elementtype_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.textstr_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.attype_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.filename_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.filesize_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45406_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.picwidth_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.picheight_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45413_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45414_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.pictype_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45418_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.fileuuid_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.imageurl198_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.imageurl720_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.originimageurl_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45805_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45806_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45807_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45829_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.senderuidstr_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.replaymsgseq_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.senderuid_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.replymsgtime_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_47411_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_47416_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_47422_),
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.sourcemsgtextelems_),
-    ~0u,
-    ~0u,
-    1,
-    8,
-    2,
-    9,
-    3,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    4,
-    5,
-    6,
-    7,
-    16,
-    17,
-    18,
-    19,
-    0,
-    20,
-    21,
-    22,
-    25,
-    23,
-    24,
-    ~0u,
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Elements, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::nt_msg::Elements, _impl_.elem_),
-};
+static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_message_2eproto = nullptr;
 
-static const ::_pbi::MigrationSchema
-    schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-        {0, -1, -1, sizeof(::nt_msg::Element_SourceMsgTextElem)},
-        {11, 48, -1, sizeof(::nt_msg::Element)},
-        {77, -1, -1, sizeof(::nt_msg::Elements)},
+const uint32_t TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _impl_.unknown_45001_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _impl_.replyabselemtype_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element_SourceMsgTextElem, _impl_.textelemcontent_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.elementid_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.elementtype_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.textstr_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.attype_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.filename_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.filesize_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45406_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.picwidth_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.picheight_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45413_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45414_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.pictype_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45418_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.fileuuid_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.imageurl198_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.imageurl720_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.originimageurl_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45805_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45806_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45807_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45829_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.senderuidstr_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.replaymsgseq_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.senderuid_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.replymsgtime_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_47411_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_47416_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_47422_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.sourcemsgtextelems_),
+  ~0u,
+  ~0u,
+  1,
+  8,
+  2,
+  9,
+  3,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  4,
+  5,
+  6,
+  7,
+  16,
+  17,
+  18,
+  19,
+  0,
+  20,
+  21,
+  22,
+  25,
+  23,
+  24,
+  ~0u,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Elements, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Elements, _impl_.elem_),
+};
+static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  { 0, -1, -1, sizeof(::nt_msg::Element_SourceMsgTextElem)},
+  { 9, 44, -1, sizeof(::nt_msg::Element)},
+  { 73, -1, -1, sizeof(::nt_msg::Elements)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-    &::nt_msg::_Element_SourceMsgTextElem_default_instance_._instance,
-    &::nt_msg::_Element_default_instance_._instance,
-    &::nt_msg::_Elements_default_instance_._instance,
-};
-const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-    "\n\rmessage.proto\022\006nt_msg\"\225\013\n\007Element\022\023\n\te"
-    "lementId\030\311\337\002 \001(\003\022\025\n\013elementType\030\312\337\002 \001(\005\022"
-    "\026\n\007textStr\030\255\340\002 \001(\tH\000\210\001\001\022\025\n\006atType\030\256\340\002 \001("
-    "\005H\001\210\001\001\022\027\n\010fileName\030\332\342\002 \001(\tH\002\210\001\001\022\027\n\010fileS"
-    "ize\030\335\342\002 \001(\005H\003\210\001\001\022\034\n\runknown_45406\030\336\342\002 \001("
-    "\tH\004\210\001\001\022\027\n\010picWidth\030\343\342\002 \001(\005H\005\210\001\001\022\030\n\tpicHe"
-    "ight\030\344\342\002 \001(\005H\006\210\001\001\022\034\n\runknown_45413\030\345\342\002 \001"
-    "(\005H\007\210\001\001\022\034\n\runknown_45414\030\346\342\002 \001(\005H\010\210\001\001\022\026\n"
-    "\007picType\030\350\342\002 \001(\005H\t\210\001\001\022\034\n\runknown_45418\030\352"
-    "\342\002 \001(\005H\n\210\001\001\022\027\n\010fileUuid\030\277\343\002 \001(\tH\013\210\001\001\022\032\n\013"
-    "imageUrl198\030\352\345\002 \001(\tH\014\210\001\001\022\032\n\013imageUrl720\030"
-    "\353\345\002 \001(\tH\r\210\001\001\022\035\n\016originImageUrl\030\354\345\002 \001(\tH\016"
-    "\210\001\001\022\034\n\runknown_45805\030\355\345\002 \001(\005H\017\210\001\001\022\034\n\runk"
-    "nown_45806\030\356\345\002 \001(\005H\020\210\001\001\022\034\n\runknown_45807"
-    "\030\357\345\002 \001(\005H\021\210\001\001\022\034\n\runknown_45829\030\205\346\002 \001(\005H\022"
-    "\210\001\001\022\033\n\014senderUidStr\030\324\270\002 \001(\tH\023\210\001\001\022\033\n\014repl"
-    "ayMsgSeq\030\252\362\002 \001(\005H\024\210\001\001\022\030\n\tsenderUid\030\253\362\002 \001"
-    "(\005H\025\210\001\001\022\033\n\014replyMsgTime\030\254\362\002 \001(\005H\026\210\001\001\022\034\n\r"
-    "unknown_47411\030\263\362\002 \001(\005H\027\210\001\001\022\034\n\runknown_47"
-    "416\030\270\362\002 \001(\003H\030\210\001\001\022\034\n\runknown_47422\030\276\362\002 \001("
-    "\003H\031\210\001\001\022\?\n\022sourceMsgTextElems\030\277\362\002 \003(\0132!.n"
-    "t_msg.Element.SourceMsgTextElem\032c\n\021Sourc"
-    "eMsgTextElem\022\027\n\runknown_45001\030\311\337\002 \001(\003\022\032\n"
-    "\020replyAbsElemType\030\312\337\002 \001(\005\022\031\n\017textElemCon"
-    "tent\030\255\340\002 \001(\t\"B\n\007MsgType\022\022\n\016MSG_TYPE_ERRO"
-    "R\020\000\022\021\n\rMSG_TYPE_TEXT\020\001\022\020\n\014MSG_TYPE_PIC\020\002"
-    "B\n\n\010_textStrB\t\n\007_atTypeB\013\n\t_fileNameB\013\n\t"
-    "_fileSizeB\020\n\016_unknown_45406B\013\n\t_picWidth"
-    "B\014\n\n_picHeightB\020\n\016_unknown_45413B\020\n\016_unk"
-    "nown_45414B\n\n\010_picTypeB\020\n\016_unknown_45418"
-    "B\013\n\t_fileUuidB\016\n\014_imageUrl198B\016\n\014_imageU"
-    "rl720B\021\n\017_originImageUrlB\020\n\016_unknown_458"
-    "05B\020\n\016_unknown_45806B\020\n\016_unknown_45807B\020"
-    "\n\016_unknown_45829B\017\n\r_senderUidStrB\017\n\r_re"
-    "playMsgSeqB\014\n\n_senderUidB\017\n\r_replyMsgTim"
-    "eB\020\n\016_unknown_47411B\020\n\016_unknown_47416B\020\n"
-    "\016_unknown_47422\"+\n\010Elements\022\037\n\004elem\030\340\276\002 "
-    "\003(\0132\017.nt_msg.Elementb\006proto3"
-};
-static ::absl::once_flag descriptor_table_message_2eproto_once;
-const ::_pbi::DescriptorTable descriptor_table_message_2eproto = {
-    false,
-    false,
-    1508,
-    descriptor_table_protodef_message_2eproto,
-    "message.proto",
-    &descriptor_table_message_2eproto_once,
-    nullptr,
-    0,
-    3,
-    schemas,
-    file_default_instances,
-    TableStruct_message_2eproto::offsets,
-    file_level_metadata_message_2eproto,
-    file_level_enum_descriptors_message_2eproto,
-    file_level_service_descriptors_message_2eproto,
+  &::nt_msg::_Element_SourceMsgTextElem_default_instance_._instance,
+  &::nt_msg::_Element_default_instance_._instance,
+  &::nt_msg::_Elements_default_instance_._instance,
 };
 
-// This function exists to be marked as weak.
-// It can significantly speed up compilation by breaking up LLVM's SCC
-// in the .pb.cc translation units. Large translation units see a
-// reduction of more than 35% of walltime for optimized builds. Without
-// the weak attribute all the messages in the file, including all the
-// vtables and everything they use become part of the same SCC through
-// a cycle like:
-// GetMetadata -> descriptor table -> default instances ->
-//   vtables -> GetMetadata
-// By adding a weak function here we break the connection from the
-// individual vtables back into the descriptor table.
+const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\rmessage.proto\022\006nt_msg\"\225\013\n\007Element\022\023\n\te"
+  "lementId\030\311\337\002 \001(\003\022\025\n\013elementType\030\312\337\002 \001(\005\022"
+  "\026\n\007textStr\030\255\340\002 \001(\tH\000\210\001\001\022\025\n\006atType\030\256\340\002 \001("
+  "\005H\001\210\001\001\022\027\n\010fileName\030\332\342\002 \001(\tH\002\210\001\001\022\027\n\010fileS"
+  "ize\030\335\342\002 \001(\005H\003\210\001\001\022\034\n\runknown_45406\030\336\342\002 \001("
+  "\tH\004\210\001\001\022\027\n\010picWidth\030\343\342\002 \001(\005H\005\210\001\001\022\030\n\tpicHe"
+  "ight\030\344\342\002 \001(\005H\006\210\001\001\022\034\n\runknown_45413\030\345\342\002 \001"
+  "(\005H\007\210\001\001\022\034\n\runknown_45414\030\346\342\002 \001(\005H\010\210\001\001\022\026\n"
+  "\007picType\030\350\342\002 \001(\005H\t\210\001\001\022\034\n\runknown_45418\030\352"
+  "\342\002 \001(\005H\n\210\001\001\022\027\n\010fileUuid\030\277\343\002 \001(\tH\013\210\001\001\022\032\n\013"
+  "imageUrl198\030\352\345\002 \001(\tH\014\210\001\001\022\032\n\013imageUrl720\030"
+  "\353\345\002 \001(\tH\r\210\001\001\022\035\n\016originImageUrl\030\354\345\002 \001(\tH\016"
+  "\210\001\001\022\034\n\runknown_45805\030\355\345\002 \001(\005H\017\210\001\001\022\034\n\runk"
+  "nown_45806\030\356\345\002 \001(\005H\020\210\001\001\022\034\n\runknown_45807"
+  "\030\357\345\002 \001(\005H\021\210\001\001\022\034\n\runknown_45829\030\205\346\002 \001(\005H\022"
+  "\210\001\001\022\033\n\014senderUidStr\030\324\270\002 \001(\tH\023\210\001\001\022\033\n\014repl"
+  "ayMsgSeq\030\252\362\002 \001(\005H\024\210\001\001\022\030\n\tsenderUid\030\253\362\002 \001"
+  "(\005H\025\210\001\001\022\033\n\014replyMsgTime\030\254\362\002 \001(\005H\026\210\001\001\022\034\n\r"
+  "unknown_47411\030\263\362\002 \001(\005H\027\210\001\001\022\034\n\runknown_47"
+  "416\030\270\362\002 \001(\003H\030\210\001\001\022\034\n\runknown_47422\030\276\362\002 \001("
+  "\003H\031\210\001\001\022\?\n\022sourceMsgTextElems\030\277\362\002 \003(\0132!.n"
+  "t_msg.Element.SourceMsgTextElem\032c\n\021Sourc"
+  "eMsgTextElem\022\027\n\runknown_45001\030\311\337\002 \001(\003\022\032\n"
+  "\020replyAbsElemType\030\312\337\002 \001(\005\022\031\n\017textElemCon"
+  "tent\030\255\340\002 \001(\t\"B\n\007MsgType\022\022\n\016MSG_TYPE_ERRO"
+  "R\020\000\022\021\n\rMSG_TYPE_TEXT\020\001\022\020\n\014MSG_TYPE_PIC\020\002"
+  "B\n\n\010_textStrB\t\n\007_atTypeB\013\n\t_fileNameB\013\n\t"
+  "_fileSizeB\020\n\016_unknown_45406B\013\n\t_picWidth"
+  "B\014\n\n_picHeightB\020\n\016_unknown_45413B\020\n\016_unk"
+  "nown_45414B\n\n\010_picTypeB\020\n\016_unknown_45418"
+  "B\013\n\t_fileUuidB\016\n\014_imageUrl198B\016\n\014_imageU"
+  "rl720B\021\n\017_originImageUrlB\020\n\016_unknown_458"
+  "05B\020\n\016_unknown_45806B\020\n\016_unknown_45807B\020"
+  "\n\016_unknown_45829B\017\n\r_senderUidStrB\017\n\r_re"
+  "playMsgSeqB\014\n\n_senderUidB\017\n\r_replyMsgTim"
+  "eB\020\n\016_unknown_47411B\020\n\016_unknown_47416B\020\n"
+  "\016_unknown_47422\"+\n\010Elements\022\037\n\004elem\030\340\276\002 "
+  "\003(\0132\017.nt_msg.Elementb\006proto3"
+  ;
+static ::_pbi::once_flag descriptor_table_message_2eproto_once;
+const ::_pbi::DescriptorTable descriptor_table_message_2eproto = {
+    false, false, 1508, descriptor_table_protodef_message_2eproto,
+    "message.proto",
+    &descriptor_table_message_2eproto_once, nullptr, 0, 3,
+    schemas, file_default_instances, TableStruct_message_2eproto::offsets,
+    file_level_metadata_message_2eproto, file_level_enum_descriptors_message_2eproto,
+    file_level_service_descriptors_message_2eproto,
+};
 PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_message_2eproto_getter() {
   return &descriptor_table_message_2eproto;
 }
+
 // Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY2
-static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_message_2eproto(&descriptor_table_message_2eproto);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_message_2eproto(&descriptor_table_message_2eproto);
 namespace nt_msg {
-const ::google::protobuf::EnumDescriptor* Element_MsgType_descriptor() {
-  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_message_2eproto);
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Element_MsgType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_message_2eproto);
   return file_level_enum_descriptors_message_2eproto[0];
 }
-PROTOBUF_CONSTINIT const uint32_t Element_MsgType_internal_data_[] = {
-    196608u, 0u, };
 bool Element_MsgType_IsValid(int value) {
-  return 0 <= value && value <= 2;
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
 }
-#if (__cplusplus < 201703) && \
-  (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 constexpr Element_MsgType Element::MSG_TYPE_ERROR;
 constexpr Element_MsgType Element::MSG_TYPE_TEXT;
 constexpr Element_MsgType Element::MSG_TYPE_PIC;
 constexpr Element_MsgType Element::MsgType_MIN;
 constexpr Element_MsgType Element::MsgType_MAX;
 constexpr int Element::MsgType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 
-#endif  // (__cplusplus < 201703) &&
-        // (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 // ===================================================================
 
 class Element_SourceMsgTextElem::_Internal {
  public:
 };
 
-Element_SourceMsgTextElem::Element_SourceMsgTextElem(::google::protobuf::Arena* arena)
-    : ::google::protobuf::Message(arena) {
-  SharedCtor(arena);
+Element_SourceMsgTextElem::Element_SourceMsgTextElem(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:nt_msg.Element.SourceMsgTextElem)
 }
-inline PROTOBUF_NDEBUG_INLINE Element_SourceMsgTextElem::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from)
-      : textelemcontent_(arena, from.textelemcontent_),
-        _cached_size_{0} {}
+Element_SourceMsgTextElem::Element_SourceMsgTextElem(const Element_SourceMsgTextElem& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Element_SourceMsgTextElem* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.textelemcontent_){}
+    , decltype(_impl_.unknown_45001_){}
+    , decltype(_impl_.replyabselemtype_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
-Element_SourceMsgTextElem::Element_SourceMsgTextElem(
-    ::google::protobuf::Arena* arena,
-    const Element_SourceMsgTextElem& from)
-    : ::google::protobuf::Message(arena) {
-  Element_SourceMsgTextElem* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
-  ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, unknown_45001_),
-           reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, unknown_45001_),
-           offsetof(Impl_, replyabselemtype_) -
-               offsetof(Impl_, unknown_45001_) +
-               sizeof(Impl_::replyabselemtype_));
-
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.textelemcontent_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.textelemcontent_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_textelemcontent().empty()) {
+    _this->_impl_.textelemcontent_.Set(from._internal_textelemcontent(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.unknown_45001_, &from._impl_.unknown_45001_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.replyabselemtype_) -
+    reinterpret_cast<char*>(&_impl_.unknown_45001_)) + sizeof(_impl_.replyabselemtype_));
   // @@protoc_insertion_point(copy_constructor:nt_msg.Element.SourceMsgTextElem)
 }
-inline PROTOBUF_NDEBUG_INLINE Element_SourceMsgTextElem::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* arena)
-      : textelemcontent_(arena),
-        _cached_size_{0} {}
 
-inline void Element_SourceMsgTextElem::SharedCtor(::_pb::Arena* arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, unknown_45001_),
-           0,
-           offsetof(Impl_, replyabselemtype_) -
-               offsetof(Impl_, unknown_45001_) +
-               sizeof(Impl_::replyabselemtype_));
+inline void Element_SourceMsgTextElem::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.textelemcontent_){}
+    , decltype(_impl_.unknown_45001_){int64_t{0}}
+    , decltype(_impl_.replyabselemtype_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.textelemcontent_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.textelemcontent_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
+
 Element_SourceMsgTextElem::~Element_SourceMsgTextElem() {
   // @@protoc_insertion_point(destructor:nt_msg.Element.SourceMsgTextElem)
-  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
   SharedDtor();
 }
+
 inline void Element_SourceMsgTextElem::SharedDtor() {
-  ABSL_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.textelemcontent_.Destroy();
-  _impl_.~Impl_();
 }
 
-PROTOBUF_NOINLINE void Element_SourceMsgTextElem::Clear() {
+void Element_SourceMsgTextElem::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Element_SourceMsgTextElem::Clear() {
 // @@protoc_insertion_point(message_clear_start:nt_msg.Element.SourceMsgTextElem)
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   _impl_.textelemcontent_.ClearToEmpty();
-  ::memset(&_impl_.unknown_45001_, 0, static_cast<::size_t>(
+  ::memset(&_impl_.unknown_45001_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.replyabselemtype_) -
       reinterpret_cast<char*>(&_impl_.unknown_45001_)) + sizeof(_impl_.replyabselemtype_));
-  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* Element_SourceMsgTextElem::_InternalParse(
-    const char* ptr, ::_pbi::ParseContext* ctx) {
-  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+const char* Element_SourceMsgTextElem::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int64 unknown_45001 = 45001;
+      case 45001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _impl_.unknown_45001_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 replyAbsElemType = 45002;
+      case 45002:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _impl_.replyabselemtype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string textElemContent = 45101;
+      case 45101:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
+          auto str = _internal_mutable_textelemcontent();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.SourceMsgTextElem.textElemContent"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
   return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
 }
 
-
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 3, 0, 56, 12> Element_SourceMsgTextElem::_table_ = {
-  {
-    0,  // no _has_bits_
-    0, // no _extensions_
-    45101, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967295,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    3,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
-    &_Element_SourceMsgTextElem_default_instance_._instance,
-    ::_pbi::TcParser::GenericFallback,  // fallback
-  }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-  }}, {{
-    45001, 0, 1,
-    65532, 0,45101, 0, 1,
-     65534, 2,
-    65535, 65535
-  }}, {{
-    // int64 unknown_45001 = 45001;
-    {PROTOBUF_FIELD_OFFSET(Element_SourceMsgTextElem, _impl_.unknown_45001_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // int32 replyAbsElemType = 45002;
-    {PROTOBUF_FIELD_OFFSET(Element_SourceMsgTextElem, _impl_.replyabselemtype_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // string textElemContent = 45101;
-    {PROTOBUF_FIELD_OFFSET(Element_SourceMsgTextElem, _impl_.textelemcontent_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-  }},
-  // no aux_entries
-  {{
-    "\40\0\0\17\0\0\0\0"
-    "nt_msg.Element.SourceMsgTextElem"
-    "textElemContent"
-  }},
-};
-
-::uint8_t* Element_SourceMsgTextElem::_InternalSerialize(
-    ::uint8_t* target,
-    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+uint8_t* Element_SourceMsgTextElem::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:nt_msg.Element.SourceMsgTextElem)
-  ::uint32_t cached_has_bits = 0;
-  (void)cached_has_bits;
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
 
   // int64 unknown_45001 = 45001;
   if (this->_internal_unknown_45001() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(
-        45001, this->_internal_unknown_45001(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(45001, this->_internal_unknown_45001(), target);
   }
 
   // int32 replyAbsElemType = 45002;
   if (this->_internal_replyabselemtype() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45002, this->_internal_replyabselemtype(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45002, this->_internal_replyabselemtype(), target);
   }
 
   // string textElemContent = 45101;
   if (!this->_internal_textelemcontent().empty()) {
-    const std::string& _s = this->_internal_textelemcontent();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.SourceMsgTextElem.textElemContent");
-    target = stream->WriteStringMaybeAliased(45101, _s, target);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_textelemcontent().data(), static_cast<int>(this->_internal_textelemcontent().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.SourceMsgTextElem.textElemContent");
+    target = stream->WriteStringMaybeAliased(
+        45101, this->_internal_textelemcontent(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target =
-        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:nt_msg.Element.SourceMsgTextElem)
   return target;
 }
 
-::size_t Element_SourceMsgTextElem::ByteSizeLong() const {
+size_t Element_SourceMsgTextElem::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:nt_msg.Element.SourceMsgTextElem)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // string textElemContent = 45101;
   if (!this->_internal_textelemcontent().empty()) {
-    total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                    this->_internal_textelemcontent());
+    total_size += 3 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_textelemcontent());
   }
 
   // int64 unknown_45001 = 45001;
   if (this->_internal_unknown_45001() != 0) {
-    total_size += 3 + ::_pbi::WireFormatLite::Int64Size(
-                                    this->_internal_unknown_45001());
+    total_size += 3 +
+      ::_pbi::WireFormatLite::Int64Size(
+        this->_internal_unknown_45001());
   }
 
   // int32 replyAbsElemType = 45002;
   if (this->_internal_replyabselemtype() != 0) {
-    total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                    this->_internal_replyabselemtype());
+    total_size += 3 +
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_replyabselemtype());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::google::protobuf::Message::ClassData Element_SourceMsgTextElem::_class_data_ = {
-    Element_SourceMsgTextElem::MergeImpl,
-    nullptr,  // OnDemandRegisterArenaDtor
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Element_SourceMsgTextElem::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Element_SourceMsgTextElem::MergeImpl
 };
-const ::google::protobuf::Message::ClassData* Element_SourceMsgTextElem::GetClassData() const {
-  return &_class_data_;
-}
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Element_SourceMsgTextElem::GetClassData() const { return &_class_data_; }
 
-void Element_SourceMsgTextElem::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+
+void Element_SourceMsgTextElem::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<Element_SourceMsgTextElem*>(&to_msg);
   auto& from = static_cast<const Element_SourceMsgTextElem&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:nt_msg.Element.SourceMsgTextElem)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (!from._internal_textelemcontent().empty()) {
@@ -546,7 +500,7 @@ void Element_SourceMsgTextElem::MergeImpl(::google::protobuf::Message& to_msg, c
   if (from._internal_replyabselemtype() != 0) {
     _this->_internal_set_replyabselemtype(from._internal_replyabselemtype());
   }
-  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void Element_SourceMsgTextElem::CopyFrom(const Element_SourceMsgTextElem& from) {
@@ -556,20 +510,20 @@ void Element_SourceMsgTextElem::CopyFrom(const Element_SourceMsgTextElem& from) 
   MergeFrom(from);
 }
 
-PROTOBUF_NOINLINE bool Element_SourceMsgTextElem::IsInitialized() const {
+bool Element_SourceMsgTextElem::IsInitialized() const {
   return true;
 }
 
-::_pbi::CachedSize* Element_SourceMsgTextElem::AccessCachedSize() const {
-  return &_impl_._cached_size_;
-}
-void Element_SourceMsgTextElem::InternalSwap(Element_SourceMsgTextElem* PROTOBUF_RESTRICT other) {
+void Element_SourceMsgTextElem::InternalSwap(Element_SourceMsgTextElem* other) {
   using std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.textelemcontent_, &other->_impl_.textelemcontent_, arena);
-  ::google::protobuf::internal::memswap<
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.textelemcontent_, lhs_arena,
+      &other->_impl_.textelemcontent_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Element_SourceMsgTextElem, _impl_.replyabselemtype_)
       + sizeof(Element_SourceMsgTextElem::_impl_.replyabselemtype_)
       - PROTOBUF_FIELD_OFFSET(Element_SourceMsgTextElem, _impl_.unknown_45001_)>(
@@ -577,18 +531,17 @@ void Element_SourceMsgTextElem::InternalSwap(Element_SourceMsgTextElem* PROTOBUF
           reinterpret_cast<char*>(&other->_impl_.unknown_45001_));
 }
 
-::google::protobuf::Metadata Element_SourceMsgTextElem::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata Element_SourceMsgTextElem::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
       file_level_metadata_message_2eproto[0]);
 }
+
 // ===================================================================
 
 class Element::_Internal {
  public:
   using HasBits = decltype(std::declval<Element>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(Element, _impl_._has_bits_);
   static void set_has_textstr(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
@@ -669,75 +622,202 @@ class Element::_Internal {
   }
 };
 
-Element::Element(::google::protobuf::Arena* arena)
-    : ::google::protobuf::Message(arena) {
-  SharedCtor(arena);
+Element::Element(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:nt_msg.Element)
 }
-inline PROTOBUF_NDEBUG_INLINE Element::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from)
-      : _has_bits_{from._has_bits_},
-        _cached_size_{0},
-        sourcemsgtextelems_{visibility, arena, from.sourcemsgtextelems_},
-        senderuidstr_(arena, from.senderuidstr_),
-        textstr_(arena, from.textstr_),
-        filename_(arena, from.filename_),
-        unknown_45406_(arena, from.unknown_45406_),
-        fileuuid_(arena, from.fileuuid_),
-        imageurl198_(arena, from.imageurl198_),
-        imageurl720_(arena, from.imageurl720_),
-        originimageurl_(arena, from.originimageurl_) {}
+Element::Element(const Element& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Element* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.sourcemsgtextelems_){from._impl_.sourcemsgtextelems_}
+    , decltype(_impl_.senderuidstr_){}
+    , decltype(_impl_.textstr_){}
+    , decltype(_impl_.filename_){}
+    , decltype(_impl_.unknown_45406_){}
+    , decltype(_impl_.fileuuid_){}
+    , decltype(_impl_.imageurl198_){}
+    , decltype(_impl_.imageurl720_){}
+    , decltype(_impl_.originimageurl_){}
+    , decltype(_impl_.elementid_){}
+    , decltype(_impl_.elementtype_){}
+    , decltype(_impl_.attype_){}
+    , decltype(_impl_.filesize_){}
+    , decltype(_impl_.picwidth_){}
+    , decltype(_impl_.picheight_){}
+    , decltype(_impl_.unknown_45413_){}
+    , decltype(_impl_.unknown_45414_){}
+    , decltype(_impl_.pictype_){}
+    , decltype(_impl_.unknown_45418_){}
+    , decltype(_impl_.unknown_45805_){}
+    , decltype(_impl_.unknown_45806_){}
+    , decltype(_impl_.unknown_45807_){}
+    , decltype(_impl_.unknown_45829_){}
+    , decltype(_impl_.replaymsgseq_){}
+    , decltype(_impl_.senderuid_){}
+    , decltype(_impl_.replymsgtime_){}
+    , decltype(_impl_.unknown_47416_){}
+    , decltype(_impl_.unknown_47422_){}
+    , decltype(_impl_.unknown_47411_){}};
 
-Element::Element(
-    ::google::protobuf::Arena* arena,
-    const Element& from)
-    : ::google::protobuf::Message(arena) {
-  Element* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
-  ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, elementid_),
-           reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, elementid_),
-           offsetof(Impl_, unknown_47411_) -
-               offsetof(Impl_, elementid_) +
-               sizeof(Impl_::unknown_47411_));
-
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.senderuidstr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.senderuidstr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_senderuidstr()) {
+    _this->_impl_.senderuidstr_.Set(from._internal_senderuidstr(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.textstr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.textstr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_textstr()) {
+    _this->_impl_.textstr_.Set(from._internal_textstr(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.filename_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.filename_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_filename()) {
+    _this->_impl_.filename_.Set(from._internal_filename(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.unknown_45406_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.unknown_45406_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_unknown_45406()) {
+    _this->_impl_.unknown_45406_.Set(from._internal_unknown_45406(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.fileuuid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.fileuuid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_fileuuid()) {
+    _this->_impl_.fileuuid_.Set(from._internal_fileuuid(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.imageurl198_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.imageurl198_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_imageurl198()) {
+    _this->_impl_.imageurl198_.Set(from._internal_imageurl198(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.imageurl720_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.imageurl720_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_imageurl720()) {
+    _this->_impl_.imageurl720_.Set(from._internal_imageurl720(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.originimageurl_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.originimageurl_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_originimageurl()) {
+    _this->_impl_.originimageurl_.Set(from._internal_originimageurl(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.elementid_, &from._impl_.elementid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.unknown_47411_) -
+    reinterpret_cast<char*>(&_impl_.elementid_)) + sizeof(_impl_.unknown_47411_));
   // @@protoc_insertion_point(copy_constructor:nt_msg.Element)
 }
-inline PROTOBUF_NDEBUG_INLINE Element::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* arena)
-      : _cached_size_{0},
-        sourcemsgtextelems_{visibility, arena},
-        senderuidstr_(arena),
-        textstr_(arena),
-        filename_(arena),
-        unknown_45406_(arena),
-        fileuuid_(arena),
-        imageurl198_(arena),
-        imageurl720_(arena),
-        originimageurl_(arena) {}
 
-inline void Element::SharedCtor(::_pb::Arena* arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, elementid_),
-           0,
-           offsetof(Impl_, unknown_47411_) -
-               offsetof(Impl_, elementid_) +
-               sizeof(Impl_::unknown_47411_));
+inline void Element::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.sourcemsgtextelems_){arena}
+    , decltype(_impl_.senderuidstr_){}
+    , decltype(_impl_.textstr_){}
+    , decltype(_impl_.filename_){}
+    , decltype(_impl_.unknown_45406_){}
+    , decltype(_impl_.fileuuid_){}
+    , decltype(_impl_.imageurl198_){}
+    , decltype(_impl_.imageurl720_){}
+    , decltype(_impl_.originimageurl_){}
+    , decltype(_impl_.elementid_){int64_t{0}}
+    , decltype(_impl_.elementtype_){0}
+    , decltype(_impl_.attype_){0}
+    , decltype(_impl_.filesize_){0}
+    , decltype(_impl_.picwidth_){0}
+    , decltype(_impl_.picheight_){0}
+    , decltype(_impl_.unknown_45413_){0}
+    , decltype(_impl_.unknown_45414_){0}
+    , decltype(_impl_.pictype_){0}
+    , decltype(_impl_.unknown_45418_){0}
+    , decltype(_impl_.unknown_45805_){0}
+    , decltype(_impl_.unknown_45806_){0}
+    , decltype(_impl_.unknown_45807_){0}
+    , decltype(_impl_.unknown_45829_){0}
+    , decltype(_impl_.replaymsgseq_){0}
+    , decltype(_impl_.senderuid_){0}
+    , decltype(_impl_.replymsgtime_){0}
+    , decltype(_impl_.unknown_47416_){int64_t{0}}
+    , decltype(_impl_.unknown_47422_){int64_t{0}}
+    , decltype(_impl_.unknown_47411_){0}
+  };
+  _impl_.senderuidstr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.senderuidstr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.textstr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.textstr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.filename_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.filename_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.unknown_45406_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.unknown_45406_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.fileuuid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.fileuuid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.imageurl198_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.imageurl198_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.imageurl720_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.imageurl720_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.originimageurl_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.originimageurl_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
+
 Element::~Element() {
   // @@protoc_insertion_point(destructor:nt_msg.Element)
-  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
   SharedDtor();
 }
+
 inline void Element::SharedDtor() {
-  ABSL_DCHECK(GetArena() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.sourcemsgtextelems_.~RepeatedPtrField();
   _impl_.senderuidstr_.Destroy();
   _impl_.textstr_.Destroy();
   _impl_.filename_.Destroy();
@@ -746,13 +826,15 @@ inline void Element::SharedDtor() {
   _impl_.imageurl198_.Destroy();
   _impl_.imageurl720_.Destroy();
   _impl_.originimageurl_.Destroy();
-  _impl_.~Impl_();
 }
 
-PROTOBUF_NOINLINE void Element::Clear() {
+void Element::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Element::Clear() {
 // @@protoc_insertion_point(message_clear_start:nt_msg.Element)
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -784,607 +866,786 @@ PROTOBUF_NOINLINE void Element::Clear() {
       _impl_.originimageurl_.ClearNonDefaultToEmpty();
     }
   }
-  ::memset(&_impl_.elementid_, 0, static_cast<::size_t>(
+  ::memset(&_impl_.elementid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.elementtype_) -
       reinterpret_cast<char*>(&_impl_.elementid_)) + sizeof(_impl_.elementtype_));
   if (cached_has_bits & 0x0000ff00u) {
-    ::memset(&_impl_.attype_, 0, static_cast<::size_t>(
+    ::memset(&_impl_.attype_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&_impl_.unknown_45418_) -
         reinterpret_cast<char*>(&_impl_.attype_)) + sizeof(_impl_.unknown_45418_));
   }
   if (cached_has_bits & 0x00ff0000u) {
-    ::memset(&_impl_.unknown_45805_, 0, static_cast<::size_t>(
+    ::memset(&_impl_.unknown_45805_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&_impl_.unknown_47416_) -
         reinterpret_cast<char*>(&_impl_.unknown_45805_)) + sizeof(_impl_.unknown_47416_));
   }
   if (cached_has_bits & 0x03000000u) {
-    ::memset(&_impl_.unknown_47422_, 0, static_cast<::size_t>(
+    ::memset(&_impl_.unknown_47422_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&_impl_.unknown_47411_) -
         reinterpret_cast<char*>(&_impl_.unknown_47422_)) + sizeof(_impl_.unknown_47411_));
   }
   _impl_._has_bits_.Clear();
-  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* Element::_InternalParse(
-    const char* ptr, ::_pbi::ParseContext* ctx) {
-  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+const char* Element::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional string senderUidStr = 40020;
+      case 40020:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 162)) {
+          auto str = _internal_mutable_senderuidstr();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.senderUidStr"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 elementId = 45001;
+      case 45001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _impl_.elementid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 elementType = 45002;
+      case 45002:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _impl_.elementtype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string textStr = 45101;
+      case 45101:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
+          auto str = _internal_mutable_textstr();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.textStr"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 atType = 45102;
+      case 45102:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 112)) {
+          _Internal::set_has_attype(&has_bits);
+          _impl_.attype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string fileName = 45402;
+      case 45402:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 210)) {
+          auto str = _internal_mutable_filename();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.fileName"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 fileSize = 45405;
+      case 45405:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 232)) {
+          _Internal::set_has_filesize(&has_bits);
+          _impl_.filesize_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string unknown_45406 = 45406;
+      case 45406:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 242)) {
+          auto str = _internal_mutable_unknown_45406();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.unknown_45406"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 picWidth = 45411;
+      case 45411:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _Internal::set_has_picwidth(&has_bits);
+          _impl_.picwidth_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 picHeight = 45412;
+      case 45412:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _Internal::set_has_picheight(&has_bits);
+          _impl_.picheight_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_45413 = 45413;
+      case 45413:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _Internal::set_has_unknown_45413(&has_bits);
+          _impl_.unknown_45413_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_45414 = 45414;
+      case 45414:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _Internal::set_has_unknown_45414(&has_bits);
+          _impl_.unknown_45414_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 picType = 45416;
+      case 45416:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+          _Internal::set_has_pictype(&has_bits);
+          _impl_.pictype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_45418 = 45418;
+      case 45418:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _Internal::set_has_unknown_45418(&has_bits);
+          _impl_.unknown_45418_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string fileUuid = 45503;
+      case 45503:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 250)) {
+          auto str = _internal_mutable_fileuuid();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.fileUuid"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string imageUrl198 = 45802;
+      case 45802:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
+          auto str = _internal_mutable_imageurl198();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.imageUrl198"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string imageUrl720 = 45803;
+      case 45803:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          auto str = _internal_mutable_imageurl720();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.imageUrl720"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string originImageUrl = 45804;
+      case 45804:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          auto str = _internal_mutable_originimageurl();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.originImageUrl"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_45805 = 45805;
+      case 45805:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 104)) {
+          _Internal::set_has_unknown_45805(&has_bits);
+          _impl_.unknown_45805_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_45806 = 45806;
+      case 45806:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 112)) {
+          _Internal::set_has_unknown_45806(&has_bits);
+          _impl_.unknown_45806_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_45807 = 45807;
+      case 45807:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 120)) {
+          _Internal::set_has_unknown_45807(&has_bits);
+          _impl_.unknown_45807_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_45829 = 45829;
+      case 45829:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _Internal::set_has_unknown_45829(&has_bits);
+          _impl_.unknown_45829_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 replayMsgSeq = 47402;
+      case 47402:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _Internal::set_has_replaymsgseq(&has_bits);
+          _impl_.replaymsgseq_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 senderUid = 47403;
+      case 47403:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
+          _Internal::set_has_senderuid(&has_bits);
+          _impl_.senderuid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 replyMsgTime = 47404;
+      case 47404:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
+          _Internal::set_has_replymsgtime(&has_bits);
+          _impl_.replymsgtime_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 unknown_47411 = 47411;
+      case 47411:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 152)) {
+          _Internal::set_has_unknown_47411(&has_bits);
+          _impl_.unknown_47411_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int64 unknown_47416 = 47416;
+      case 47416:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 192)) {
+          _Internal::set_has_unknown_47416(&has_bits);
+          _impl_.unknown_47416_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int64 unknown_47422 = 47422;
+      case 47422:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 240)) {
+          _Internal::set_has_unknown_47422(&has_bits);
+          _impl_.unknown_47422_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .nt_msg.Element.SourceMsgTextElem sourceMsgTextElems = 47423;
+      case 47423:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 250)) {
+          ptr = ctx->ParseMessage(_internal_add_sourcemsgtextelems(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
 }
 
-
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 29, 1, 131, 48> Element::_table_ = {
-  {
-    PROTOBUF_FIELD_OFFSET(Element, _impl_._has_bits_),
-    0, // no _extensions_
-    47423, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967295,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    29,  // num_field_entries
-    1,  // num_aux_entries
-    offsetof(decltype(_table_), aux_entries),
-    &_Element_default_instance_._instance,
-    ::_pbi::TcParser::GenericFallback,  // fallback
-  }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-  }}, {{
-    40020, 0, 1,
-    65534, 0,45001, 0, 1,
-     65532, 1,45101, 0, 1,
-     65532, 3,45402, 0, 7,
-     41446, 5, 65534, 13, 65535, 14,
-    65535, 14, 65535, 14, 65535, 14, 65503, 14,45802, 0, 2,
-     65472, 15, 63487, 21,
-    47402, 0, 2,
-    48632, 22, 65487, 27,
-    65535, 65535
-  }}, {{
-    // optional string senderUidStr = 40020;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.senderuidstr_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // int64 elementId = 45001;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.elementid_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // int32 elementType = 45002;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.elementtype_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // optional string textStr = 45101;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.textstr_), _Internal::kHasBitsOffset + 1, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // optional int32 atType = 45102;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.attype_), _Internal::kHasBitsOffset + 8, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional string fileName = 45402;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.filename_), _Internal::kHasBitsOffset + 2, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // optional int32 fileSize = 45405;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.filesize_), _Internal::kHasBitsOffset + 9, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional string unknown_45406 = 45406;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45406_), _Internal::kHasBitsOffset + 3, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // optional int32 picWidth = 45411;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.picwidth_), _Internal::kHasBitsOffset + 10, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 picHeight = 45412;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.picheight_), _Internal::kHasBitsOffset + 11, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 unknown_45413 = 45413;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45413_), _Internal::kHasBitsOffset + 12, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 unknown_45414 = 45414;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45414_), _Internal::kHasBitsOffset + 13, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 picType = 45416;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.pictype_), _Internal::kHasBitsOffset + 14, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 unknown_45418 = 45418;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45418_), _Internal::kHasBitsOffset + 15, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional string fileUuid = 45503;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.fileuuid_), _Internal::kHasBitsOffset + 4, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // optional string imageUrl198 = 45802;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.imageurl198_), _Internal::kHasBitsOffset + 5, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // optional string imageUrl720 = 45803;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.imageurl720_), _Internal::kHasBitsOffset + 6, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // optional string originImageUrl = 45804;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.originimageurl_), _Internal::kHasBitsOffset + 7, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // optional int32 unknown_45805 = 45805;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45805_), _Internal::kHasBitsOffset + 16, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 unknown_45806 = 45806;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45806_), _Internal::kHasBitsOffset + 17, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 unknown_45807 = 45807;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45807_), _Internal::kHasBitsOffset + 18, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 unknown_45829 = 45829;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_45829_), _Internal::kHasBitsOffset + 19, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 replayMsgSeq = 47402;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.replaymsgseq_), _Internal::kHasBitsOffset + 20, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 senderUid = 47403;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.senderuid_), _Internal::kHasBitsOffset + 21, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 replyMsgTime = 47404;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.replymsgtime_), _Internal::kHasBitsOffset + 22, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int32 unknown_47411 = 47411;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_47411_), _Internal::kHasBitsOffset + 25, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-    // optional int64 unknown_47416 = 47416;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_47416_), _Internal::kHasBitsOffset + 23, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt64)},
-    // optional int64 unknown_47422 = 47422;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_47422_), _Internal::kHasBitsOffset + 24, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kInt64)},
-    // repeated .nt_msg.Element.SourceMsgTextElem sourceMsgTextElems = 47423;
-    {PROTOBUF_FIELD_OFFSET(Element, _impl_.sourcemsgtextelems_), -1, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
-  }}, {{
-    {::_pbi::TcParser::GetTable<::nt_msg::Element_SourceMsgTextElem>()},
-  }}, {{
-    "\16\14\0\0\7\0\10\0\15\0\0\0\0\0\0\10\13\13\16\0\0\0\0\0\0\0\0\0\0\0\0\0"
-    "nt_msg.Element"
-    "senderUidStr"
-    "textStr"
-    "fileName"
-    "unknown_45406"
-    "fileUuid"
-    "imageUrl198"
-    "imageUrl720"
-    "originImageUrl"
-  }},
-};
-
-::uint8_t* Element::_InternalSerialize(
-    ::uint8_t* target,
-    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+uint8_t* Element::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:nt_msg.Element)
-  ::uint32_t cached_has_bits = 0;
-  (void)cached_has_bits;
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
   // optional string senderUidStr = 40020;
-  if (cached_has_bits & 0x00000001u) {
-    const std::string& _s = this->_internal_senderuidstr();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.senderUidStr");
-    target = stream->WriteStringMaybeAliased(40020, _s, target);
+  if (_internal_has_senderuidstr()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_senderuidstr().data(), static_cast<int>(this->_internal_senderuidstr().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.senderUidStr");
+    target = stream->WriteStringMaybeAliased(
+        40020, this->_internal_senderuidstr(), target);
   }
 
   // int64 elementId = 45001;
   if (this->_internal_elementid() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(
-        45001, this->_internal_elementid(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(45001, this->_internal_elementid(), target);
   }
 
   // int32 elementType = 45002;
   if (this->_internal_elementtype() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45002, this->_internal_elementtype(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45002, this->_internal_elementtype(), target);
   }
 
   // optional string textStr = 45101;
-  if (cached_has_bits & 0x00000002u) {
-    const std::string& _s = this->_internal_textstr();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.textStr");
-    target = stream->WriteStringMaybeAliased(45101, _s, target);
+  if (_internal_has_textstr()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_textstr().data(), static_cast<int>(this->_internal_textstr().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.textStr");
+    target = stream->WriteStringMaybeAliased(
+        45101, this->_internal_textstr(), target);
   }
 
   // optional int32 atType = 45102;
-  if (cached_has_bits & 0x00000100u) {
+  if (_internal_has_attype()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45102, this->_internal_attype(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45102, this->_internal_attype(), target);
   }
 
   // optional string fileName = 45402;
-  if (cached_has_bits & 0x00000004u) {
-    const std::string& _s = this->_internal_filename();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.fileName");
-    target = stream->WriteStringMaybeAliased(45402, _s, target);
+  if (_internal_has_filename()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_filename().data(), static_cast<int>(this->_internal_filename().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.fileName");
+    target = stream->WriteStringMaybeAliased(
+        45402, this->_internal_filename(), target);
   }
 
   // optional int32 fileSize = 45405;
-  if (cached_has_bits & 0x00000200u) {
+  if (_internal_has_filesize()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45405, this->_internal_filesize(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45405, this->_internal_filesize(), target);
   }
 
   // optional string unknown_45406 = 45406;
-  if (cached_has_bits & 0x00000008u) {
-    const std::string& _s = this->_internal_unknown_45406();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.unknown_45406");
-    target = stream->WriteStringMaybeAliased(45406, _s, target);
+  if (_internal_has_unknown_45406()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_unknown_45406().data(), static_cast<int>(this->_internal_unknown_45406().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.unknown_45406");
+    target = stream->WriteStringMaybeAliased(
+        45406, this->_internal_unknown_45406(), target);
   }
 
   // optional int32 picWidth = 45411;
-  if (cached_has_bits & 0x00000400u) {
+  if (_internal_has_picwidth()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45411, this->_internal_picwidth(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45411, this->_internal_picwidth(), target);
   }
 
   // optional int32 picHeight = 45412;
-  if (cached_has_bits & 0x00000800u) {
+  if (_internal_has_picheight()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45412, this->_internal_picheight(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45412, this->_internal_picheight(), target);
   }
 
   // optional int32 unknown_45413 = 45413;
-  if (cached_has_bits & 0x00001000u) {
+  if (_internal_has_unknown_45413()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45413, this->_internal_unknown_45413(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45413, this->_internal_unknown_45413(), target);
   }
 
   // optional int32 unknown_45414 = 45414;
-  if (cached_has_bits & 0x00002000u) {
+  if (_internal_has_unknown_45414()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45414, this->_internal_unknown_45414(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45414, this->_internal_unknown_45414(), target);
   }
 
   // optional int32 picType = 45416;
-  if (cached_has_bits & 0x00004000u) {
+  if (_internal_has_pictype()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45416, this->_internal_pictype(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45416, this->_internal_pictype(), target);
   }
 
   // optional int32 unknown_45418 = 45418;
-  if (cached_has_bits & 0x00008000u) {
+  if (_internal_has_unknown_45418()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45418, this->_internal_unknown_45418(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45418, this->_internal_unknown_45418(), target);
   }
 
   // optional string fileUuid = 45503;
-  if (cached_has_bits & 0x00000010u) {
-    const std::string& _s = this->_internal_fileuuid();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.fileUuid");
-    target = stream->WriteStringMaybeAliased(45503, _s, target);
+  if (_internal_has_fileuuid()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_fileuuid().data(), static_cast<int>(this->_internal_fileuuid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.fileUuid");
+    target = stream->WriteStringMaybeAliased(
+        45503, this->_internal_fileuuid(), target);
   }
 
   // optional string imageUrl198 = 45802;
-  if (cached_has_bits & 0x00000020u) {
-    const std::string& _s = this->_internal_imageurl198();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.imageUrl198");
-    target = stream->WriteStringMaybeAliased(45802, _s, target);
+  if (_internal_has_imageurl198()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_imageurl198().data(), static_cast<int>(this->_internal_imageurl198().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.imageUrl198");
+    target = stream->WriteStringMaybeAliased(
+        45802, this->_internal_imageurl198(), target);
   }
 
   // optional string imageUrl720 = 45803;
-  if (cached_has_bits & 0x00000040u) {
-    const std::string& _s = this->_internal_imageurl720();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.imageUrl720");
-    target = stream->WriteStringMaybeAliased(45803, _s, target);
+  if (_internal_has_imageurl720()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_imageurl720().data(), static_cast<int>(this->_internal_imageurl720().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.imageUrl720");
+    target = stream->WriteStringMaybeAliased(
+        45803, this->_internal_imageurl720(), target);
   }
 
   // optional string originImageUrl = 45804;
-  if (cached_has_bits & 0x00000080u) {
-    const std::string& _s = this->_internal_originimageurl();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "nt_msg.Element.originImageUrl");
-    target = stream->WriteStringMaybeAliased(45804, _s, target);
+  if (_internal_has_originimageurl()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_originimageurl().data(), static_cast<int>(this->_internal_originimageurl().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.originImageUrl");
+    target = stream->WriteStringMaybeAliased(
+        45804, this->_internal_originimageurl(), target);
   }
 
   // optional int32 unknown_45805 = 45805;
-  if (cached_has_bits & 0x00010000u) {
+  if (_internal_has_unknown_45805()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45805, this->_internal_unknown_45805(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45805, this->_internal_unknown_45805(), target);
   }
 
   // optional int32 unknown_45806 = 45806;
-  if (cached_has_bits & 0x00020000u) {
+  if (_internal_has_unknown_45806()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45806, this->_internal_unknown_45806(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45806, this->_internal_unknown_45806(), target);
   }
 
   // optional int32 unknown_45807 = 45807;
-  if (cached_has_bits & 0x00040000u) {
+  if (_internal_has_unknown_45807()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45807, this->_internal_unknown_45807(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45807, this->_internal_unknown_45807(), target);
   }
 
   // optional int32 unknown_45829 = 45829;
-  if (cached_has_bits & 0x00080000u) {
+  if (_internal_has_unknown_45829()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        45829, this->_internal_unknown_45829(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45829, this->_internal_unknown_45829(), target);
   }
 
   // optional int32 replayMsgSeq = 47402;
-  if (cached_has_bits & 0x00100000u) {
+  if (_internal_has_replaymsgseq()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        47402, this->_internal_replaymsgseq(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(47402, this->_internal_replaymsgseq(), target);
   }
 
   // optional int32 senderUid = 47403;
-  if (cached_has_bits & 0x00200000u) {
+  if (_internal_has_senderuid()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        47403, this->_internal_senderuid(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(47403, this->_internal_senderuid(), target);
   }
 
   // optional int32 replyMsgTime = 47404;
-  if (cached_has_bits & 0x00400000u) {
+  if (_internal_has_replymsgtime()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        47404, this->_internal_replymsgtime(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(47404, this->_internal_replymsgtime(), target);
   }
 
   // optional int32 unknown_47411 = 47411;
-  if (cached_has_bits & 0x02000000u) {
+  if (_internal_has_unknown_47411()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(
-        47411, this->_internal_unknown_47411(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(47411, this->_internal_unknown_47411(), target);
   }
 
   // optional int64 unknown_47416 = 47416;
-  if (cached_has_bits & 0x00800000u) {
+  if (_internal_has_unknown_47416()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(
-        47416, this->_internal_unknown_47416(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(47416, this->_internal_unknown_47416(), target);
   }
 
   // optional int64 unknown_47422 = 47422;
-  if (cached_has_bits & 0x01000000u) {
+  if (_internal_has_unknown_47422()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(
-        47422, this->_internal_unknown_47422(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(47422, this->_internal_unknown_47422(), target);
   }
 
   // repeated .nt_msg.Element.SourceMsgTextElem sourceMsgTextElems = 47423;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_sourcemsgtextelems_size()); i < n; i++) {
-    const auto& repfield = this->_internal_sourcemsgtextelems().Get(i);
-    target = ::google::protobuf::internal::WireFormatLite::
+    const auto& repfield = this->_internal_sourcemsgtextelems(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
         InternalWriteMessage(47423, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target =
-        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:nt_msg.Element)
   return target;
 }
 
-::size_t Element::ByteSizeLong() const {
+size_t Element::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:nt_msg.Element)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // repeated .nt_msg.Element.SourceMsgTextElem sourceMsgTextElems = 47423;
   total_size += 3UL * this->_internal_sourcemsgtextelems_size();
-  for (const auto& msg : this->_internal_sourcemsgtextelems()) {
+  for (const auto& msg : this->_impl_.sourcemsgtextelems_) {
     total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
+
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
     // optional string senderUidStr = 40020;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_senderuidstr());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_senderuidstr());
     }
 
     // optional string textStr = 45101;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_textstr());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_textstr());
     }
 
     // optional string fileName = 45402;
     if (cached_has_bits & 0x00000004u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_filename());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_filename());
     }
 
     // optional string unknown_45406 = 45406;
     if (cached_has_bits & 0x00000008u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_unknown_45406());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_unknown_45406());
     }
 
     // optional string fileUuid = 45503;
     if (cached_has_bits & 0x00000010u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_fileuuid());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_fileuuid());
     }
 
     // optional string imageUrl198 = 45802;
     if (cached_has_bits & 0x00000020u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_imageurl198());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_imageurl198());
     }
 
     // optional string imageUrl720 = 45803;
     if (cached_has_bits & 0x00000040u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_imageurl720());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_imageurl720());
     }
 
     // optional string originImageUrl = 45804;
     if (cached_has_bits & 0x00000080u) {
-      total_size += 3 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                      this->_internal_originimageurl());
+      total_size += 3 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_originimageurl());
     }
 
   }
   // int64 elementId = 45001;
   if (this->_internal_elementid() != 0) {
-    total_size += 3 + ::_pbi::WireFormatLite::Int64Size(
-                                    this->_internal_elementid());
+    total_size += 3 +
+      ::_pbi::WireFormatLite::Int64Size(
+        this->_internal_elementid());
   }
 
   // int32 elementType = 45002;
   if (this->_internal_elementtype() != 0) {
-    total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                    this->_internal_elementtype());
+    total_size += 3 +
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_elementtype());
   }
 
   if (cached_has_bits & 0x0000ff00u) {
     // optional int32 atType = 45102;
     if (cached_has_bits & 0x00000100u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_attype());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_attype());
     }
 
     // optional int32 fileSize = 45405;
     if (cached_has_bits & 0x00000200u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_filesize());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_filesize());
     }
 
     // optional int32 picWidth = 45411;
     if (cached_has_bits & 0x00000400u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_picwidth());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_picwidth());
     }
 
     // optional int32 picHeight = 45412;
     if (cached_has_bits & 0x00000800u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_picheight());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_picheight());
     }
 
     // optional int32 unknown_45413 = 45413;
     if (cached_has_bits & 0x00001000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_45413());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_45413());
     }
 
     // optional int32 unknown_45414 = 45414;
     if (cached_has_bits & 0x00002000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_45414());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_45414());
     }
 
     // optional int32 picType = 45416;
     if (cached_has_bits & 0x00004000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_pictype());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_pictype());
     }
 
     // optional int32 unknown_45418 = 45418;
     if (cached_has_bits & 0x00008000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_45418());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_45418());
     }
 
   }
   if (cached_has_bits & 0x00ff0000u) {
     // optional int32 unknown_45805 = 45805;
     if (cached_has_bits & 0x00010000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_45805());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_45805());
     }
 
     // optional int32 unknown_45806 = 45806;
     if (cached_has_bits & 0x00020000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_45806());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_45806());
     }
 
     // optional int32 unknown_45807 = 45807;
     if (cached_has_bits & 0x00040000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_45807());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_45807());
     }
 
     // optional int32 unknown_45829 = 45829;
     if (cached_has_bits & 0x00080000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_45829());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_45829());
     }
 
     // optional int32 replayMsgSeq = 47402;
     if (cached_has_bits & 0x00100000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_replaymsgseq());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_replaymsgseq());
     }
 
     // optional int32 senderUid = 47403;
     if (cached_has_bits & 0x00200000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_senderuid());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_senderuid());
     }
 
     // optional int32 replyMsgTime = 47404;
     if (cached_has_bits & 0x00400000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_replymsgtime());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_replymsgtime());
     }
 
     // optional int64 unknown_47416 = 47416;
     if (cached_has_bits & 0x00800000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int64Size(
-                                      this->_internal_unknown_47416());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int64Size(
+          this->_internal_unknown_47416());
     }
 
   }
   if (cached_has_bits & 0x03000000u) {
     // optional int64 unknown_47422 = 47422;
     if (cached_has_bits & 0x01000000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int64Size(
-                                      this->_internal_unknown_47422());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int64Size(
+          this->_internal_unknown_47422());
     }
 
     // optional int32 unknown_47411 = 47411;
     if (cached_has_bits & 0x02000000u) {
-      total_size += 3 + ::_pbi::WireFormatLite::Int32Size(
-                                      this->_internal_unknown_47411());
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_47411());
     }
 
   }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::google::protobuf::Message::ClassData Element::_class_data_ = {
-    Element::MergeImpl,
-    nullptr,  // OnDemandRegisterArenaDtor
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Element::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Element::MergeImpl
 };
-const ::google::protobuf::Message::ClassData* Element::GetClassData() const {
-  return &_class_data_;
-}
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Element::GetClassData() const { return &_class_data_; }
 
-void Element::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+
+void Element::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<Element*>(&to_msg);
   auto& from = static_cast<const Element&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:nt_msg.Element)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_sourcemsgtextelems()->MergeFrom(
-      from._internal_sourcemsgtextelems());
+  _this->_impl_.sourcemsgtextelems_.MergeFrom(from._impl_.sourcemsgtextelems_);
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
     if (cached_has_bits & 0x00000001u) {
@@ -1481,7 +1742,7 @@ void Element::MergeImpl(::google::protobuf::Message& to_msg, const ::google::pro
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
-  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void Element::CopyFrom(const Element& from) {
@@ -1491,29 +1752,50 @@ void Element::CopyFrom(const Element& from) {
   MergeFrom(from);
 }
 
-PROTOBUF_NOINLINE bool Element::IsInitialized() const {
+bool Element::IsInitialized() const {
   return true;
 }
 
-::_pbi::CachedSize* Element::AccessCachedSize() const {
-  return &_impl_._cached_size_;
-}
-void Element::InternalSwap(Element* PROTOBUF_RESTRICT other) {
+void Element::InternalSwap(Element* other) {
   using std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.sourcemsgtextelems_.InternalSwap(&other->_impl_.sourcemsgtextelems_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.senderuidstr_, &other->_impl_.senderuidstr_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.textstr_, &other->_impl_.textstr_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.filename_, &other->_impl_.filename_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.unknown_45406_, &other->_impl_.unknown_45406_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.fileuuid_, &other->_impl_.fileuuid_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.imageurl198_, &other->_impl_.imageurl198_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.imageurl720_, &other->_impl_.imageurl720_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.originimageurl_, &other->_impl_.originimageurl_, arena);
-  ::google::protobuf::internal::memswap<
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.senderuidstr_, lhs_arena,
+      &other->_impl_.senderuidstr_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.textstr_, lhs_arena,
+      &other->_impl_.textstr_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.filename_, lhs_arena,
+      &other->_impl_.filename_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.unknown_45406_, lhs_arena,
+      &other->_impl_.unknown_45406_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.fileuuid_, lhs_arena,
+      &other->_impl_.fileuuid_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.imageurl198_, lhs_arena,
+      &other->_impl_.imageurl198_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.imageurl720_, lhs_arena,
+      &other->_impl_.imageurl720_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.originimageurl_, lhs_arena,
+      &other->_impl_.originimageurl_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_47411_)
       + sizeof(Element::_impl_.unknown_47411_)
       - PROTOBUF_FIELD_OFFSET(Element, _impl_.elementid_)>(
@@ -1521,167 +1803,167 @@ void Element::InternalSwap(Element* PROTOBUF_RESTRICT other) {
           reinterpret_cast<char*>(&other->_impl_.elementid_));
 }
 
-::google::protobuf::Metadata Element::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata Element::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
       file_level_metadata_message_2eproto[1]);
 }
+
 // ===================================================================
 
 class Elements::_Internal {
  public:
 };
 
-Elements::Elements(::google::protobuf::Arena* arena)
-    : ::google::protobuf::Message(arena) {
-  SharedCtor(arena);
+Elements::Elements(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:nt_msg.Elements)
 }
-inline PROTOBUF_NDEBUG_INLINE Elements::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from)
-      : elem_{visibility, arena, from.elem_},
-        _cached_size_{0} {}
+Elements::Elements(const Elements& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Elements* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.elem_){from._impl_.elem_}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
-Elements::Elements(
-    ::google::protobuf::Arena* arena,
-    const Elements& from)
-    : ::google::protobuf::Message(arena) {
-  Elements* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
-
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:nt_msg.Elements)
 }
-inline PROTOBUF_NDEBUG_INLINE Elements::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* arena)
-      : elem_{visibility, arena},
-        _cached_size_{0} {}
 
-inline void Elements::SharedCtor(::_pb::Arena* arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
+inline void Elements::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.elem_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
 }
+
 Elements::~Elements() {
   // @@protoc_insertion_point(destructor:nt_msg.Elements)
-  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
   SharedDtor();
 }
+
 inline void Elements::SharedDtor() {
-  ABSL_DCHECK(GetArena() == nullptr);
-  _impl_.~Impl_();
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.elem_.~RepeatedPtrField();
 }
 
-PROTOBUF_NOINLINE void Elements::Clear() {
+void Elements::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Elements::Clear() {
 // @@protoc_insertion_point(message_clear_start:nt_msg.Elements)
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   _impl_.elem_.Clear();
-  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* Elements::_InternalParse(
-    const char* ptr, ::_pbi::ParseContext* ctx) {
-  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+const char* Elements::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .nt_msg.Element elem = 40800;
+      case 40800:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 2)) {
+          ptr = ctx->ParseMessage(_internal_add_elem(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
   return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
 }
 
-
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 1, 0, 7> Elements::_table_ = {
-  {
-    0,  // no _has_bits_
-    0, // no _extensions_
-    40800, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967295,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
-    1,  // num_aux_entries
-    offsetof(decltype(_table_), aux_entries),
-    &_Elements_default_instance_._instance,
-    ::_pbi::TcParser::GenericFallback,  // fallback
-  }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-  }}, {{
-    40800, 0, 1,
-    65534, 0,
-    65535, 65535
-  }}, {{
-    // repeated .nt_msg.Element elem = 40800;
-    {PROTOBUF_FIELD_OFFSET(Elements, _impl_.elem_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
-  }}, {{
-    {::_pbi::TcParser::GetTable<::nt_msg::Element>()},
-  }}, {{
-  }},
-};
-
-::uint8_t* Elements::_InternalSerialize(
-    ::uint8_t* target,
-    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+uint8_t* Elements::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:nt_msg.Elements)
-  ::uint32_t cached_has_bits = 0;
-  (void)cached_has_bits;
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
 
   // repeated .nt_msg.Element elem = 40800;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_elem_size()); i < n; i++) {
-    const auto& repfield = this->_internal_elem().Get(i);
-    target = ::google::protobuf::internal::WireFormatLite::
+    const auto& repfield = this->_internal_elem(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
         InternalWriteMessage(40800, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target =
-        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:nt_msg.Elements)
   return target;
 }
 
-::size_t Elements::ByteSizeLong() const {
+size_t Elements::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:nt_msg.Elements)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // repeated .nt_msg.Element elem = 40800;
   total_size += 3UL * this->_internal_elem_size();
-  for (const auto& msg : this->_internal_elem()) {
+  for (const auto& msg : this->_impl_.elem_) {
     total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::google::protobuf::Message::ClassData Elements::_class_data_ = {
-    Elements::MergeImpl,
-    nullptr,  // OnDemandRegisterArenaDtor
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Elements::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Elements::MergeImpl
 };
-const ::google::protobuf::Message::ClassData* Elements::GetClassData() const {
-  return &_class_data_;
-}
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Elements::GetClassData() const { return &_class_data_; }
 
-void Elements::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+
+void Elements::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<Elements*>(&to_msg);
   auto& from = static_cast<const Elements&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:nt_msg.Elements)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_elem()->MergeFrom(
-      from._internal_elem());
-  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.elem_.MergeFrom(from._impl_.elem_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void Elements::CopyFrom(const Elements& from) {
@@ -1691,29 +1973,38 @@ void Elements::CopyFrom(const Elements& from) {
   MergeFrom(from);
 }
 
-PROTOBUF_NOINLINE bool Elements::IsInitialized() const {
+bool Elements::IsInitialized() const {
   return true;
 }
 
-::_pbi::CachedSize* Elements::AccessCachedSize() const {
-  return &_impl_._cached_size_;
-}
-void Elements::InternalSwap(Elements* PROTOBUF_RESTRICT other) {
+void Elements::InternalSwap(Elements* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.elem_.InternalSwap(&other->_impl_.elem_);
 }
 
-::google::protobuf::Metadata Elements::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata Elements::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_message_2eproto_getter, &descriptor_table_message_2eproto_once,
       file_level_metadata_message_2eproto[2]);
 }
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace nt_msg
-namespace google {
-namespace protobuf {
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::nt_msg::Element_SourceMsgTextElem*
+Arena::CreateMaybeMessage< ::nt_msg::Element_SourceMsgTextElem >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::nt_msg::Element_SourceMsgTextElem >(arena);
+}
+template<> PROTOBUF_NOINLINE ::nt_msg::Element*
+Arena::CreateMaybeMessage< ::nt_msg::Element >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::nt_msg::Element >(arena);
+}
+template<> PROTOBUF_NOINLINE ::nt_msg::Elements*
+Arena::CreateMaybeMessage< ::nt_msg::Elements >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::nt_msg::Elements >(arena);
+}
+PROTOBUF_NAMESPACE_CLOSE
+
 // @@protoc_insertion_point(global_scope)
-#include "google/protobuf/port_undef.inc"
+#include <google/protobuf/port_undef.inc>

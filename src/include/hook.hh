@@ -4,9 +4,12 @@
 #include "subhook.h"
 #include <cstdint>
 #include <cstring>
-#include <sched.h>
 #include <string>
 #include <vector>
+#ifdef __linux__
+#include <sched.h>
+#elif _WIN32
+#endif
 
 namespace NTNative {
 /**

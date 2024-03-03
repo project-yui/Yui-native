@@ -4,7 +4,9 @@ cmake_policy(SET CMP0042 NEW)
 
 project("nt_native")
 
-include(~/github/vcpkg/scripts/buildsystems/vcpkg.cmake)
+set(VCPKG_ROOT $ENV{VCPKG_ROOT})
+message("VCPKG_ROOT: " ${VCPKG_ROOT})
+include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 
 add_definitions(-DNAPI_VERSION=4)
 set(CMAKE_VERBOSE_MAKEFILE ON)

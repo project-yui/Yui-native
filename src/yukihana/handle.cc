@@ -9,7 +9,6 @@
 #include <sstream>
 #include <sqlite3.h>
 #include <string>
-#include <unistd.h>
 #include <utility>
 #include "../include/handle.hh"
 #include "../include/sqlite3/nt/vdbe.hh"

@@ -5,8 +5,8 @@
 
 namespace NTNative {
 
-#ifdef __linux__
-  std::pair<unsigned long, unsigned long> LinuxHook::get_module_address() {
+#ifdef _WIN32
+  std::pair<unsigned long, unsigned long> WindowsHook::get_module_address() {
     std::string maps_file = "/proc/" + std::to_string(pid) + "/maps";
     
     std::ifstream file(maps_file);

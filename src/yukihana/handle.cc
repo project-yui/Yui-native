@@ -25,7 +25,11 @@ namespace yukihana {
     sqlite3_stmt * stmt;
     NTMem * row;
   };
+  #ifdef __linux__
   std::shared_ptr<NTNative::LinuxHook> hook;
+  #elif _WIN32
+  std::shared_ptr<NTNative::WindowsHook> hook;
+  #endif
   std::map<sqlite3_stmt *, CustomQuery> nt2custom;
   
   typedef int (*stmt_func)(void * 
@@ -67,7 +71,7 @@ namespace yukihana {
       target->n = 0;
       target->z = nullptr;
       target->zMalloc = nullptr;
-      
+
       if (srcData.find(name) == srcData.end()) {
         // if (name == "40600") {
         //   printf("special 40600");

@@ -3,8 +3,8 @@
 #include "./hook.hh"
 
 namespace NTNative {
-#ifdef __linux__
-class LinuxHook: public Hook {
+#ifdef _WIN32
+class WindowsHook: public Hook {
 public:
   /**
    * @brief Construct a new Hook object
@@ -12,7 +12,7 @@ public:
    * @param name 模块名称
    *
    */
-  LinuxHook(pid_t _pid, std::string &name) {
+  WindowsHook(pid_t _pid, std::string &name) {
     pid = _pid;
     m_moduleName = name;
   };

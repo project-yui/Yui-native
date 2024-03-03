@@ -69,8 +69,6 @@ set(SUBHOOK_STATIC ON)
 set(SUBHOOK_INSTALL OFF)
 add_subdirectory(thirds/subhook)
 
-add_subdirectory(thirds/sqlite3)
-
 message("CMAKE_JS_SRC: ${CMAKE_JS_SRC}")
 
 set(MODULE_NAME nt_native)
@@ -91,7 +89,7 @@ add_library(${MODULE_NAME}
         src/include/db/model/group_msg_table.hh
         ${CMAKE_JS_SRC}
         )
-target_link_libraries(${MODULE_NAME} PRIVATE sqlite3)
+target_link_libraries(${MODULE_NAME} PRIVATE unofficial::sqlite3::sqlite3)
 target_link_libraries(${MODULE_NAME} PRIVATE subhook)
 target_link_libraries(${MODULE_NAME} PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 target_link_libraries(${MODULE_NAME} PRIVATE sqlite_orm::sqlite_orm)
@@ -105,8 +103,8 @@ target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 add_executable(test_sqlite
         test/test_sqlite3.cc
 )
-# target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
-target_link_libraries(test_sqlite PRIVATE sqlite3)
+target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
+# target_link_libraries(test_sqlite PRIVATE sqlite3)
 
 
 add_executable(test_protobuf

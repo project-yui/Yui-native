@@ -1,5 +1,7 @@
 {
   "dependencies": [
-    "sqlite-orm"
+    "spdlog",
+    "sqlite-orm",
+    "sqlite3"
   ]
 }

@@ -178,5 +178,6 @@ add_executable(test_orm
 # target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 target_link_libraries(test_orm PRIVATE sqlite_orm::sqlite_orm)
 target_link_libraries(test_orm PRIVATE subhook)
+target_link_libraries(test_orm PRIVATE spdlog::spdlog)
 target_link_libraries(test_orm PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 

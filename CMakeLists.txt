@@ -80,6 +80,21 @@ execute_process(COMMAND
 )
 message("node-addon-api 路径:${NODE_ADDON_API_DIR}")
 
+
+message("生成 QQ.lib")
+if (WIN32)
+    execute_process(COMMAND
+            ${CMAKE_AR} /def:QQ.def /out:QQ.lib /machine:x86 ${CMAKE_STATIC_LINKER_FLAGS}
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
+            COMMAND_ERROR_IS_FATAL ANY
+    )
+    execute_process(COMMAND
+            ${CMAKE_AR} /def:QQ64.def /out:QQ64.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
+            COMMAND_ERROR_IS_FATAL ANY
+    )
+endif()
+
 message("CMAKE_JS_INC: "${CMAKE_JS_INC})
 message("CMAKE_JS_SRC: "${CMAKE_JS_SRC})
 message("CMAKE_JS_LIB: "${CMAKE_JS_LIB})
@@ -98,11 +113,13 @@ add_library(${MODULE_NAME}
         SHARED
         src/include/hook.hh
         src/include/linux_hook.hh
+        src/include/windows_hook.hh
         src/include/db/group_msg_table.hh
         src/proto/message.pb.h
         src/main.cc
         src/hook/hook.cc
         src/hook/linux_hook.cc
+        src/hook/windows_hook.cc
         src/proto/message.pb.cc
         src/test/test_sqlite3.cc
         src/db/group_msg_table.cc
@@ -111,15 +128,26 @@ add_library(${MODULE_NAME}
         src/include/db/model/group_msg_table.hh
         ${CMAKE_JS_SRC}
         )
+if (WIN32)
+    target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ.lib)
+    target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ64.lib)
+endif()
 # target_link_libraries(${MODULE_NAME} PRIVATE unofficial::sqlite3::sqlite3)
-target_link_libraries(${MODULE_NAME} PRIVATE subhook)
-target_link_libraries(${MODULE_NAME} PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
-target_link_libraries(${MODULE_NAME} PRIVATE sqlite_orm::sqlite_orm)
-target_link_libraries(${MODULE_NAME} PRIVATE spdlog::spdlog)
-target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
-
-set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
+if (WIN32)
+    target_link_libraries(${MODULE_NAME} subhook)
+    target_link_libraries(${MODULE_NAME} protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
+    target_link_libraries(${MODULE_NAME} sqlite_orm::sqlite_orm)
+    target_link_libraries(${MODULE_NAME} spdlog::spdlog)
+else()
+    target_link_libraries(${MODULE_NAME} PRIVATE subhook)
+    target_link_libraries(${MODULE_NAME} PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
+    target_link_libraries(${MODULE_NAME} PRIVATE sqlite_orm::sqlite_orm)
+    target_link_libraries(${MODULE_NAME} PRIVATE spdlog::spdlog)
+endif()
 target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
+
+target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
+set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
 ################test##################
 

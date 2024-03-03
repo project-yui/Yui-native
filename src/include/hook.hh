@@ -8,8 +8,8 @@
 #include <vector>
 #ifdef __linux__
 #include <sched.h>
-#elif _WIN32
-
+#endif
+#ifdef _WIN32
 #define pid_t int
 #endif
 

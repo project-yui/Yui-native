@@ -15,7 +15,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
-add_definitions(-DNAPI_VERSION=4 -DSQLITE_DEBUG)
+add_definitions(-DNAPI_VERSION=4)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(PKG_TOOL pnpm)

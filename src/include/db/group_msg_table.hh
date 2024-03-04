@@ -4,6 +4,7 @@
 #include "model/group_msg_table.hh"
 #include "../handle.hh"
 #include <cstdio>
+#include <spdlog/spdlog.h>
 
 
 namespace nt_db {

@@ -24,7 +24,7 @@ set(TARGET_ARCH x64)
 message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
-find_package(protobuf CONFIG REQUIRED)
+find_package(Protobuf CONFIG REQUIRED)
 find_package(SqliteOrm CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
@@ -35,6 +35,7 @@ endif()
 if(WIN32)
     set(PNPM_EXECUTABLE "${PNPM_EXECUTABLE}.CMD")
 endif()
+
 # message("安装 Node 包")
 # execute_process(COMMAND
 #         ${PKG_TOOL} install
@@ -57,7 +58,7 @@ execute_process(COMMAND
 )
 message("获取 CMAKE_JS_SRC 配置: ${CMAKE_JS_SRC}")
 
-message("PNPM_EXECUTABLE: "${PNPM_EXECUTABLE})
+message("PNPM_EXECUTABLE: " ${PNPM_EXECUTABLE})
 execute_process(COMMAND
     ${PNPM_EXECUTABLE} cmake-js print-cmakejs-include --silent -l error
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
@@ -80,7 +81,6 @@ execute_process(COMMAND
 )
 message("node-addon-api 路径:${NODE_ADDON_API_DIR}")
 
-
 message("生成 QQ.lib")
 if (WIN32)
     execute_process(COMMAND
@@ -95,9 +95,9 @@ if (WIN32)
     )
 endif()
 
-message("CMAKE_JS_INC: "${CMAKE_JS_INC})
-message("CMAKE_JS_SRC: "${CMAKE_JS_SRC})
-message("CMAKE_JS_LIB: "${CMAKE_JS_LIB})
+message("CMAKE_JS_INC: " ${CMAKE_JS_INC})
+message("CMAKE_JS_SRC: " ${CMAKE_JS_SRC})
+message("CMAKE_JS_LIB: " ${CMAKE_JS_LIB})
 
 include_directories(${CMAKE_JS_SRC})
 include_directories(${NODE_ADDON_API_DIR})
@@ -149,6 +149,19 @@ target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
+if (MSVC)
+    target_compile_definitions(${MODULE_NAME}
+            PRIVATE
+            WIN32
+            _WIN32
+            WINDOWS
+            _WINDOWS
+            )
+    target_compile_options(${MODULE_NAME}
+            PRIVATE
+            /utf-8
+            )
+endif ()
 
 ################test##################
 

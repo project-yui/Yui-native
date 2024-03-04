@@ -214,6 +214,32 @@ namespace yukihana {
     return result;
   }
 
+  void printNTVdbeInfo(NTVdbe * vdbe) {
+      spdlog::debug("nt col num: {}", vdbe->nResColumn);
+      for (int i = 0; i < vdbe->nResColumn; i++)
+      {
+          spdlog::debug("col[{}]: {}", i+1, vdbe->aColName[i].z);
+          spdlog::debug("------------data---------------");
+          auto cur = vdbe->pResultRow[i];
+
+          if (cur.flags & MEM_Int) {
+              // 数值
+              spdlog::debug("MEM_Int: {}", cur.u.i);
+          }
+          else if (cur.flags & (MEM_Str | MEM_Term)) {
+              // 字符串
+              spdlog::debug("MEM_Str[{}]: {}", cur.n, cur.z);
+          }
+          else if (cur.flags & MEM_Blob) {
+              // 二进制
+              spdlog::debug("MEM_Blob[{}]", cur.n);
+              // *target = rowTest[i];
+          }
+          else {
+              spdlog::debug("not supported!");
+          }
+      }
+  }
   int execute(void* a1,
   void* a2,
   void* a3,
@@ -244,6 +270,7 @@ namespace yukihana {
           auto newRow = conver2NTMem((Vdbe *)customQuery.stmt, ntVdbe);
           ntVdbe->pResultRow = newRow;
           customQuery.row = newRow;
+          spdlog::debug("return");
           return SQLITE_ROW;
         }
         else {
@@ -253,9 +280,11 @@ namespace yukihana {
           sqlite3_close(*(sqlite3 **)customQuery.stmt);
           nt2custom.erase(ntStmt);
         }
+        spdlog::debug("return");
         return SQLITE_DONE;
       }
     }
+    
     // 1. 执行原来的调用
     int ret = fun(a1
         , a2
@@ -264,14 +293,15 @@ namespace yukihana {
         , a5
         , a6
     );
+
     // 2. SQLITE_ROW就返回
     if (ret == SQLITE_ROW) {
       spdlog::debug("SQLITE_ROW return");
+      // printNTVdbeInfo(ntVdbe);
       return ret;
     }
     // 3. 非SQLITE_ROW继续
     
-    // std::cout << "foo(" << (char *)a << "," << *(char **)b << "," << *(char **)c  << "," << (char *)d << ") called" << std::endl;
     spdlog::debug("stmt(...) called: {}", ret);;
     if (ntStmt != nullptr)
     {

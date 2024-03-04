@@ -30,10 +30,10 @@ find_package(spdlog CONFIG REQUIRED)
 
 find_program(PNPM_EXECUTABLE pnpm)
 if(NOT PNPM_EXECUTABLE)
-        message(FATAL_ERROR "pnpm not found!")
+    message(FATAL_ERROR "pnpm not found!")
 endif()
 if(WIN32)
-        set(PNPM_EXECUTABLE "${PNPM_EXECUTABLE}.CMD")
+    set(PNPM_EXECUTABLE "${PNPM_EXECUTABLE}.CMD")
 endif()
 # message("安装 Node 包")
 # execute_process(COMMAND
@@ -44,25 +44,25 @@ message("CMAKE_CXX_FLAGS:${CMAKE_CXX_FLAGS}")
 message("获取 cmake-js 配置")
 message(${PROJECT_SOURCE_DIR})
 execute_process(COMMAND
-        ${PNPM_EXECUTABLE} --silent cmake-js --version
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        OUTPUT_VARIABLE CMAKE_JS_VERSION
-        OUTPUT_STRIP_TRAILING_WHITESPACE
+    ${PNPM_EXECUTABLE} --silent cmake-js --version
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE CMAKE_JS_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 execute_process(COMMAND
-        ${PNPM_EXECUTABLE} cmake-js print-cmakejs-src --arch ${TARGET_ARCH} --silent -l error
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        OUTPUT_VARIABLE CMAKE_JS_SRC
-        OUTPUT_STRIP_TRAILING_WHITESPACE
+    ${PNPM_EXECUTABLE} cmake-js print-cmakejs-src --arch ${TARGET_ARCH} --silent -l error
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE CMAKE_JS_SRC
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 message("获取 CMAKE_JS_SRC 配置: ${CMAKE_JS_SRC}")
 
 message("PNPM_EXECUTABLE: "${PNPM_EXECUTABLE})
 execute_process(COMMAND
-        ${PNPM_EXECUTABLE} cmake-js print-cmakejs-include --silent -l error
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        OUTPUT_VARIABLE CMAKE_JS_INC
-        OUTPUT_STRIP_TRAILING_WHITESPACE
+    ${PNPM_EXECUTABLE} cmake-js print-cmakejs-include --silent -l error
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE CMAKE_JS_INC
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 # string(REPLACE ";" "\;" CMAKE_JS_INC "${CMAKE_JS_INC}")
 message("CMAKE_JS_INC:" ${CMAKE_JS_INC})
@@ -73,10 +73,10 @@ endforeach()
 
 message("获取 node-addon-api 配置")
 execute_process(COMMAND
-        node -p "require('node-addon-api').include"
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        OUTPUT_VARIABLE NODE_ADDON_API_DIR
-        OUTPUT_STRIP_TRAILING_WHITESPACE
+    node -p "require('node-addon-api').include"
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE NODE_ADDON_API_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 message("node-addon-api 路径:${NODE_ADDON_API_DIR}")
 
@@ -84,14 +84,14 @@ message("node-addon-api 路径:${NODE_ADDON_API_DIR}")
 message("生成 QQ.lib")
 if (WIN32)
     execute_process(COMMAND
-            ${CMAKE_AR} /def:QQ.def /out:QQ.lib /machine:x86 ${CMAKE_STATIC_LINKER_FLAGS}
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-            COMMAND_ERROR_IS_FATAL ANY
+        ${CMAKE_AR} /def:QQ.def /out:QQ.lib /machine:x86 ${CMAKE_STATIC_LINKER_FLAGS}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
+        COMMAND_ERROR_IS_FATAL ANY
     )
     execute_process(COMMAND
-            ${CMAKE_AR} /def:QQ64.def /out:QQ64.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-            COMMAND_ERROR_IS_FATAL ANY
+        ${CMAKE_AR} /def:QQ64.def /out:QQ64.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
+        COMMAND_ERROR_IS_FATAL ANY
     )
 endif()
 
@@ -110,24 +110,24 @@ add_subdirectory(thirds/subhook)
 
 set(MODULE_NAME nt_native)
 add_library(${MODULE_NAME}
-        SHARED
-        src/include/hook.hh
-        src/include/linux_hook.hh
-        src/include/windows_hook.hh
-        src/include/db/group_msg_table.hh
-        src/proto/message.pb.h
-        src/main.cc
-        src/hook/hook.cc
-        src/hook/linux_hook.cc
-        src/hook/windows_hook.cc
-        src/proto/message.pb.cc
-        src/test/test_sqlite3.cc
-        src/db/group_msg_table.cc
-        src/proto/message.pb.cc
-        src/yukihana/handle.cc
-        src/include/db/model/group_msg_table.hh
-        ${CMAKE_JS_SRC}
-        )
+    SHARED
+    src/include/hook.hh
+    src/include/linux_hook.hh
+    src/include/windows_hook.hh
+    src/include/db/group_msg_table.hh
+    src/proto/message.pb.h
+    src/main.cc
+    src/hook/hook.cc
+    src/hook/linux_hook.cc
+    src/hook/windows_hook.cc
+    src/proto/message.pb.cc
+    src/test/test_sqlite3.cc
+    src/db/group_msg_table.cc
+    src/proto/message.pb.cc
+    src/yukihana/handle.cc
+    src/include/db/model/group_msg_table.hh
+    ${CMAKE_JS_SRC}
+    )
 if (WIN32)
     target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ.lib)
     target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ64.lib)
@@ -149,6 +149,7 @@ target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
+
 ################test##################
 
 add_executable(test_sqlite
@@ -159,8 +160,8 @@ target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 
 
 add_executable(test_protobuf
-        test/test_protobuf.cc
-        ./src/proto/message.pb.cc
+    test/test_protobuf.cc
+    ./src/proto/message.pb.cc
 )
 # target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 target_link_libraries(test_protobuf PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)

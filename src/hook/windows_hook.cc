@@ -1,57 +1,49 @@
 #include "../include/windows_hook.hh"
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <utility>
+
+#ifdef _WIN32
+#include <windows.h>
+#include <tlhelp32.h>
+#include <tchar.h>
+#include <psapi.h>
 
 namespace NTNative {
 
-#ifdef _WIN32
+  HMODULE GetProcessModuleHandle(DWORD pid, const char* moduleName){	// 根据 PID 、模块名（需要写后缀，如：".dll"），获取模块入口地址。
+      MODULEENTRY32 moduleEntry;
+      HANDLE handle = NULL;
+      handle = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid); //  获取进程快照中包含在th32ProcessID中指定的进程的所有的模块。
+      if (!handle) {
+          CloseHandle(handle); 
+          return NULL;
+      }
+      ZeroMemory(&moduleEntry, sizeof(MODULEENTRY32));
+      moduleEntry.dwSize = sizeof(MODULEENTRY32);
+      if (!Module32First(handle, &moduleEntry)) {
+          CloseHandle(handle); 
+          return NULL;
+      }
+      do {
+          if (_tcscmp(moduleEntry.szModule, moduleName) == 0) {return moduleEntry.hModule;}
+      } while (Module32Next(handle, &moduleEntry));
+      CloseHandle(handle); 
+      return 0;
+  }
   std::pair<unsigned long, unsigned long> WindowsHook::get_module_address() {
-    // std::string maps_file = "/proc/" + std::to_string(pid) + "/maps";
-    
-    // std::ifstream file(maps_file);
-    // std::pair<unsigned long, unsigned long> ret(0, 0);
+      auto moduleHandle = GetProcessModuleHandle(pid, m_moduleName.c_str());
+      MODULEINFO moduleInfo;
+      typedef BOOL(WINAPI* LPFN_GetModuleInformation)(
+          HANDLE hProcess, HMODULE hModule, LPMODULEINFO lpmodinfo, DWORD cb);
 
-    // if (!file.is_open()) {
-    //   std::cerr << "Failed to open " << maps_file << std::endl;
-    //   return ret;
-    // }
+      HMODULE hPsapi = LoadLibraryW(L"PSAPI.DLL");
+      LPFN_GetModuleInformation pGetModuleInformation = NULL;
+      pGetModuleInformation =
+          (LPFN_GetModuleInformation)GetProcAddress(hPsapi, "GetModuleInformation");
+      pGetModuleInformation(
+          GetCurrentProcess(), moduleHandle, &moduleInfo, sizeof(MODULEINFO));
 
-    // std::string line;
-    // while (std::getline(file, line)) {
-    //   if (line.find(m_moduleName) == std::string::npos)
-    //     continue;
-
-    //   std::istringstream iss(line);
-    //   std::string address_range, perms, offset, dev, inode, pathname;
-    //   unsigned long start, end;
-
-    //   iss >> address_range >> perms >> offset >> dev >> inode;
-    //   std::getline(iss, pathname);
-
-    //   // Remove leading spaces from pathname
-    //   pathname.erase(0, pathname.find_first_not_of(" "));
-
-    //   // Print module address and pathname
-    //   // std::cout << "Address: " << address_range << ", Path: " << pathname <<
-    //   // std::endl;
-
-    //   sscanf(address_range.c_str(), "%lx-%lx", &start, &end);
-    //   // std::cout << "start:" << std::hex << start << "; end:" << std::hex <<
-    //   // end << std::endl;
-    //   if (ret.first == 0) {
-    //     // 第一次
-    //     ret.first = start;
-    //     ret.second = end;
-    //   } else if (ret.second == start) {
-    //     ret.second = end;
-    //   }
-    // }
-
-    // file.close();
-    std::pair<unsigned long, unsigned long> r;
+    std::pair<unsigned long, unsigned long> r((unsigned long)moduleInfo.lpBaseOfDll, (unsigned long)moduleInfo.lpBaseOfDll + moduleInfo.SizeOfImage);
     return r;
   }
-#endif
 } // namespace NTNative
+
+#endif

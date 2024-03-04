@@ -87,9 +87,9 @@ protected:
    * 
    * @param pid 
    * @param targetModule 
-   * @return std::pair<unsigned long, unsigned long> (startAddr, endAddr)
+   * @return std::pair<void *, void *> (startAddr, size)
    */
-  virtual std::pair<unsigned long, unsigned long> get_module_address() = 0;
+  virtual std::pair<void *, long> get_module_address() = 0;
   
   subhook::Hook hook;
   // 进程id

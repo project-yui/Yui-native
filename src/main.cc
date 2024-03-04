@@ -50,7 +50,7 @@ static void convertELements2buf(std::vector<Element>& elems, std::string &output
  * 
  * @param feature_code 
  */
-static void install_hook(std::vector<uint8_t> & feature_code) {
+static bool install_hook(std::vector<uint8_t> & feature_code) {
     spdlog::info("internal install hook");
     
     std::string target = "wrapper.node";
@@ -70,7 +70,7 @@ static void install_hook(std::vector<uint8_t> & feature_code) {
 #ifdef _WIN32
     pid_t p = _getpid();
 #endif
-    spdlog::debug("current pid:%d\n", p);
+    spdlog::debug("current pid: {}\n", p);
     #ifdef __linux__
     yukihana::hook.reset(new NTNative::LinuxHook(p, target));
     #endif
@@ -82,12 +82,12 @@ static void install_hook(std::vector<uint8_t> & feature_code) {
     yukihana::hook->set_signature(feature_code);
 
     spdlog::debug("install\n");
-    yukihana::hook->install((void *)yukihana::execute);
+    return yukihana::hook->install((void *)yukihana::execute);
 }
 
 static Napi::Boolean install(const Napi::CallbackInfo &info) {
   Napi::Env env = info.Env();
-  spdlog::info("check arguments: %d", info.Length());
+  spdlog::info("check arguments: {}", info.Length());
   if (info.Length() < 1) {
     throw Napi::Error::New(env, "arguments error!");
   }
@@ -96,14 +96,14 @@ static Napi::Boolean install(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(env, false);
   }
   auto sig = info[0].As<Napi::Array>();
-  spdlog::debug("length: %d", sig.Length());
+  spdlog::debug("length: {}", sig.Length());
   std::vector<uint8_t> code;
   for (int i=0; i < sig.Length(); i++) {
     uint8_t v = sig.Get(i).ToNumber().Int32Value();
     code.emplace_back(v);
   }
-  install_hook(code);
-  return Napi::Boolean::New(env, true);
+  bool ret = install_hook(code);
+  return Napi::Boolean::New(env, ret);
 }
 
 /**

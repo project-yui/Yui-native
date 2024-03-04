@@ -18,7 +18,7 @@ public:
   };
 
 protected:
-  std::pair<unsigned long, unsigned long> get_module_address();
+  std::pair<void *, long> get_module_address();
 };
 #endif
 

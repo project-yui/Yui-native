@@ -6,11 +6,11 @@
 namespace NTNative {
 
 #ifdef __linux__
-  std::pair<unsigned long, unsigned long> LinuxHook::get_module_address() {
+  std::pair<void *, long> LinuxHook::get_module_address() {
     std::string maps_file = "/proc/" + std::to_string(pid) + "/maps";
     
     std::ifstream file(maps_file);
-    std::pair<unsigned long, unsigned long> ret(0, 0);
+    std::pair<void *, long> ret(0, 0);
 
     if (!file.is_open()) {
       std::cerr << "Failed to open " << maps_file << std::endl;
@@ -18,13 +18,15 @@ namespace NTNative {
     }
 
     std::string line;
+
+    unsigned long long _start, _end;
     while (std::getline(file, line)) {
       if (line.find(m_moduleName) == std::string::npos)
         continue;
 
       std::istringstream iss(line);
       std::string address_range, perms, offset, dev, inode, pathname;
-      unsigned long start, end;
+      unsigned long long start, end;
 
       iss >> address_range >> perms >> offset >> dev >> inode;
       std::getline(iss, pathname);
@@ -36,18 +38,19 @@ namespace NTNative {
       // std::cout << "Address: " << address_range << ", Path: " << pathname <<
       // std::endl;
 
-      sscanf(address_range.c_str(), "%lx-%lx", &start, &end);
+      sscanf(address_range.c_str(), "%llx-%llx", &start, &end);
       // std::cout << "start:" << std::hex << start << "; end:" << std::hex <<
       // end << std::endl;
       if (ret.first == 0) {
         // 第一次
-        ret.first = start;
-        ret.second = end;
-      } else if (ret.second == start) {
-        ret.second = end;
+        _start = start;
+        _end = end;
+      } else if (_end == start) {
+        _end = end;
       }
     }
-
+    ret.first = (void *)_start;
+    ret.second = _end - _start;
     file.close();
     return ret;
   }

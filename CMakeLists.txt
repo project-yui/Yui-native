@@ -81,20 +81,6 @@ execute_process(COMMAND
 )
 message("node-addon-api 路径:${NODE_ADDON_API_DIR}")
 
-message("生成 QQ.lib")
-if (WIN32)
-    execute_process(COMMAND
-        ${CMAKE_AR} /def:QQ.def /out:QQ.lib /machine:x86 ${CMAKE_STATIC_LINKER_FLAGS}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-        COMMAND_ERROR_IS_FATAL ANY
-    )
-    execute_process(COMMAND
-        ${CMAKE_AR} /def:QQ64.def /out:QQ64.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-        COMMAND_ERROR_IS_FATAL ANY
-    )
-endif()
-
 message("CMAKE_JS_INC: " ${CMAKE_JS_INC})
 message("CMAKE_JS_SRC: " ${CMAKE_JS_SRC})
 message("CMAKE_JS_LIB: " ${CMAKE_JS_LIB})
@@ -146,22 +132,8 @@ else()
 endif()
 target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 
-target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
+target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1> $<$<CONFIG:Debug>:SQLITE_DEBUG>)
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
-
-if (MSVC)
-    target_compile_definitions(${MODULE_NAME}
-            PRIVATE
-            WIN32
-            _WIN32
-            WINDOWS
-            _WINDOWS
-            )
-    target_compile_options(${MODULE_NAME}
-            PRIVATE
-            /utf-8
-            )
-endif ()
 
 ################test##################
 
@@ -171,15 +143,12 @@ add_executable(test_sqlite
 target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 # target_link_libraries(test_sqlite PRIVATE sqlite3)
 
-
 add_executable(test_protobuf
     test/test_protobuf.cc
     ./src/proto/message.pb.cc
 )
 # target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 target_link_libraries(test_protobuf PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
-
-
 
 add_executable(test_orm
         test/test_orm.cc

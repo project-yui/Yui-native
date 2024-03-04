@@ -53,7 +53,7 @@ struct sqlite3_value {
   u32 uTemp;          /* Transient storage for serial_type in OP_MakeRecord */
   char *zMalloc;      /* Space to hold MEM_Str or MEM_Blob if szMalloc>0 */
   void (*xDel)(void*);/* Destructor for Mem.z - only valid if MEM_Dyn */
- #ifdef _WIN32// && SQLITE_DEBUG
+ #if defined(_WIN32) && defined(SQLITE_DEBUG)
     Mem *pScopyFrom;    /* This Mem is a shallow copy of pScopyFrom */
     u16 mScopyFlags;    /* flags value immediately after the shallow copy */
  #endif

@@ -19,7 +19,7 @@
 #include "../include/sqlite3/official/vdbe.hh"
 
 namespace yukihana {
-  const char* db_name = "/home/msojocs/ntqq/nt-native/test/test.db";
+  const char* db_name = "D:\\GitHub\\nt-native\\test\\test.db";
   struct CustomQuery {
     sqlite3_stmt * stmt;
     NTMem * row;
@@ -36,15 +36,16 @@ namespace yukihana {
   //  ,int 
   );
   NTMem * conver2NTMem(Vdbe *src, NTVdbe *dest) {
-    spdlog::debug("conver2NTMem: {}", src->nResColumn);
+      int srcColN = sqlite3_column_count((sqlite3_stmt *)src);
+    spdlog::debug("conver2NTMem: {}", srcColN);
     // sleep(2);
     // return rowTest;
     std::map<std::string, Mem*> srcData;
-    for (int i=0; i < src->nResColumn; i++) {
+    for (int i=0; i < srcColN; i++) {
       auto col = src->aColName[i];
-      auto data = src->pResultRow +i;
       spdlog::debug("column name length: {}", col.n);
       spdlog::debug("column name: {}", col.z);
+      auto data = src->pResultRow +i;
       std::string name(col.z);
       srcData.emplace(std::pair<std::string, Mem *>(name, data));
     }
@@ -271,10 +272,9 @@ namespace yukihana {
     // 3. 非SQLITE_ROW继续
     
     // std::cout << "foo(" << (char *)a << "," << *(char **)b << "," << *(char **)c  << "," << (char *)d << ") called" << std::endl;
-    spdlog::debug("stmt(...) called");;
+    spdlog::debug("stmt(...) called: {}", ret);;
     if (ntStmt != nullptr)
     {
-        spdlog::debug("actual sql0 -> {}", *((const char **)a1 + 32));
         spdlog::debug("read from v");
         // 4. 取sql执行
         spdlog::debug("actual sql1 -> {}", ntVdbe->zSql);
@@ -360,7 +360,7 @@ namespace yukihana {
         // 6. 没数据就返回原值
     }
     
-    spdlog::debug("result: %d", ret);
+    spdlog::debug("result: {}", ret);
     return SQLITE_DONE;
 
   }

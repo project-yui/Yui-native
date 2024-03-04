@@ -67,7 +67,9 @@ namespace nt_db {
   class NTDb {
     public:
     NTDb(){
+      spdlog::debug("NTDB sync_schema start");
       storage.sync_schema(true);
+      spdlog::debug("NTDB sync_schema end");
     };
     virtual bool add(T &data) = 0;
   };

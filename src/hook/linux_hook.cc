@@ -19,7 +19,7 @@ namespace NTNative {
 
     std::string line;
 
-    unsigned long long _start, _end;
+    unsigned long long _start = 0, _end = 0;
     while (std::getline(file, line)) {
       if (line.find(m_moduleName) == std::string::npos)
         continue;
@@ -41,7 +41,7 @@ namespace NTNative {
       sscanf(address_range.c_str(), "%llx-%llx", &start, &end);
       // std::cout << "start:" << std::hex << start << "; end:" << std::hex <<
       // end << std::endl;
-      if (ret.first == 0) {
+      if (_start == 0) {
         // 第一次
         _start = start;
         _end = end;

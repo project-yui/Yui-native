@@ -36,26 +36,26 @@ namespace yukihana {
   //  ,int 
   );
   NTMem * conver2NTMem(Vdbe *src, NTVdbe *dest) {
-    spdlog::debug("conver2NTMem: %d", src->nResColumn);
+    spdlog::debug("conver2NTMem: {}", src->nResColumn);
     // sleep(2);
     // return rowTest;
     std::map<std::string, Mem*> srcData;
     for (int i=0; i < src->nResColumn; i++) {
       auto col = src->aColName[i];
       auto data = src->pResultRow +i;
-      spdlog::debug("column name length: %d", col.n);
-      spdlog::debug("column name: %s", col.z);
+      spdlog::debug("column name length: {}", col.n);
+      spdlog::debug("column name: {}", col.z);
       std::string name(col.z);
       srcData.emplace(std::pair<std::string, Mem *>(name, data));
     }
     
-    spdlog::debug("malloc column:%d", dest->nResColumn);
+    spdlog::debug("malloc column: {}", dest->nResColumn);
     NTMem * result = (NTMem *)malloc(sizeof(NTMem) * dest->nResColumn);
 
     spdlog::debug("start copy data");
     for (int i=0; i < dest->nResColumn; i++) {
       auto col = dest->aColName[i];
-      spdlog::debug("[%s]copy data: %d", col.z, i);
+      spdlog::debug("[{}]copy data: {}", col.z, i);
       std::string name(col.z);
       NTMem* target = result + i;
       
@@ -168,7 +168,7 @@ namespace yukihana {
         //   target->zMalloc = "";
         //   continue;
         // }
-        spdlog::debug("not found : %s", name.c_str());
+        spdlog::debug("not found : {}", name.c_str());
         target->n = 0;
         target->flags = MEM_Null;
         target->z = target->zMalloc = nullptr;
@@ -180,7 +180,7 @@ namespace yukihana {
         // 数值
         target->flags = MEM_Int;
         target->u.i = cur->u.i;
-        spdlog::debug("MEM_Int: %ld", cur->u.i);
+        spdlog::debug("MEM_Int: {}", cur->u.i);
       }
       else if (cur->flags & (MEM_Str | MEM_Term)) {
         // 字符串
@@ -189,7 +189,7 @@ namespace yukihana {
         target->n = cur->n;
         target->z = cur->z;
         target->zMalloc = cur->zMalloc;
-        spdlog::debug("MEM_Str[%d]: %s", target->n, cur->z);
+        spdlog::debug("MEM_Str[{}]: {}", target->n, cur->z);
       }
       else if (cur->flags & MEM_Blob) {
         // 二进制
@@ -198,7 +198,7 @@ namespace yukihana {
         target->n = cur->n;
         target->enc = SQLITE_UTF8;
         target->zMalloc = cur->zMalloc;
-        spdlog::debug("MEM_Blob[%d]", target->n);
+        spdlog::debug("MEM_Blob[{}]", target->n);
         // *target = rowTest[i];
       }
       else {
@@ -274,17 +274,17 @@ namespace yukihana {
     spdlog::debug("stmt(...) called");;
     if (ntStmt != nullptr)
     {
-        spdlog::debug("actual sql0 -> %s", *((const char **)a1 + 32));
+        spdlog::debug("actual sql0 -> {}", *((const char **)a1 + 32));
         spdlog::debug("read from v");
         // 4. 取sql执行
-        spdlog::debug("actual sql1 -> %s", ntVdbe->zSql);
+        spdlog::debug("actual sql1 -> {}", ntVdbe->zSql);
         if (ntVdbe->zSql == nullptr) {
             return ret;
         }
         // 5. 有数据就替换stmt的row内容，并返回SQLITE_ROW
         std::string sql(ntVdbe->zSql);
-        spdlog::debug("sql1: %s", sql.c_str());
-        spdlog::debug("ret: %d", ret);
+        spdlog::debug("sql1: {}", sql.c_str());
+        spdlog::debug("ret: {}", ret);
         if (sql.find("SELECT * FROM group_msg_table") != std::string::npos) {
             spdlog::debug("try to read record from custom db!");
             sqlite3 *db = nullptr;
@@ -302,7 +302,7 @@ namespace yukihana {
             // Now we create an SQL command which is stored in an sqlite3_stmt data structure.
             // Note symColName_ is a member of EquityDataLocator
             sqlite3_stmt *newStmt = nullptr;
-            spdlog::debug("try to prepare sql[%ld]: %s", strlen(ntVdbe->zSql), ntVdbe->zSql);
+            spdlog::debug("try to prepare sql[{}]: {}", strlen(ntVdbe->zSql), ntVdbe->zSql);
             rc = sqlite3_prepare_v2(db, ntVdbe->zSql, strlen(ntVdbe->zSql), &newStmt, nullptr);
             if (rc != SQLITE_OK)
             {
@@ -312,7 +312,7 @@ namespace yukihana {
                 return ret;
             }
             auto querySql = sqlite3_sql(newStmt);
-            spdlog::debug("sql:%s", querySql);
+            spdlog::debug("sql: {}", querySql);
             // Vdbe * info = (Vdbe *)stmt;
             
             // Now we retrieve the row

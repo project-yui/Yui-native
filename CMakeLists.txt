@@ -11,15 +11,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+set(VCPKG_TARGET_TRIPLET x64-windows-static)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(PKG_TOOL pnpm)
+set(TARGET_ARCH x64)
 
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
-
-add_definitions(-DNAPI_VERSION=4)
-set(CMAKE_VERBOSE_MAKEFILE ON)
-
-set(PKG_TOOL pnpm)
-set(TARGET_ARCH x64)
 
 message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
@@ -96,7 +96,7 @@ add_subdirectory(thirds/subhook)
 
 set(MODULE_NAME nt_native)
 add_library(${MODULE_NAME}
-    SHARED
+    STATIC
     src/include/hook.hh
     src/include/linux_hook.hh
     src/include/windows_hook.hh
@@ -115,6 +115,17 @@ add_library(${MODULE_NAME}
     ${CMAKE_JS_SRC}
     )
 if (WIN32)
+    message("生成 QQ.lib")
+    execute_process(COMMAND
+        ${CMAKE_AR} /def:QQ.def /out:QQ.lib /machine:x86 ${CMAKE_STATIC_LINKER_FLAGS}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
+        COMMAND_ERROR_IS_FATAL ANY
+    )
+    execute_process(COMMAND
+        ${CMAKE_AR} /def:QQ64.def /out:QQ64.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
+        COMMAND_ERROR_IS_FATAL ANY
+    )
     target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ.lib)
     target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ64.lib)
 endif()

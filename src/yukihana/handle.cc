@@ -15,7 +15,7 @@
 #include "../include/sqlite3/official/vdbe.hh"
 
 namespace yukihana {
-  const char* db_name = "D:\\GitHub\\nt-native\\test\\test.db";
+  const char* db_name = "./yukihana.db";
   struct CustomQuery {
     sqlite3_stmt * stmt;
     NTMem * row;

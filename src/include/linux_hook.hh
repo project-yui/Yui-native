@@ -1,9 +1,9 @@
 #ifndef __LINUX_HOOK_HH__
 #define __LINUX_HOOK_HH__
+#ifdef __linux__
 #include "./hook.hh"
 
 namespace NTNative {
-#ifdef __linux__
 class LinuxHook: public Hook {
 public:
   /**
@@ -20,8 +20,8 @@ public:
 protected:
   std::pair<void *, long> get_module_address();
 };
-#endif
 
 }
 
+#endif
 #endif

@@ -1,6 +1,5 @@
 #ifndef __HANDLE_HH__
 #define __HANDLE_HH__
-#include <map>
 #include <memory>
 #include <sqlite3.h>
 

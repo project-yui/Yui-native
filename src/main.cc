@@ -1,21 +1,12 @@
 #include "include/db/group_msg_table.hh"
 #include "include/nt/element.hh"
-#include "include/nt/message.hh"
-#include "include/sqlite3/nt/vdbe.hh"
-#include "include/sqlite3/nt/sqlite3.hh"
-#include "include/sqlite3/nt/base.hh"
 #include "include/handle.hh"
 #include "proto/message.pb.h"
 #include <cstdint>
 #include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <map>
 #include <memory>
-#include <random>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <stdio.h>
 #ifdef __linux__
 #include "include/linux_hook.hh"
 #include <unistd.h>
@@ -24,8 +15,6 @@
 #include <process.h>
 #include "include/windows_hook.hh"
 #endif
-#include <sstream>
-#include <utility>
 #include <vector>
 #include <napi.h>
 #include <subhook.h>

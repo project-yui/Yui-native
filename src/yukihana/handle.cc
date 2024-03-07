@@ -1,21 +1,17 @@
 
-#include <cstdio>
 #include <cstdlib>
-#include <ios>
-#include <iostream>
 #include <memory>
-#include <random>
 #include <spdlog/spdlog.h>
-#include <sstream>
+#include <map>
 #include <sqlite3.h>
 #include <string>
 #include <utility>
 #include "../include/handle.hh"
-#include "../include/sqlite3/nt/vdbe.hh"
 #include "../include/sqlite3/nt/sqlite3.hh"
 #include "../include/sqlite3/nt/base.hh"
 #include "../include/sqlite3/official/base.hh"
 #include "../include/sqlite3/official/sqlite3.hh"
+#include "../include/sqlite3/nt/vdbe.hh"
 #include "../include/sqlite3/official/vdbe.hh"
 
 namespace yukihana {

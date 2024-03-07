@@ -3,7 +3,6 @@
 #include "sqlite_orm/sqlite_orm.h"
 #include "model/group_msg_table.hh"
 #include "../handle.hh"
-#include <cstdio>
 #include <spdlog/spdlog.h>
 
 

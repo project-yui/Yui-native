@@ -101,5 +101,6 @@
         "complex": "cpp",
         "*.inc": "cpp"
     },
-    "C_Cpp.intelliSenseEngine": "default",
+    // 使用Ninja，可以生成compile_commands.json
+    "cmake.generator": "Ninja"
 }

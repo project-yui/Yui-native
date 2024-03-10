@@ -147,40 +147,74 @@ static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
 
   // Object 转 struct
   nt_model::GroupMsgTable m;
+
+  spdlog::debug("get msgId...");
   auto msgId = data.Get("msgId").As<Napi::String>();
-  m.msgId = atol(msgId.Utf8Value().c_str());
+  m.msgId = atoll(msgId.Utf8Value().c_str());
+
+  spdlog::debug("get msgRandom...");
   auto msgRandom = data.Get("msgRandom").As<Napi::Number>();
   m.msgRandom = msgRandom.Int64Value();
+
+  spdlog::debug("get msgSeq...");
   auto msgSeq = data.Get("msgSeq").As<Napi::Number>();
   m.msgSeq = msgSeq.Int32Value();
+
+  spdlog::debug("get chatType...");
   auto chatType = data.Get("chatType").As<Napi::Number>();
   m.chatType = chatType.Int32Value();
+
+  spdlog::debug("get msgType...");
   auto msgType = data.Get("msgType").As<Napi::Number>();
   m.msgType = msgType.Int32Value();
+
+  spdlog::debug("get subMsgType...");
   auto subMsgType = data.Get("subMsgType").As<Napi::Number>();
   m.subMsgType = subMsgType.Int32Value();
+
+  spdlog::debug("get sendType...");
   auto sendType = data.Get("sendType").As<Napi::Number>();
   m.sendType = sendType.Int32Value();
+
+  spdlog::debug("get senderUid...");
   auto senderUid = data.Get("senderUid").As<Napi::String>();
   m.senderUid = senderUid.Utf8Value();
+
+  spdlog::debug("get peerUid...");
   auto peerUid = data.Get("peerUid").As<Napi::String>();
   m.peerUid = peerUid.Utf8Value();
+
+  spdlog::debug("get msgTime...");
   m.peerUidLong = atol(m.peerUid.c_str());
   auto msgTime = data.Get("msgTime").As<Napi::Number>();
   m.msgTime = msgTime.Int64Value();
+
+  spdlog::debug("get sendStatus...");
   auto sendStatus = data.Get("sendStatus").As<Napi::Number>();
   m.sendStatus = sendStatus.Int32Value();
+
+  spdlog::debug("get sendMemberName...");
   auto sendMemberName = data.Get("sendMemberName").As<Napi::String>();
   m.sendMemberName.reset(new std::string(sendMemberName.Utf8Value()));
+
+  spdlog::debug("get sendNickName...");
   auto sendNickName = data.Get("sendNickName").As<Napi::String>();
   m.sendNickName.reset(new std::string(sendNickName.Utf8Value()));
+
+  spdlog::debug("get elements...");
   // elements
   auto elements = data.Get("elements").As<Napi::Array>();
   convertNapi2Buf(elements, m.elements);
+
+  spdlog::debug("get senderUin...");
   auto senderUin = data.Get("senderUin").As<Napi::Number>();
   m.senderUin = senderUin.Int64Value();
+
+  spdlog::debug("get clientSeq...");
   auto clientSeq = data.Get("clientSeq").As<Napi::Number>();
   m.clientSeq = clientSeq.Int32Value();
+
+  spdlog::debug("get atType...");
   auto atType = data.Get("atType").As<Napi::Number>();
   m.atType = atType.Int32Value();
   m.todayZero = m.msgTime - m.msgTime % (24 * 60 * 60) - 8 * 60 * 60;
@@ -189,8 +223,8 @@ static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
   spdlog::debug("Create db handle...");
   nt_db::GroupMsgTableDb db;
   
-  db.add(m);
-  return Napi::Boolean::New(env, true);
+  auto result = db.add(m);
+  return Napi::Boolean::New(env, result);
 }
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
 

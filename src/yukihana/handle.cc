@@ -256,6 +256,7 @@ namespace yukihana {
     if (ntStmt != nullptr) {
       // 替换
       if (nt2custom.find(ntStmt) != nt2custom.end()) {
+        spdlog::debug("handle found!");
         auto customQuery = nt2custom[ntStmt];
         // 找到sql实例
         int rc = sqlite3_step(customQuery.stmt);
@@ -266,17 +267,27 @@ namespace yukihana {
           auto newRow = conver2NTMem((Vdbe *)customQuery.stmt, ntVdbe);
           ntVdbe->pResultRow = newRow;
           customQuery.row = newRow;
-          spdlog::debug("return");
+          nt2custom[ntStmt] = customQuery;
+          spdlog::debug("return after copy row: {}", (void *)newRow);
           return SQLITE_ROW;
         }
         else {
-          spdlog::debug("no row to copy, free old row and close db.");
-          free(customQuery.row);
+          spdlog::debug("no row to copy, try to free old row and close db.");
+          spdlog::debug("free row... {}", (void *)customQuery.row);
+          if (customQuery.row != nullptr) {
+            free(customQuery.row);
+          }
+          else {
+            spdlog::warn("no row to free, nullptr!!!");
+          }
+          spdlog::debug("sqlite3_finalize...");
           sqlite3_finalize(customQuery.stmt);
+          spdlog::debug("sqlite3_close...");
           sqlite3_close(*(sqlite3 **)customQuery.stmt);
+          spdlog::debug("erase...");
           nt2custom.erase(ntStmt);
         }
-        spdlog::debug("return");
+        spdlog::debug("return after free memory.");
         return SQLITE_DONE;
       }
     }

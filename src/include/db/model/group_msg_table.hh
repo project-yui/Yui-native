@@ -17,14 +17,14 @@ namespace nt_model {
      * 40001
      * 
      */
-    long msgId;
+    int64_t msgId;
 
     /**
      * @brief 
      * 40002
      * 
      */
-    long msgRandom;
+    int64_t msgRandom;
 
     /**
      * @brief 

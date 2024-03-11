@@ -2,7 +2,7 @@
   "dependencies": [
     "protobuf",
     "spdlog",
-    "sqlite-orm",
-    "sqlite3"
+    "sqlite3",
+    "sqlite-orm"
   ]
 }

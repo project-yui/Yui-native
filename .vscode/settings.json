@@ -1,9 +1,5 @@
 {
     "cmake.sourceDirectory": "${workspaceFolder}",
-    "C_Cpp.default.includePath": [
-        "/home/msojocs/github/vcpkg/buildtrees",
-        "/home/msojocs/github/vcpkg/installed/x64-linux/include"
-    ],
     "clangd.path": "clangd",
     "clangd.arguments": [
         // 让 Clangd 生成更详细的日志

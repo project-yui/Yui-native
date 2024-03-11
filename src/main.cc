@@ -229,7 +229,8 @@ static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
 
 #ifdef NATIVE_DEBUG
- spdlog::set_level(spdlog::level::debug);
+  #warning "NATIVE_DEBUG is enabled!"
+  spdlog::set_level(spdlog::level::debug);
 #endif
 
   spdlog::info("module init!");

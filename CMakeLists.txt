@@ -11,11 +11,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-set(VCPKG_TARGET_TRIPLET x64-windows-static)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(PKG_TOOL pnpm)
 set(TARGET_ARCH x64)
 if(MSVC)
+    set(VCPKG_TARGET_TRIPLET x64-windows-static)
     # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/Debug")
     # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/Release")
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -95,10 +95,10 @@ set(SUBHOOK_STATIC ON)
 set(SUBHOOK_INSTALL OFF)
 add_subdirectory(thirds/subhook)
 
-
 set(MODULE_NAME nt_native)
 add_library(${MODULE_NAME}
     SHARED
+    src/include/sqlite3/official/sqlite3.hh
     src/include/hook.hh
     src/include/linux_hook.hh
     src/include/windows_hook.hh
@@ -109,7 +109,6 @@ add_library(${MODULE_NAME}
     src/hook/linux_hook.cc
     src/hook/windows_hook.cc
     src/proto/message.pb.cc
-    src/test/test_sqlite3.cc
     src/db/group_msg_table.cc
     src/proto/message.pb.cc
     src/yukihana/handle.cc

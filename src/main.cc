@@ -103,6 +103,7 @@ static Napi::Boolean install(const Napi::CallbackInfo &info) {
  * @param output 
  */
 static void convertNapi2Buf(Napi::Array &data, std::vector<char>& output) {
+  spdlog::debug("convert elements to protobuf...");
   int cnt = data.Length();
   for (int i=0; i < cnt; i++) {
     auto element = data.Get(i).As<Napi::Object>();

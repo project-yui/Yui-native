@@ -1,6 +1,6 @@
 #!/bin/bash
 
-root_dir=$(cd `dirname $0` && pwd -P)
+root_dir=$(cd `dirname $0`/../.. && pwd -P)
 
 
 # https://github.com/protocolbuffers/protobuf/releases/tag/v21.12

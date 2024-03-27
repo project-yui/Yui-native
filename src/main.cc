@@ -21,6 +21,7 @@
 #include <sqlite3.h>
 #include "test/test_sqlite3.hh"
 #include "spdlog/spdlog.h"
+#include "include/convert.hh"
 
 static void convertELements2buf(std::vector<Element>& elems, std::string &output) {
   nt_msg::Elements elements;
@@ -102,31 +103,31 @@ static Napi::Boolean install(const Napi::CallbackInfo &info) {
  * @param data 
  * @param output 
  */
-static void convertNapi2Buf(Napi::Array &data, std::vector<char>& output) {
-  spdlog::debug("convert elements to protobuf...");
-  int cnt = data.Length();
-  for (int i=0; i < cnt; i++) {
-    auto element = data.Get(i).As<Napi::Object>();
+// static void convertNapi2Buf(Napi::Array &data, std::vector<char>& output) {
+//   spdlog::debug("convert elements to protobuf...");
+//   int cnt = data.Length();
+//   for (int i=0; i < cnt; i++) {
+//     auto element = data.Get(i).As<Napi::Object>();
     
-    nt_msg::Elements elems;
-    auto elem = elems.add_elem();
-    elem->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_TEXT);
+//     nt_msg::Elements elems;
+//     auto elem = elems.add_elem();
+//     elem->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_TEXT);
     
-    auto elementId = element.Get("elementId").As<Napi::String>();
-    elem->set_elementid(atol(elementId.Utf8Value().c_str()));
+//     auto elementId = element.Get("elementId").As<Napi::String>();
+//     elem->set_elementid(atol(elementId.Utf8Value().c_str()));
 
-    auto textElement = element.Get("textElement").As<Napi::Object>();
-    auto textStr = textElement.Get("content").As<Napi::String>();
-    elem->set_textstr(textStr.Utf8Value());
-    elem->set_attype(0);
-    std::string out;
-    elems.SerializeToString(&out);
-    for (int j=0; j < out.length(); j++) {
+//     auto textElement = element.Get("textElement").As<Napi::Object>();
+//     auto textStr = textElement.Get("content").As<Napi::String>();
+//     elem->set_textstr(textStr.Utf8Value());
+//     elem->set_attype(0);
+//     std::string out;
+//     elems.SerializeToString(&out);
+//     for (int j=0; j < out.length(); j++) {
       
-      output.push_back(out[j]);
-    }
-  }
-}
+//       output.push_back(out[j]);
+//     }
+//   }
+// }
 
 /**
  * @brief 添加group消息
@@ -205,7 +206,8 @@ static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
   spdlog::debug("get elements...");
   // elements
   auto elements = data.Get("elements").As<Napi::Array>();
-  convertNapi2Buf(elements, m.elements);
+  // convertNapi2Buf(elements, m.elements);
+  nt_convert::ElementConverter::getInstance().toProtobuf(elements, m.elements);
 
   spdlog::debug("get senderUin...");
   auto senderUin = data.Get("senderUin").As<Napi::Number>();
@@ -230,7 +232,7 @@ static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
 
 #ifdef NATIVE_DEBUG
-  #warning "NATIVE_DEBUG is enabled!"
+  // #warning "NATIVE_DEBUG is enabled!"
   spdlog::set_level(spdlog::level::debug);
 #endif
 

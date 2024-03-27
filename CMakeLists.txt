@@ -98,6 +98,7 @@ set(MODULE_NAME nt_native)
 add_library(${MODULE_NAME}
     SHARED
     src/include/sqlite3/official/sqlite3.hh
+    src/include/convert.hh
     src/include/hook.hh
     src/include/linux_hook.hh
     src/include/windows_hook.hh
@@ -111,6 +112,7 @@ add_library(${MODULE_NAME}
     src/db/group_msg_table.cc
     src/proto/message.pb.cc
     src/yukihana/handle.cc
+    src/yukihana/convert.cc
     src/include/db/model/group_msg_table.hh
     ${CMAKE_JS_SRC}
     )

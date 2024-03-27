@@ -36,6 +36,7 @@ namespace nt_convert {
      */
     void textElement2Protobuf(nt_msg::Element *dest, Napi::Object &src)
     {
+        spdlog::info("convert textElement");
         dest->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_TEXT);
         
         // elementId
@@ -56,6 +57,7 @@ namespace nt_convert {
      */
     void picElement2Protobuf(nt_msg::Element *dest, Napi::Object &src)
     {
+        spdlog::info("convert picElement");
         // export interface PicElementType {
         //     /**
         //     * 0 - 普通图片
@@ -112,7 +114,54 @@ namespace nt_convert {
         //     import_rich_media_context: null,
         //     isFlashPic: boolean
         // }
-        dest->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_TEXT);
+        // {
+        //     "elementType": 2,
+        //     "elementId": "7756194487841896",
+        //     "extBufForUI": "0x",
+        //     "picElement": {
+        //         "md5HexStr": "2330af0b508245a2709620ffd4f2709a",
+        //         "picWidth": 960,
+        //         "picHeight": 782,
+        //         "fileName": "{2330af0b508245a2709620ffd4f2709a}.jpg",
+        //         "fileSize": "74566",
+        //         "original": true,
+        //         "picSubType": 0,
+        //         "sourcePath": "D:\\data\\tim/nt_qq\\nt_data\\Pic\\2024-03\\Ori\\2330af0b508245a2709620ffd4f2709a.jpg",
+        //         "thumbPath": {},
+        //         "picType": 1001,
+        //         "fileUuid": "78770549763",
+        //         "fileSubId": "",
+        //         "thumbFileSize": 0,
+        //         "summary": "",
+        //         "emojiFrom": null,
+        //         "emojiWebUrl": null,
+        //         "emojiAd": {
+        //             "url": "",
+        //             "desc": ""
+        //         },
+        //         "emojiMall": {
+        //             "packageId": 0,
+        //             "emojiId": 0
+        //         },
+        //         "emojiZplan": {
+        //             "actionId": 0,
+        //             "actionName": "",
+        //             "actionType": 0,
+        //             "playerNumber": 0,
+        //             "peerUid": "1",
+        //             "bytesReserveInfo": ""
+        //         },
+        //         "originImageMd5": "",
+        //         "originImageUrl": "",
+        //         "import_rich_media_context": null,
+        //         "isFlashPic": false,
+        //         "transferStatus": 1,
+        //         "progress": 100,
+        //         "invalidState": 0,
+        //         "fileBizId": null,
+        //         "downloadIndex": null
+        //     }
+        dest->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_PIC);
         
         // elementId
         auto elementId = src.Get("elementId").As<Napi::String>();
@@ -124,8 +173,8 @@ namespace nt_convert {
             auto fileName = picElement.Get("fileName").As<Napi::String>();
             dest->set_filename(fileName.Utf8Value());
 
-            auto fileSize = picElement.Get("fileSize").As<Napi::Number>();
-            dest->set_filesize(fileSize.Int32Value());
+            auto fileSize = picElement.Get("fileSize").As<Napi::String>();
+            dest->set_filesize(atol(fileSize.Utf8Value().c_str()));
 
             auto picWidth = picElement.Get("picWidth").As<Napi::Number>();
             dest->set_picwidth(picWidth.Int32Value());
@@ -154,7 +203,8 @@ namespace nt_convert {
 
     }
     ElementConverter& ElementConverter::getInstance() {
-        return ElementConverter::instance;
+        static ElementConverter instance;
+        return instance;
     }
     void ElementConverter::toProtobuf(Napi::Array &data, std::vector<char>& output)
     {
@@ -170,6 +220,7 @@ namespace nt_convert {
             {
                 // void convert(nt_msg::Element *, Napi::Object &);
                 // convert(elem, element);
+                spdlog::info("call to parser...");
                 convertTable[elementType](elem, element);
             }
             else {

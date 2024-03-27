@@ -32,7 +32,6 @@ namespace nt_convert {
         void operator=(const ElementConverter&) = delete;
         std::map<int32_t, convert> convertTable;
 
-        static ElementConverter instance;
     };
     
 }

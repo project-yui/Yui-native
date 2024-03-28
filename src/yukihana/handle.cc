@@ -33,26 +33,26 @@ namespace yukihana {
   );
   NTMem * conver2NTMem(Vdbe *src, NTVdbe *dest) {
       int srcColN = sqlite3_column_count((sqlite3_stmt *)src);
-    spdlog::debug("conver2NTMem: {}", srcColN);
+    // spdlog::debug("conver2NTMem: {}", srcColN);
     // sleep(2);
     // return rowTest;
     std::map<std::string, Mem*> srcData;
     for (int i=0; i < srcColN; i++) {
       auto col = src->aColName[i];
-      spdlog::debug("column name length: {}", col.n);
-      spdlog::debug("column name: {}", col.z);
+      // spdlog::debug("column name length: {}", col.n);
+      // spdlog::debug("column name: {}", col.z);
       auto data = src->pResultRow +i;
       std::string name(col.z);
       srcData.emplace(std::pair<std::string, Mem *>(name, data));
     }
     
-    spdlog::debug("malloc column: {}", dest->nResColumn);
+    // spdlog::debug("malloc column: {}", dest->nResColumn);
     NTMem * result = (NTMem *)malloc(sizeof(NTMem) * dest->nResColumn);
 
-    spdlog::debug("start copy data");
+    // spdlog::debug("start copy data");
     for (int i=0; i < dest->nResColumn; i++) {
       auto col = dest->aColName[i];
-      spdlog::debug("[{}]copy data: {}", col.z, i);
+      // spdlog::debug("[{}]copy data: {}", col.z, i);
       std::string name(col.z);
       NTMem* target = result + i;
       
@@ -165,7 +165,7 @@ namespace yukihana {
         //   target->zMalloc = "";
         //   continue;
         // }
-        spdlog::debug("not found : {}", name.c_str());
+        // spdlog::debug("not found : {}", name.c_str());
         target->n = 0;
         target->flags = MEM_Null;
         target->z = target->zMalloc = nullptr;
@@ -177,7 +177,7 @@ namespace yukihana {
         // 数值
         target->flags = MEM_Int;
         target->u.i = cur->u.i;
-        spdlog::debug("MEM_Int: {}", cur->u.i);
+        // spdlog::debug("MEM_Int: {}", cur->u.i);
       }
       else if (cur->flags & (MEM_Str | MEM_Term)) {
         // 字符串
@@ -186,7 +186,7 @@ namespace yukihana {
         target->n = cur->n;
         target->z = cur->z;
         target->zMalloc = cur->zMalloc;
-        spdlog::debug("MEM_Str[{}]: {}", target->n, cur->z);
+        // spdlog::debug("MEM_Str[{}]: {}", target->n, cur->z);
       }
       else if (cur->flags & MEM_Blob) {
         // 二进制
@@ -195,11 +195,11 @@ namespace yukihana {
         target->n = cur->n;
         target->enc = SQLITE_UTF8;
         target->zMalloc = cur->zMalloc;
-        spdlog::debug("MEM_Blob[{}]", target->n);
+        // spdlog::debug("MEM_Blob[{}]", target->n);
         // *target = rowTest[i];
       }
       else {
-        spdlog::debug("not supported!");
+        // spdlog::debug("not supported!");
         target->z = nullptr;
         target->flags = MEM_Null;
         target->zMalloc = nullptr;
@@ -243,51 +243,51 @@ namespace yukihana {
   void* a5,
   void* a6) {
     
-    spdlog::debug("execute");
+    // spdlog::debug("execute");
     stmt_func fun = (stmt_func)hook->get_trampoline();
     if (fun == nullptr) {
-        spdlog::debug("error nullptr!!!");
+        // spdlog::debug("error nullptr!!!");
         return -1;
     }
     sqlite3_stmt *ntStmt = (sqlite3_stmt *)a1;
     NTVdbe * ntVdbe = (NTVdbe *)ntStmt;
     
-    spdlog::debug("try to find handle");
+    // spdlog::debug("try to find handle");
     if (ntStmt != nullptr) {
       // 替换
       if (nt2custom.find(ntStmt) != nt2custom.end()) {
-        spdlog::debug("handle found!");
+        // spdlog::debug("handle found!");
         auto customQuery = nt2custom[ntStmt];
         // 找到sql实例
         int rc = sqlite3_step(customQuery.stmt);
         if (rc == SQLITE_ROW) {
-          spdlog::debug("continue copy row, free old row");
+          // spdlog::debug("continue copy row, free old row");
           free(customQuery.row);
           int colCount = sqlite3_column_count(customQuery.stmt);
           auto newRow = conver2NTMem((Vdbe *)customQuery.stmt, ntVdbe);
           ntVdbe->pResultRow = newRow;
           customQuery.row = newRow;
           nt2custom[ntStmt] = customQuery;
-          spdlog::debug("return after copy row: {}", (void *)newRow);
+          // spdlog::debug("return after copy row: {}", (void *)newRow);
           return SQLITE_ROW;
         }
         else {
-          spdlog::debug("no row to copy, try to free old row and close db.");
-          spdlog::debug("free row... {}", (void *)customQuery.row);
+          // spdlog::debug("no row to copy, try to free old row and close db.");
+          // spdlog::debug("free row... {}", (void *)customQuery.row);
           if (customQuery.row != nullptr) {
             free(customQuery.row);
           }
           else {
-            spdlog::warn("no row to free, nullptr!!!");
+            // spdlog::warn("no row to free, nullptr!!!");
           }
-          spdlog::debug("sqlite3_finalize...");
+          // spdlog::debug("sqlite3_finalize...");
           sqlite3_finalize(customQuery.stmt);
-          spdlog::debug("sqlite3_close...");
+          // spdlog::debug("sqlite3_close...");
           sqlite3_close(*(sqlite3 **)customQuery.stmt);
-          spdlog::debug("erase...");
+          // spdlog::debug("erase...");
           nt2custom.erase(ntStmt);
         }
-        spdlog::debug("return after free memory.");
+        // spdlog::debug("return after free memory.");
         return SQLITE_DONE;
       }
     }
@@ -303,60 +303,60 @@ namespace yukihana {
 
     // 2. SQLITE_ROW就返回
     if (ret == SQLITE_ROW) {
-      spdlog::debug("SQLITE_ROW return");
+      // spdlog::debug("SQLITE_ROW return");
       // printNTVdbeInfo(ntVdbe);
       return ret;
     }
     // 3. 非SQLITE_ROW继续
     
-    spdlog::debug("stmt(...) called: {}", ret);;
+    // spdlog::debug("stmt(...) called: {}", ret);;
     if (ntStmt != nullptr)
     {
-        spdlog::debug("read from v");
+        // spdlog::debug("read from v");
         // 4. 取sql执行
-        spdlog::debug("actual sql1 -> {}", ntVdbe->zSql);
+        // spdlog::debug("actual sql1 -> {}", ntVdbe->zSql);
         if (ntVdbe->zSql == nullptr) {
             return ret;
         }
         // 5. 有数据就替换stmt的row内容，并返回SQLITE_ROW
         std::string sql(ntVdbe->zSql);
-        spdlog::debug("sql1: {}", sql.c_str());
-        spdlog::debug("ret: {}", ret);
+        // spdlog::debug("sql1: {}", sql.c_str());
+        // spdlog::debug("ret: {}", ret);
         if (sql.find("SELECT * FROM group_msg_table") != std::string::npos) {
-            spdlog::debug("try to read record from custom db!");
+            // spdlog::debug("try to read record from custom db!");
             sqlite3 *db = nullptr;
             const char *vfs = nullptr;
             int rc = 0;
-            spdlog::debug("try to open custom db!");
+            // spdlog::debug("try to open custom db!");
             rc = sqlite3_open_v2(db_name, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, vfs);
             if (rc != SQLITE_OK)
             {
                 sqlite3_close(db);
-                spdlog::debug("failed to open db!");
+                // spdlog::debug("failed to open db!");
                 return ret;
             }
 
             // Now we create an SQL command which is stored in an sqlite3_stmt data structure.
             // Note symColName_ is a member of EquityDataLocator
             sqlite3_stmt *newStmt = nullptr;
-            spdlog::debug("try to prepare sql[{}]: {}", strlen(ntVdbe->zSql), ntVdbe->zSql);
+            // spdlog::debug("try to prepare sql[{}]: {}", strlen(ntVdbe->zSql), ntVdbe->zSql);
             rc = sqlite3_prepare_v2(db, ntVdbe->zSql, strlen(ntVdbe->zSql), &newStmt, nullptr);
             if (rc != SQLITE_OK)
             {
                 sqlite3_finalize(newStmt);
                 sqlite3_close(db);
-                spdlog::debug("failed to prepare sql!");
+                // spdlog::debug("failed to prepare sql!");
                 return ret;
             }
             auto querySql = sqlite3_sql(newStmt);
-            spdlog::debug("sql: {}", querySql);
+            // spdlog::debug("sql: {}", querySql);
             // Vdbe * info = (Vdbe *)stmt;
             
             // Now we retrieve the row
             rc = sqlite3_step(newStmt);
             if (rc == SQLITE_ROW)
             {
-              spdlog::debug("has external data!!");
+              // spdlog::debug("has external data!!");
               // Here we get a pointer to the location text ( stored in the second column of the table )
               // The 1 in sqlite3_column_text( stmt, 1 ) is the column number (zero based).
               // sqlite3_column_text( sqlite_stmt* stmt, int cidx ) returns const unsigned char* so the casts are necessary.
@@ -377,7 +377,7 @@ namespace yukihana {
               //   }
               // }
 
-              spdlog::debug("end!!!");
+              // spdlog::debug("end!!!");
               ntVdbe->pResultRow = newRow;
               // 成功
               CustomQuery q = {newStmt, newRow};
@@ -386,7 +386,7 @@ namespace yukihana {
             }
             else
             {
-              spdlog::debug("close db...");
+              // spdlog::debug("close db...");
               sqlite3_finalize(newStmt);
               sqlite3_close(db);
               return rc;
@@ -397,7 +397,7 @@ namespace yukihana {
         // 6. 没数据就返回原值
     }
     
-    spdlog::debug("result: {}", ret);
+    // spdlog::debug("result: {}", ret);
     return SQLITE_DONE;
 
   }

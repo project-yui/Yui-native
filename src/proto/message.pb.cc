@@ -44,11 +44,12 @@ PROTOBUF_CONSTEXPR Element::Element(
   , /*decltype(_impl_.senderuidstr_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.textstr_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.filename_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.unknown_45406_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.md5_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.fileuuid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.imageurl198_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.imageurl720_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.originimageurl_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.picpath_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.elementid_)*/int64_t{0}
   , /*decltype(_impl_.elementtype_)*/0
   , /*decltype(_impl_.attype_)*/0
@@ -60,15 +61,15 @@ PROTOBUF_CONSTEXPR Element::Element(
   , /*decltype(_impl_.pictype_)*/0
   , /*decltype(_impl_.unknown_45418_)*/0
   , /*decltype(_impl_.unknown_45805_)*/0
-  , /*decltype(_impl_.unknown_45806_)*/0
+  , /*decltype(_impl_.unknown_45806_)*/int64_t{0}
   , /*decltype(_impl_.unknown_45807_)*/0
   , /*decltype(_impl_.unknown_45829_)*/0
   , /*decltype(_impl_.replaymsgseq_)*/0
   , /*decltype(_impl_.senderuid_)*/0
   , /*decltype(_impl_.replymsgtime_)*/0
+  , /*decltype(_impl_.unknown_47411_)*/0
   , /*decltype(_impl_.unknown_47416_)*/int64_t{0}
-  , /*decltype(_impl_.unknown_47422_)*/int64_t{0}
-  , /*decltype(_impl_.unknown_47411_)*/0} {}
+  , /*decltype(_impl_.unknown_47422_)*/int64_t{0}} {}
 struct ElementDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ElementDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -118,7 +119,7 @@ const uint32_t TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.attype_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.filename_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.filesize_),
-  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45406_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.md5_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.picwidth_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.picheight_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45413_),
@@ -132,6 +133,7 @@ const uint32_t TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45805_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45806_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45807_),
+  PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.picpath_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.unknown_45829_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.senderuidstr_),
   PROTOBUF_FIELD_OFFSET(::nt_msg::Element, _impl_.replaymsgseq_),
@@ -144,31 +146,32 @@ const uint32_t TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   ~0u,
   ~0u,
   1,
-  8,
-  2,
   9,
-  3,
+  2,
   10,
+  3,
   11,
   12,
   13,
   14,
   15,
+  16,
   4,
   5,
   6,
   7,
-  16,
   17,
   18,
   19,
-  0,
+  8,
   20,
+  0,
   21,
   22,
-  25,
   23,
   24,
+  25,
+  26,
   ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::nt_msg::Elements, _internal_metadata_),
@@ -180,8 +183,8 @@ const uint32_t TableStruct_message_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::nt_msg::Element_SourceMsgTextElem)},
-  { 9, 44, -1, sizeof(::nt_msg::Element)},
-  { 73, -1, -1, sizeof(::nt_msg::Elements)},
+  { 9, 45, -1, sizeof(::nt_msg::Element)},
+  { 75, -1, -1, sizeof(::nt_msg::Elements)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -191,48 +194,49 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\rmessage.proto\022\006nt_msg\"\225\013\n\007Element\022\023\n\te"
+  "\n\rmessage.proto\022\006nt_msg\"\245\013\n\007Element\022\023\n\te"
   "lementId\030\311\337\002 \001(\003\022\025\n\013elementType\030\312\337\002 \001(\005\022"
   "\026\n\007textStr\030\255\340\002 \001(\tH\000\210\001\001\022\025\n\006atType\030\256\340\002 \001("
   "\005H\001\210\001\001\022\027\n\010fileName\030\332\342\002 \001(\tH\002\210\001\001\022\027\n\010fileS"
-  "ize\030\335\342\002 \001(\005H\003\210\001\001\022\034\n\runknown_45406\030\336\342\002 \001("
-  "\tH\004\210\001\001\022\027\n\010picWidth\030\343\342\002 \001(\005H\005\210\001\001\022\030\n\tpicHe"
-  "ight\030\344\342\002 \001(\005H\006\210\001\001\022\034\n\runknown_45413\030\345\342\002 \001"
-  "(\005H\007\210\001\001\022\034\n\runknown_45414\030\346\342\002 \001(\005H\010\210\001\001\022\026\n"
-  "\007picType\030\350\342\002 \001(\005H\t\210\001\001\022\034\n\runknown_45418\030\352"
-  "\342\002 \001(\005H\n\210\001\001\022\027\n\010fileUuid\030\277\343\002 \001(\tH\013\210\001\001\022\032\n\013"
-  "imageUrl198\030\352\345\002 \001(\tH\014\210\001\001\022\032\n\013imageUrl720\030"
-  "\353\345\002 \001(\tH\r\210\001\001\022\035\n\016originImageUrl\030\354\345\002 \001(\tH\016"
-  "\210\001\001\022\034\n\runknown_45805\030\355\345\002 \001(\005H\017\210\001\001\022\034\n\runk"
-  "nown_45806\030\356\345\002 \001(\005H\020\210\001\001\022\034\n\runknown_45807"
-  "\030\357\345\002 \001(\005H\021\210\001\001\022\034\n\runknown_45829\030\205\346\002 \001(\005H\022"
-  "\210\001\001\022\033\n\014senderUidStr\030\324\270\002 \001(\tH\023\210\001\001\022\033\n\014repl"
-  "ayMsgSeq\030\252\362\002 \001(\005H\024\210\001\001\022\030\n\tsenderUid\030\253\362\002 \001"
-  "(\005H\025\210\001\001\022\033\n\014replyMsgTime\030\254\362\002 \001(\005H\026\210\001\001\022\034\n\r"
-  "unknown_47411\030\263\362\002 \001(\005H\027\210\001\001\022\034\n\runknown_47"
-  "416\030\270\362\002 \001(\003H\030\210\001\001\022\034\n\runknown_47422\030\276\362\002 \001("
-  "\003H\031\210\001\001\022\?\n\022sourceMsgTextElems\030\277\362\002 \003(\0132!.n"
-  "t_msg.Element.SourceMsgTextElem\032c\n\021Sourc"
-  "eMsgTextElem\022\027\n\runknown_45001\030\311\337\002 \001(\003\022\032\n"
-  "\020replyAbsElemType\030\312\337\002 \001(\005\022\031\n\017textElemCon"
-  "tent\030\255\340\002 \001(\t\"B\n\007MsgType\022\022\n\016MSG_TYPE_ERRO"
-  "R\020\000\022\021\n\rMSG_TYPE_TEXT\020\001\022\020\n\014MSG_TYPE_PIC\020\002"
-  "B\n\n\010_textStrB\t\n\007_atTypeB\013\n\t_fileNameB\013\n\t"
-  "_fileSizeB\020\n\016_unknown_45406B\013\n\t_picWidth"
-  "B\014\n\n_picHeightB\020\n\016_unknown_45413B\020\n\016_unk"
-  "nown_45414B\n\n\010_picTypeB\020\n\016_unknown_45418"
-  "B\013\n\t_fileUuidB\016\n\014_imageUrl198B\016\n\014_imageU"
-  "rl720B\021\n\017_originImageUrlB\020\n\016_unknown_458"
-  "05B\020\n\016_unknown_45806B\020\n\016_unknown_45807B\020"
-  "\n\016_unknown_45829B\017\n\r_senderUidStrB\017\n\r_re"
-  "playMsgSeqB\014\n\n_senderUidB\017\n\r_replyMsgTim"
-  "eB\020\n\016_unknown_47411B\020\n\016_unknown_47416B\020\n"
-  "\016_unknown_47422\"+\n\010Elements\022\037\n\004elem\030\340\276\002 "
-  "\003(\0132\017.nt_msg.Elementb\006proto3"
+  "ize\030\335\342\002 \001(\005H\003\210\001\001\022\022\n\003md5\030\336\342\002 \001(\014H\004\210\001\001\022\027\n\010"
+  "picWidth\030\343\342\002 \001(\005H\005\210\001\001\022\030\n\tpicHeight\030\344\342\002 \001"
+  "(\005H\006\210\001\001\022\034\n\runknown_45413\030\345\342\002 \001(\005H\007\210\001\001\022\034\n"
+  "\runknown_45414\030\346\342\002 \001(\005H\010\210\001\001\022\026\n\007picType\030\350"
+  "\342\002 \001(\005H\t\210\001\001\022\034\n\runknown_45418\030\352\342\002 \001(\005H\n\210\001"
+  "\001\022\027\n\010fileUuid\030\277\343\002 \001(\tH\013\210\001\001\022\032\n\013imageUrl19"
+  "8\030\352\345\002 \001(\tH\014\210\001\001\022\032\n\013imageUrl720\030\353\345\002 \001(\tH\r\210"
+  "\001\001\022\035\n\016originImageUrl\030\354\345\002 \001(\tH\016\210\001\001\022\034\n\runk"
+  "nown_45805\030\355\345\002 \001(\005H\017\210\001\001\022\034\n\runknown_45806"
+  "\030\356\345\002 \001(\003H\020\210\001\001\022\034\n\runknown_45807\030\357\345\002 \001(\005H\021"
+  "\210\001\001\022\026\n\007picPath\030\364\345\002 \001(\tH\022\210\001\001\022\034\n\runknown_4"
+  "5829\030\205\346\002 \001(\005H\023\210\001\001\022\033\n\014senderUidStr\030\324\270\002 \001("
+  "\tH\024\210\001\001\022\033\n\014replayMsgSeq\030\252\362\002 \001(\005H\025\210\001\001\022\030\n\ts"
+  "enderUid\030\253\362\002 \001(\005H\026\210\001\001\022\033\n\014replyMsgTime\030\254\362"
+  "\002 \001(\005H\027\210\001\001\022\034\n\runknown_47411\030\263\362\002 \001(\005H\030\210\001\001"
+  "\022\034\n\runknown_47416\030\270\362\002 \001(\003H\031\210\001\001\022\034\n\runknow"
+  "n_47422\030\276\362\002 \001(\003H\032\210\001\001\022\?\n\022sourceMsgTextEle"
+  "ms\030\277\362\002 \003(\0132!.nt_msg.Element.SourceMsgTex"
+  "tElem\032c\n\021SourceMsgTextElem\022\027\n\runknown_45"
+  "001\030\311\337\002 \001(\003\022\032\n\020replyAbsElemType\030\312\337\002 \001(\005\022"
+  "\031\n\017textElemContent\030\255\340\002 \001(\t\"B\n\007MsgType\022\022\n"
+  "\016MSG_TYPE_ERROR\020\000\022\021\n\rMSG_TYPE_TEXT\020\001\022\020\n\014"
+  "MSG_TYPE_PIC\020\002B\n\n\010_textStrB\t\n\007_atTypeB\013\n"
+  "\t_fileNameB\013\n\t_fileSizeB\006\n\004_md5B\013\n\t_picW"
+  "idthB\014\n\n_picHeightB\020\n\016_unknown_45413B\020\n\016"
+  "_unknown_45414B\n\n\010_picTypeB\020\n\016_unknown_4"
+  "5418B\013\n\t_fileUuidB\016\n\014_imageUrl198B\016\n\014_im"
+  "ageUrl720B\021\n\017_originImageUrlB\020\n\016_unknown"
+  "_45805B\020\n\016_unknown_45806B\020\n\016_unknown_458"
+  "07B\n\n\010_picPathB\020\n\016_unknown_45829B\017\n\r_sen"
+  "derUidStrB\017\n\r_replayMsgSeqB\014\n\n_senderUid"
+  "B\017\n\r_replyMsgTimeB\020\n\016_unknown_47411B\020\n\016_"
+  "unknown_47416B\020\n\016_unknown_47422\"+\n\010Eleme"
+  "nts\022\037\n\004elem\030\340\276\002 \003(\0132\017.nt_msg.Elementb\006pr"
+  "oto3"
   ;
 static ::_pbi::once_flag descriptor_table_message_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_message_2eproto = {
-    false, false, 1508, descriptor_table_protodef_message_2eproto,
+    false, false, 1524, descriptor_table_protodef_message_2eproto,
     "message.proto",
     &descriptor_table_message_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_message_2eproto::offsets,
@@ -546,34 +550,34 @@ class Element::_Internal {
     (*has_bits)[0] |= 2u;
   }
   static void set_has_attype(HasBits* has_bits) {
-    (*has_bits)[0] |= 256u;
+    (*has_bits)[0] |= 512u;
   }
   static void set_has_filename(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
   static void set_has_filesize(HasBits* has_bits) {
-    (*has_bits)[0] |= 512u;
+    (*has_bits)[0] |= 1024u;
   }
-  static void set_has_unknown_45406(HasBits* has_bits) {
+  static void set_has_md5(HasBits* has_bits) {
     (*has_bits)[0] |= 8u;
   }
   static void set_has_picwidth(HasBits* has_bits) {
-    (*has_bits)[0] |= 1024u;
-  }
-  static void set_has_picheight(HasBits* has_bits) {
     (*has_bits)[0] |= 2048u;
   }
-  static void set_has_unknown_45413(HasBits* has_bits) {
+  static void set_has_picheight(HasBits* has_bits) {
     (*has_bits)[0] |= 4096u;
   }
-  static void set_has_unknown_45414(HasBits* has_bits) {
+  static void set_has_unknown_45413(HasBits* has_bits) {
     (*has_bits)[0] |= 8192u;
   }
-  static void set_has_pictype(HasBits* has_bits) {
+  static void set_has_unknown_45414(HasBits* has_bits) {
     (*has_bits)[0] |= 16384u;
   }
-  static void set_has_unknown_45418(HasBits* has_bits) {
+  static void set_has_pictype(HasBits* has_bits) {
     (*has_bits)[0] |= 32768u;
+  }
+  static void set_has_unknown_45418(HasBits* has_bits) {
+    (*has_bits)[0] |= 65536u;
   }
   static void set_has_fileuuid(HasBits* has_bits) {
     (*has_bits)[0] |= 16u;
@@ -588,37 +592,40 @@ class Element::_Internal {
     (*has_bits)[0] |= 128u;
   }
   static void set_has_unknown_45805(HasBits* has_bits) {
-    (*has_bits)[0] |= 65536u;
-  }
-  static void set_has_unknown_45806(HasBits* has_bits) {
     (*has_bits)[0] |= 131072u;
   }
-  static void set_has_unknown_45807(HasBits* has_bits) {
+  static void set_has_unknown_45806(HasBits* has_bits) {
     (*has_bits)[0] |= 262144u;
   }
-  static void set_has_unknown_45829(HasBits* has_bits) {
+  static void set_has_unknown_45807(HasBits* has_bits) {
     (*has_bits)[0] |= 524288u;
+  }
+  static void set_has_picpath(HasBits* has_bits) {
+    (*has_bits)[0] |= 256u;
+  }
+  static void set_has_unknown_45829(HasBits* has_bits) {
+    (*has_bits)[0] |= 1048576u;
   }
   static void set_has_senderuidstr(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
   static void set_has_replaymsgseq(HasBits* has_bits) {
-    (*has_bits)[0] |= 1048576u;
-  }
-  static void set_has_senderuid(HasBits* has_bits) {
     (*has_bits)[0] |= 2097152u;
   }
-  static void set_has_replymsgtime(HasBits* has_bits) {
+  static void set_has_senderuid(HasBits* has_bits) {
     (*has_bits)[0] |= 4194304u;
   }
-  static void set_has_unknown_47411(HasBits* has_bits) {
-    (*has_bits)[0] |= 33554432u;
-  }
-  static void set_has_unknown_47416(HasBits* has_bits) {
+  static void set_has_replymsgtime(HasBits* has_bits) {
     (*has_bits)[0] |= 8388608u;
   }
-  static void set_has_unknown_47422(HasBits* has_bits) {
+  static void set_has_unknown_47411(HasBits* has_bits) {
     (*has_bits)[0] |= 16777216u;
+  }
+  static void set_has_unknown_47416(HasBits* has_bits) {
+    (*has_bits)[0] |= 33554432u;
+  }
+  static void set_has_unknown_47422(HasBits* has_bits) {
+    (*has_bits)[0] |= 67108864u;
   }
 };
 
@@ -638,11 +645,12 @@ Element::Element(const Element& from)
     , decltype(_impl_.senderuidstr_){}
     , decltype(_impl_.textstr_){}
     , decltype(_impl_.filename_){}
-    , decltype(_impl_.unknown_45406_){}
+    , decltype(_impl_.md5_){}
     , decltype(_impl_.fileuuid_){}
     , decltype(_impl_.imageurl198_){}
     , decltype(_impl_.imageurl720_){}
     , decltype(_impl_.originimageurl_){}
+    , decltype(_impl_.picpath_){}
     , decltype(_impl_.elementid_){}
     , decltype(_impl_.elementtype_){}
     , decltype(_impl_.attype_){}
@@ -660,9 +668,9 @@ Element::Element(const Element& from)
     , decltype(_impl_.replaymsgseq_){}
     , decltype(_impl_.senderuid_){}
     , decltype(_impl_.replymsgtime_){}
+    , decltype(_impl_.unknown_47411_){}
     , decltype(_impl_.unknown_47416_){}
-    , decltype(_impl_.unknown_47422_){}
-    , decltype(_impl_.unknown_47411_){}};
+    , decltype(_impl_.unknown_47422_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.senderuidstr_.InitDefault();
@@ -689,12 +697,12 @@ Element::Element(const Element& from)
     _this->_impl_.filename_.Set(from._internal_filename(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.unknown_45406_.InitDefault();
+  _impl_.md5_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.unknown_45406_.Set("", GetArenaForAllocation());
+    _impl_.md5_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_unknown_45406()) {
-    _this->_impl_.unknown_45406_.Set(from._internal_unknown_45406(), 
+  if (from._internal_has_md5()) {
+    _this->_impl_.md5_.Set(from._internal_md5(), 
       _this->GetArenaForAllocation());
   }
   _impl_.fileuuid_.InitDefault();
@@ -729,9 +737,17 @@ Element::Element(const Element& from)
     _this->_impl_.originimageurl_.Set(from._internal_originimageurl(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.picpath_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.picpath_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_picpath()) {
+    _this->_impl_.picpath_.Set(from._internal_picpath(), 
+      _this->GetArenaForAllocation());
+  }
   ::memcpy(&_impl_.elementid_, &from._impl_.elementid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.unknown_47411_) -
-    reinterpret_cast<char*>(&_impl_.elementid_)) + sizeof(_impl_.unknown_47411_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.unknown_47422_) -
+    reinterpret_cast<char*>(&_impl_.elementid_)) + sizeof(_impl_.unknown_47422_));
   // @@protoc_insertion_point(copy_constructor:nt_msg.Element)
 }
 
@@ -746,11 +762,12 @@ inline void Element::SharedCtor(
     , decltype(_impl_.senderuidstr_){}
     , decltype(_impl_.textstr_){}
     , decltype(_impl_.filename_){}
-    , decltype(_impl_.unknown_45406_){}
+    , decltype(_impl_.md5_){}
     , decltype(_impl_.fileuuid_){}
     , decltype(_impl_.imageurl198_){}
     , decltype(_impl_.imageurl720_){}
     , decltype(_impl_.originimageurl_){}
+    , decltype(_impl_.picpath_){}
     , decltype(_impl_.elementid_){int64_t{0}}
     , decltype(_impl_.elementtype_){0}
     , decltype(_impl_.attype_){0}
@@ -762,15 +779,15 @@ inline void Element::SharedCtor(
     , decltype(_impl_.pictype_){0}
     , decltype(_impl_.unknown_45418_){0}
     , decltype(_impl_.unknown_45805_){0}
-    , decltype(_impl_.unknown_45806_){0}
+    , decltype(_impl_.unknown_45806_){int64_t{0}}
     , decltype(_impl_.unknown_45807_){0}
     , decltype(_impl_.unknown_45829_){0}
     , decltype(_impl_.replaymsgseq_){0}
     , decltype(_impl_.senderuid_){0}
     , decltype(_impl_.replymsgtime_){0}
+    , decltype(_impl_.unknown_47411_){0}
     , decltype(_impl_.unknown_47416_){int64_t{0}}
     , decltype(_impl_.unknown_47422_){int64_t{0}}
-    , decltype(_impl_.unknown_47411_){0}
   };
   _impl_.senderuidstr_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -784,9 +801,9 @@ inline void Element::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.filename_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.unknown_45406_.InitDefault();
+  _impl_.md5_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.unknown_45406_.Set("", GetArenaForAllocation());
+    _impl_.md5_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.fileuuid_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -803,6 +820,10 @@ inline void Element::SharedCtor(
   _impl_.originimageurl_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.originimageurl_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.picpath_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.picpath_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -821,11 +842,12 @@ inline void Element::SharedDtor() {
   _impl_.senderuidstr_.Destroy();
   _impl_.textstr_.Destroy();
   _impl_.filename_.Destroy();
-  _impl_.unknown_45406_.Destroy();
+  _impl_.md5_.Destroy();
   _impl_.fileuuid_.Destroy();
   _impl_.imageurl198_.Destroy();
   _impl_.imageurl720_.Destroy();
   _impl_.originimageurl_.Destroy();
+  _impl_.picpath_.Destroy();
 }
 
 void Element::SetCachedSize(int size) const {
@@ -851,7 +873,7 @@ void Element::Clear() {
       _impl_.filename_.ClearNonDefaultToEmpty();
     }
     if (cached_has_bits & 0x00000008u) {
-      _impl_.unknown_45406_.ClearNonDefaultToEmpty();
+      _impl_.md5_.ClearNonDefaultToEmpty();
     }
     if (cached_has_bits & 0x00000010u) {
       _impl_.fileuuid_.ClearNonDefaultToEmpty();
@@ -866,23 +888,26 @@ void Element::Clear() {
       _impl_.originimageurl_.ClearNonDefaultToEmpty();
     }
   }
+  if (cached_has_bits & 0x00000100u) {
+    _impl_.picpath_.ClearNonDefaultToEmpty();
+  }
   ::memset(&_impl_.elementid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.elementtype_) -
       reinterpret_cast<char*>(&_impl_.elementid_)) + sizeof(_impl_.elementtype_));
-  if (cached_has_bits & 0x0000ff00u) {
+  if (cached_has_bits & 0x0000fe00u) {
     ::memset(&_impl_.attype_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.unknown_45418_) -
-        reinterpret_cast<char*>(&_impl_.attype_)) + sizeof(_impl_.unknown_45418_));
+        reinterpret_cast<char*>(&_impl_.pictype_) -
+        reinterpret_cast<char*>(&_impl_.attype_)) + sizeof(_impl_.pictype_));
   }
   if (cached_has_bits & 0x00ff0000u) {
-    ::memset(&_impl_.unknown_45805_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.unknown_47416_) -
-        reinterpret_cast<char*>(&_impl_.unknown_45805_)) + sizeof(_impl_.unknown_47416_));
+    ::memset(&_impl_.unknown_45418_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.replymsgtime_) -
+        reinterpret_cast<char*>(&_impl_.unknown_45418_)) + sizeof(_impl_.replymsgtime_));
   }
-  if (cached_has_bits & 0x03000000u) {
-    ::memset(&_impl_.unknown_47422_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.unknown_47411_) -
-        reinterpret_cast<char*>(&_impl_.unknown_47422_)) + sizeof(_impl_.unknown_47411_));
+  if (cached_has_bits & 0x07000000u) {
+    ::memset(&_impl_.unknown_47411_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.unknown_47422_) -
+        reinterpret_cast<char*>(&_impl_.unknown_47411_)) + sizeof(_impl_.unknown_47422_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -959,13 +984,12 @@ const char* Element::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         } else
           goto handle_unusual;
         continue;
-      // optional string unknown_45406 = 45406;
+      // optional bytes md5 = 45406;
       case 45406:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 242)) {
-          auto str = _internal_mutable_unknown_45406();
+          auto str = _internal_mutable_md5();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.unknown_45406"));
         } else
           goto handle_unusual;
         continue;
@@ -1072,11 +1096,11 @@ const char* Element::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         } else
           goto handle_unusual;
         continue;
-      // optional int32 unknown_45806 = 45806;
+      // optional int64 unknown_45806 = 45806;
       case 45806:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 112)) {
           _Internal::set_has_unknown_45806(&has_bits);
-          _impl_.unknown_45806_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.unknown_45806_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1087,6 +1111,16 @@ const char* Element::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
           _Internal::set_has_unknown_45807(&has_bits);
           _impl_.unknown_45807_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string picPath = 45812;
+      case 45812:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 162)) {
+          auto str = _internal_mutable_picpath();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "nt_msg.Element.picPath"));
         } else
           goto handle_unusual;
         continue;
@@ -1245,14 +1279,10 @@ uint8_t* Element::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(45405, this->_internal_filesize(), target);
   }
 
-  // optional string unknown_45406 = 45406;
-  if (_internal_has_unknown_45406()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_unknown_45406().data(), static_cast<int>(this->_internal_unknown_45406().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "nt_msg.Element.unknown_45406");
-    target = stream->WriteStringMaybeAliased(
-        45406, this->_internal_unknown_45406(), target);
+  // optional bytes md5 = 45406;
+  if (_internal_has_md5()) {
+    target = stream->WriteBytesMaybeAliased(
+        45406, this->_internal_md5(), target);
   }
 
   // optional int32 picWidth = 45411;
@@ -1337,16 +1367,26 @@ uint8_t* Element::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(45805, this->_internal_unknown_45805(), target);
   }
 
-  // optional int32 unknown_45806 = 45806;
+  // optional int64 unknown_45806 = 45806;
   if (_internal_has_unknown_45806()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(45806, this->_internal_unknown_45806(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(45806, this->_internal_unknown_45806(), target);
   }
 
   // optional int32 unknown_45807 = 45807;
   if (_internal_has_unknown_45807()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(45807, this->_internal_unknown_45807(), target);
+  }
+
+  // optional string picPath = 45812;
+  if (_internal_has_picpath()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_picpath().data(), static_cast<int>(this->_internal_picpath().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "nt_msg.Element.picPath");
+    target = stream->WriteStringMaybeAliased(
+        45812, this->_internal_picpath(), target);
   }
 
   // optional int32 unknown_45829 = 45829;
@@ -1445,11 +1485,11 @@ size_t Element::ByteSizeLong() const {
           this->_internal_filename());
     }
 
-    // optional string unknown_45406 = 45406;
+    // optional bytes md5 = 45406;
     if (cached_has_bits & 0x00000008u) {
       total_size += 3 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_unknown_45406());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+          this->_internal_md5());
     }
 
     // optional string fileUuid = 45503;
@@ -1481,6 +1521,13 @@ size_t Element::ByteSizeLong() const {
     }
 
   }
+  // optional string picPath = 45812;
+  if (cached_has_bits & 0x00000100u) {
+    total_size += 3 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_picpath());
+  }
+
   // int64 elementId = 45001;
   if (this->_internal_elementid() != 0) {
     total_size += 3 +
@@ -1495,135 +1542,135 @@ size_t Element::ByteSizeLong() const {
         this->_internal_elementtype());
   }
 
-  if (cached_has_bits & 0x0000ff00u) {
+  if (cached_has_bits & 0x0000fe00u) {
     // optional int32 atType = 45102;
-    if (cached_has_bits & 0x00000100u) {
+    if (cached_has_bits & 0x00000200u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_attype());
     }
 
     // optional int32 fileSize = 45405;
-    if (cached_has_bits & 0x00000200u) {
+    if (cached_has_bits & 0x00000400u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_filesize());
     }
 
     // optional int32 picWidth = 45411;
-    if (cached_has_bits & 0x00000400u) {
+    if (cached_has_bits & 0x00000800u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_picwidth());
     }
 
     // optional int32 picHeight = 45412;
-    if (cached_has_bits & 0x00000800u) {
+    if (cached_has_bits & 0x00001000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_picheight());
     }
 
     // optional int32 unknown_45413 = 45413;
-    if (cached_has_bits & 0x00001000u) {
+    if (cached_has_bits & 0x00002000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_unknown_45413());
     }
 
     // optional int32 unknown_45414 = 45414;
-    if (cached_has_bits & 0x00002000u) {
+    if (cached_has_bits & 0x00004000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_unknown_45414());
     }
 
     // optional int32 picType = 45416;
-    if (cached_has_bits & 0x00004000u) {
+    if (cached_has_bits & 0x00008000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_pictype());
     }
 
+  }
+  if (cached_has_bits & 0x00ff0000u) {
     // optional int32 unknown_45418 = 45418;
-    if (cached_has_bits & 0x00008000u) {
+    if (cached_has_bits & 0x00010000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_unknown_45418());
     }
 
-  }
-  if (cached_has_bits & 0x00ff0000u) {
     // optional int32 unknown_45805 = 45805;
-    if (cached_has_bits & 0x00010000u) {
+    if (cached_has_bits & 0x00020000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_unknown_45805());
     }
 
-    // optional int32 unknown_45806 = 45806;
-    if (cached_has_bits & 0x00020000u) {
+    // optional int64 unknown_45806 = 45806;
+    if (cached_has_bits & 0x00040000u) {
       total_size += 3 +
-        ::_pbi::WireFormatLite::Int32Size(
+        ::_pbi::WireFormatLite::Int64Size(
           this->_internal_unknown_45806());
     }
 
     // optional int32 unknown_45807 = 45807;
-    if (cached_has_bits & 0x00040000u) {
+    if (cached_has_bits & 0x00080000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_unknown_45807());
     }
 
     // optional int32 unknown_45829 = 45829;
-    if (cached_has_bits & 0x00080000u) {
+    if (cached_has_bits & 0x00100000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_unknown_45829());
     }
 
     // optional int32 replayMsgSeq = 47402;
-    if (cached_has_bits & 0x00100000u) {
+    if (cached_has_bits & 0x00200000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_replaymsgseq());
     }
 
     // optional int32 senderUid = 47403;
-    if (cached_has_bits & 0x00200000u) {
+    if (cached_has_bits & 0x00400000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_senderuid());
     }
 
     // optional int32 replyMsgTime = 47404;
-    if (cached_has_bits & 0x00400000u) {
+    if (cached_has_bits & 0x00800000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int32Size(
           this->_internal_replymsgtime());
     }
 
+  }
+  if (cached_has_bits & 0x07000000u) {
+    // optional int32 unknown_47411 = 47411;
+    if (cached_has_bits & 0x01000000u) {
+      total_size += 3 +
+        ::_pbi::WireFormatLite::Int32Size(
+          this->_internal_unknown_47411());
+    }
+
     // optional int64 unknown_47416 = 47416;
-    if (cached_has_bits & 0x00800000u) {
+    if (cached_has_bits & 0x02000000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int64Size(
           this->_internal_unknown_47416());
     }
 
-  }
-  if (cached_has_bits & 0x03000000u) {
     // optional int64 unknown_47422 = 47422;
-    if (cached_has_bits & 0x01000000u) {
+    if (cached_has_bits & 0x04000000u) {
       total_size += 3 +
         ::_pbi::WireFormatLite::Int64Size(
           this->_internal_unknown_47422());
-    }
-
-    // optional int32 unknown_47411 = 47411;
-    if (cached_has_bits & 0x02000000u) {
-      total_size += 3 +
-        ::_pbi::WireFormatLite::Int32Size(
-          this->_internal_unknown_47411());
     }
 
   }
@@ -1658,7 +1705,7 @@ void Element::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
       _this->_internal_set_filename(from._internal_filename());
     }
     if (cached_has_bits & 0x00000008u) {
-      _this->_internal_set_unknown_45406(from._internal_unknown_45406());
+      _this->_internal_set_md5(from._internal_md5());
     }
     if (cached_has_bits & 0x00000010u) {
       _this->_internal_set_fileuuid(from._internal_fileuuid());
@@ -1673,72 +1720,75 @@ void Element::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
       _this->_internal_set_originimageurl(from._internal_originimageurl());
     }
   }
+  if (cached_has_bits & 0x00000100u) {
+    _this->_internal_set_picpath(from._internal_picpath());
+  }
   if (from._internal_elementid() != 0) {
     _this->_internal_set_elementid(from._internal_elementid());
   }
   if (from._internal_elementtype() != 0) {
     _this->_internal_set_elementtype(from._internal_elementtype());
   }
-  if (cached_has_bits & 0x0000ff00u) {
-    if (cached_has_bits & 0x00000100u) {
+  if (cached_has_bits & 0x0000fe00u) {
+    if (cached_has_bits & 0x00000200u) {
       _this->_impl_.attype_ = from._impl_.attype_;
     }
-    if (cached_has_bits & 0x00000200u) {
+    if (cached_has_bits & 0x00000400u) {
       _this->_impl_.filesize_ = from._impl_.filesize_;
     }
-    if (cached_has_bits & 0x00000400u) {
+    if (cached_has_bits & 0x00000800u) {
       _this->_impl_.picwidth_ = from._impl_.picwidth_;
     }
-    if (cached_has_bits & 0x00000800u) {
+    if (cached_has_bits & 0x00001000u) {
       _this->_impl_.picheight_ = from._impl_.picheight_;
     }
-    if (cached_has_bits & 0x00001000u) {
+    if (cached_has_bits & 0x00002000u) {
       _this->_impl_.unknown_45413_ = from._impl_.unknown_45413_;
     }
-    if (cached_has_bits & 0x00002000u) {
+    if (cached_has_bits & 0x00004000u) {
       _this->_impl_.unknown_45414_ = from._impl_.unknown_45414_;
     }
-    if (cached_has_bits & 0x00004000u) {
-      _this->_impl_.pictype_ = from._impl_.pictype_;
-    }
     if (cached_has_bits & 0x00008000u) {
-      _this->_impl_.unknown_45418_ = from._impl_.unknown_45418_;
+      _this->_impl_.pictype_ = from._impl_.pictype_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   if (cached_has_bits & 0x00ff0000u) {
     if (cached_has_bits & 0x00010000u) {
-      _this->_impl_.unknown_45805_ = from._impl_.unknown_45805_;
+      _this->_impl_.unknown_45418_ = from._impl_.unknown_45418_;
     }
     if (cached_has_bits & 0x00020000u) {
-      _this->_impl_.unknown_45806_ = from._impl_.unknown_45806_;
+      _this->_impl_.unknown_45805_ = from._impl_.unknown_45805_;
     }
     if (cached_has_bits & 0x00040000u) {
-      _this->_impl_.unknown_45807_ = from._impl_.unknown_45807_;
+      _this->_impl_.unknown_45806_ = from._impl_.unknown_45806_;
     }
     if (cached_has_bits & 0x00080000u) {
-      _this->_impl_.unknown_45829_ = from._impl_.unknown_45829_;
+      _this->_impl_.unknown_45807_ = from._impl_.unknown_45807_;
     }
     if (cached_has_bits & 0x00100000u) {
-      _this->_impl_.replaymsgseq_ = from._impl_.replaymsgseq_;
+      _this->_impl_.unknown_45829_ = from._impl_.unknown_45829_;
     }
     if (cached_has_bits & 0x00200000u) {
-      _this->_impl_.senderuid_ = from._impl_.senderuid_;
+      _this->_impl_.replaymsgseq_ = from._impl_.replaymsgseq_;
     }
     if (cached_has_bits & 0x00400000u) {
-      _this->_impl_.replymsgtime_ = from._impl_.replymsgtime_;
+      _this->_impl_.senderuid_ = from._impl_.senderuid_;
     }
     if (cached_has_bits & 0x00800000u) {
-      _this->_impl_.unknown_47416_ = from._impl_.unknown_47416_;
+      _this->_impl_.replymsgtime_ = from._impl_.replymsgtime_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
-  if (cached_has_bits & 0x03000000u) {
+  if (cached_has_bits & 0x07000000u) {
     if (cached_has_bits & 0x01000000u) {
-      _this->_impl_.unknown_47422_ = from._impl_.unknown_47422_;
+      _this->_impl_.unknown_47411_ = from._impl_.unknown_47411_;
     }
     if (cached_has_bits & 0x02000000u) {
-      _this->_impl_.unknown_47411_ = from._impl_.unknown_47411_;
+      _this->_impl_.unknown_47416_ = from._impl_.unknown_47416_;
+    }
+    if (cached_has_bits & 0x04000000u) {
+      _this->_impl_.unknown_47422_ = from._impl_.unknown_47422_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
@@ -1776,8 +1826,8 @@ void Element::InternalSwap(Element* other) {
       &other->_impl_.filename_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.unknown_45406_, lhs_arena,
-      &other->_impl_.unknown_45406_, rhs_arena
+      &_impl_.md5_, lhs_arena,
+      &other->_impl_.md5_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.fileuuid_, lhs_arena,
@@ -1795,9 +1845,13 @@ void Element::InternalSwap(Element* other) {
       &_impl_.originimageurl_, lhs_arena,
       &other->_impl_.originimageurl_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.picpath_, lhs_arena,
+      &other->_impl_.picpath_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_47411_)
-      + sizeof(Element::_impl_.unknown_47411_)
+      PROTOBUF_FIELD_OFFSET(Element, _impl_.unknown_47422_)
+      + sizeof(Element::_impl_.unknown_47422_)
       - PROTOBUF_FIELD_OFFSET(Element, _impl_.elementid_)>(
           reinterpret_cast<char*>(&_impl_.elementid_),
           reinterpret_cast<char*>(&other->_impl_.elementid_));

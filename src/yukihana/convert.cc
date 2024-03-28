@@ -1,6 +1,7 @@
 #include "../include/convert.hh"
 #include "napi.h"
 #include "spdlog/spdlog.h"
+#include <string>
 
 namespace nt_convert {
     
@@ -48,7 +49,12 @@ namespace nt_convert {
         dest->set_textstr(textStr.Utf8Value());
         dest->set_attype(0);
     }
-
+    void hex_string_to_byte_array(const char *hex_string, char *byte_array, int byte_array_size) {
+        for (int i = 0; i < byte_array_size; i++) {
+            sscanf_s(hex_string + 2 * i, "%2hhx", &byte_array[i]);
+        }
+        byte_array[byte_array_size / 2] = '\0';
+    }
     /**
      * @brief 图片元素转换
      * 
@@ -161,11 +167,11 @@ namespace nt_convert {
         //         "fileBizId": null,
         //         "downloadIndex": null
         //     }
-        dest->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_PIC);
         
         // elementId
         auto elementId = src.Get("elementId").As<Napi::String>();
-        dest->set_elementid(atol(elementId.Utf8Value().c_str()));
+        dest->set_elementid(atoll(elementId.Utf8Value().c_str()));
+        dest->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_PIC);
 
         auto picElement = src.Get("picElement").As<Napi::Object>();
 
@@ -176,20 +182,50 @@ namespace nt_convert {
             auto fileSize = picElement.Get("fileSize").As<Napi::String>();
             dest->set_filesize(atol(fileSize.Utf8Value().c_str()));
 
+            // MD5关键，服务器依据MD5获取图片
+            auto md5 = picElement.Get("md5HexStr").As<Napi::String>().Utf8Value();
+            hex_string_to_byte_array(md5.c_str(), &md5[0], md5.length());
+            dest->set_md5(md5.c_str());
+
             auto picWidth = picElement.Get("picWidth").As<Napi::Number>();
             dest->set_picwidth(picWidth.Int32Value());
             
             auto picHeight = picElement.Get("picHeight").As<Napi::Number>();
             dest->set_picheight(picHeight.Int32Value());
+
+            dest->set_unknown_45413(0);
+            dest->set_unknown_45414(0);
             
             auto picType = picElement.Get("picType").As<Napi::Number>();
             dest->set_pictype(picType.Int32Value());
+
+            dest->set_unknown_45418(0);
             
             auto fileUuid = picElement.Get("fileUuid").As<Napi::String>();
             dest->set_fileuuid(fileUuid.Utf8Value());
             
-            auto originImageUrl = picElement.Get("originImageUrl").As<Napi::String>();
-            dest->set_originimageurl(originImageUrl.Utf8Value());
+            auto originImageUrl = picElement.Get("originImageUrl").As<Napi::String>().Utf8Value();
+            std::string from = "/0?";
+            dest->set_originimageurl(originImageUrl);
+            size_t start_pos = originImageUrl.find(from);
+            if (start_pos != std::string::npos)
+            {
+                std::string image198;
+                image198.assign(originImageUrl);
+                std::string image720;
+                image720.assign(originImageUrl);
+                image198.replace(start_pos, from.length(), "/198?");
+                dest->set_imageurl198(image198);
+                spdlog::info("image198: {}", image198.c_str());
+                image720.replace(start_pos, from.length(), "/720?");
+                dest->set_imageurl720(image720);
+                spdlog::info("image720: {}", image720.c_str());
+            }
+            dest->set_unknown_45805(0);
+            // dest->set_unknown_45806(114514);
+            dest->set_unknown_45807(80);
+            dest->set_unknown_45829(0);
+
         }
         
     }

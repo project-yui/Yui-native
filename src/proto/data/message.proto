@@ -19,7 +19,7 @@ message Element {
   // PicElement
   optional string fileName = 45402;
   optional int32 fileSize = 45405;
-  optional string unknown_45406 = 45406;
+  optional bytes md5 = 45406;
   optional int32 picWidth = 45411;
   optional int32 picHeight = 45412;
   optional int32 unknown_45413 = 45413;
@@ -31,8 +31,9 @@ message Element {
   optional string imageUrl720 = 45803;
   optional string originImageUrl = 45804;
   optional int32 unknown_45805 = 45805;
-  optional int32 unknown_45806 = 45806;
+  optional int64 unknown_45806 = 45806;
   optional int32 unknown_45807 = 45807;
+  optional string picPath= 45812;
   optional int32 unknown_45829 = 45829;
 
   // ReplyElement

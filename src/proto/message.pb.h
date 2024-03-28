@@ -425,11 +425,12 @@ class Element final :
     kSenderUidStrFieldNumber = 40020,
     kTextStrFieldNumber = 45101,
     kFileNameFieldNumber = 45402,
-    kUnknown45406FieldNumber = 45406,
+    kMd5FieldNumber = 45406,
     kFileUuidFieldNumber = 45503,
     kImageUrl198FieldNumber = 45802,
     kImageUrl720FieldNumber = 45803,
     kOriginImageUrlFieldNumber = 45804,
+    kPicPathFieldNumber = 45812,
     kElementIdFieldNumber = 45001,
     kElementTypeFieldNumber = 45002,
     kAtTypeFieldNumber = 45102,
@@ -447,9 +448,9 @@ class Element final :
     kReplayMsgSeqFieldNumber = 47402,
     kSenderUidFieldNumber = 47403,
     kReplyMsgTimeFieldNumber = 47404,
+    kUnknown47411FieldNumber = 47411,
     kUnknown47416FieldNumber = 47416,
     kUnknown47422FieldNumber = 47422,
-    kUnknown47411FieldNumber = 47411,
   };
   // repeated .nt_msg.Element.SourceMsgTextElem sourceMsgTextElems = 47423;
   int sourcemsgtextelems_size() const;
@@ -523,22 +524,22 @@ class Element final :
   std::string* _internal_mutable_filename();
   public:
 
-  // optional string unknown_45406 = 45406;
-  bool has_unknown_45406() const;
+  // optional bytes md5 = 45406;
+  bool has_md5() const;
   private:
-  bool _internal_has_unknown_45406() const;
+  bool _internal_has_md5() const;
   public:
-  void clear_unknown_45406();
-  const std::string& unknown_45406() const;
+  void clear_md5();
+  const std::string& md5() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_unknown_45406(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_unknown_45406();
-  PROTOBUF_NODISCARD std::string* release_unknown_45406();
-  void set_allocated_unknown_45406(std::string* unknown_45406);
+  void set_md5(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_md5();
+  PROTOBUF_NODISCARD std::string* release_md5();
+  void set_allocated_md5(std::string* md5);
   private:
-  const std::string& _internal_unknown_45406() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_unknown_45406(const std::string& value);
-  std::string* _internal_mutable_unknown_45406();
+  const std::string& _internal_md5() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_md5(const std::string& value);
+  std::string* _internal_mutable_md5();
   public:
 
   // optional string fileUuid = 45503;
@@ -611,6 +612,24 @@ class Element final :
   const std::string& _internal_originimageurl() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_originimageurl(const std::string& value);
   std::string* _internal_mutable_originimageurl();
+  public:
+
+  // optional string picPath = 45812;
+  bool has_picpath() const;
+  private:
+  bool _internal_has_picpath() const;
+  public:
+  void clear_picpath();
+  const std::string& picpath() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_picpath(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_picpath();
+  PROTOBUF_NODISCARD std::string* release_picpath();
+  void set_allocated_picpath(std::string* picpath);
+  private:
+  const std::string& _internal_picpath() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_picpath(const std::string& value);
+  std::string* _internal_mutable_picpath();
   public:
 
   // int64 elementId = 45001;
@@ -748,17 +767,17 @@ class Element final :
   void _internal_set_unknown_45805(int32_t value);
   public:
 
-  // optional int32 unknown_45806 = 45806;
+  // optional int64 unknown_45806 = 45806;
   bool has_unknown_45806() const;
   private:
   bool _internal_has_unknown_45806() const;
   public:
   void clear_unknown_45806();
-  int32_t unknown_45806() const;
-  void set_unknown_45806(int32_t value);
+  int64_t unknown_45806() const;
+  void set_unknown_45806(int64_t value);
   private:
-  int32_t _internal_unknown_45806() const;
-  void _internal_set_unknown_45806(int32_t value);
+  int64_t _internal_unknown_45806() const;
+  void _internal_set_unknown_45806(int64_t value);
   public:
 
   // optional int32 unknown_45807 = 45807;
@@ -826,6 +845,19 @@ class Element final :
   void _internal_set_replymsgtime(int32_t value);
   public:
 
+  // optional int32 unknown_47411 = 47411;
+  bool has_unknown_47411() const;
+  private:
+  bool _internal_has_unknown_47411() const;
+  public:
+  void clear_unknown_47411();
+  int32_t unknown_47411() const;
+  void set_unknown_47411(int32_t value);
+  private:
+  int32_t _internal_unknown_47411() const;
+  void _internal_set_unknown_47411(int32_t value);
+  public:
+
   // optional int64 unknown_47416 = 47416;
   bool has_unknown_47416() const;
   private:
@@ -852,19 +884,6 @@ class Element final :
   void _internal_set_unknown_47422(int64_t value);
   public:
 
-  // optional int32 unknown_47411 = 47411;
-  bool has_unknown_47411() const;
-  private:
-  bool _internal_has_unknown_47411() const;
-  public:
-  void clear_unknown_47411();
-  int32_t unknown_47411() const;
-  void set_unknown_47411(int32_t value);
-  private:
-  int32_t _internal_unknown_47411() const;
-  void _internal_set_unknown_47411(int32_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:nt_msg.Element)
  private:
   class _Internal;
@@ -879,11 +898,12 @@ class Element final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr senderuidstr_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr textstr_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr filename_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr unknown_45406_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr md5_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr fileuuid_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr imageurl198_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr imageurl720_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr originimageurl_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr picpath_;
     int64_t elementid_;
     int32_t elementtype_;
     int32_t attype_;
@@ -895,15 +915,15 @@ class Element final :
     int32_t pictype_;
     int32_t unknown_45418_;
     int32_t unknown_45805_;
-    int32_t unknown_45806_;
+    int64_t unknown_45806_;
     int32_t unknown_45807_;
     int32_t unknown_45829_;
     int32_t replaymsgseq_;
     int32_t senderuid_;
     int32_t replymsgtime_;
+    int32_t unknown_47411_;
     int64_t unknown_47416_;
     int64_t unknown_47422_;
-    int32_t unknown_47411_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_message_2eproto;
@@ -1280,7 +1300,7 @@ inline void Element::set_allocated_textstr(std::string* textstr) {
 
 // optional int32 atType = 45102;
 inline bool Element::_internal_has_attype() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000100u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000200u) != 0;
   return value;
 }
 inline bool Element::has_attype() const {
@@ -1288,7 +1308,7 @@ inline bool Element::has_attype() const {
 }
 inline void Element::clear_attype() {
   _impl_.attype_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000100u;
+  _impl_._has_bits_[0] &= ~0x00000200u;
 }
 inline int32_t Element::_internal_attype() const {
   return _impl_.attype_;
@@ -1298,7 +1318,7 @@ inline int32_t Element::attype() const {
   return _internal_attype();
 }
 inline void Element::_internal_set_attype(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000100u;
+  _impl_._has_bits_[0] |= 0x00000200u;
   _impl_.attype_ = value;
 }
 inline void Element::set_attype(int32_t value) {
@@ -1376,7 +1396,7 @@ inline void Element::set_allocated_filename(std::string* filename) {
 
 // optional int32 fileSize = 45405;
 inline bool Element::_internal_has_filesize() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000200u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000400u) != 0;
   return value;
 }
 inline bool Element::has_filesize() const {
@@ -1384,7 +1404,7 @@ inline bool Element::has_filesize() const {
 }
 inline void Element::clear_filesize() {
   _impl_.filesize_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000200u;
+  _impl_._has_bits_[0] &= ~0x00000400u;
 }
 inline int32_t Element::_internal_filesize() const {
   return _impl_.filesize_;
@@ -1394,7 +1414,7 @@ inline int32_t Element::filesize() const {
   return _internal_filesize();
 }
 inline void Element::_internal_set_filesize(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000200u;
+  _impl_._has_bits_[0] |= 0x00000400u;
   _impl_.filesize_ = value;
 }
 inline void Element::set_filesize(int32_t value) {
@@ -1402,77 +1422,77 @@ inline void Element::set_filesize(int32_t value) {
   // @@protoc_insertion_point(field_set:nt_msg.Element.fileSize)
 }
 
-// optional string unknown_45406 = 45406;
-inline bool Element::_internal_has_unknown_45406() const {
+// optional bytes md5 = 45406;
+inline bool Element::_internal_has_md5() const {
   bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
-inline bool Element::has_unknown_45406() const {
-  return _internal_has_unknown_45406();
+inline bool Element::has_md5() const {
+  return _internal_has_md5();
 }
-inline void Element::clear_unknown_45406() {
-  _impl_.unknown_45406_.ClearToEmpty();
+inline void Element::clear_md5() {
+  _impl_.md5_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000008u;
 }
-inline const std::string& Element::unknown_45406() const {
-  // @@protoc_insertion_point(field_get:nt_msg.Element.unknown_45406)
-  return _internal_unknown_45406();
+inline const std::string& Element::md5() const {
+  // @@protoc_insertion_point(field_get:nt_msg.Element.md5)
+  return _internal_md5();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void Element::set_unknown_45406(ArgT0&& arg0, ArgT... args) {
+void Element::set_md5(ArgT0&& arg0, ArgT... args) {
  _impl_._has_bits_[0] |= 0x00000008u;
- _impl_.unknown_45406_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:nt_msg.Element.unknown_45406)
+ _impl_.md5_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:nt_msg.Element.md5)
 }
-inline std::string* Element::mutable_unknown_45406() {
-  std::string* _s = _internal_mutable_unknown_45406();
-  // @@protoc_insertion_point(field_mutable:nt_msg.Element.unknown_45406)
+inline std::string* Element::mutable_md5() {
+  std::string* _s = _internal_mutable_md5();
+  // @@protoc_insertion_point(field_mutable:nt_msg.Element.md5)
   return _s;
 }
-inline const std::string& Element::_internal_unknown_45406() const {
-  return _impl_.unknown_45406_.Get();
+inline const std::string& Element::_internal_md5() const {
+  return _impl_.md5_.Get();
 }
-inline void Element::_internal_set_unknown_45406(const std::string& value) {
+inline void Element::_internal_set_md5(const std::string& value) {
   _impl_._has_bits_[0] |= 0x00000008u;
-  _impl_.unknown_45406_.Set(value, GetArenaForAllocation());
+  _impl_.md5_.Set(value, GetArenaForAllocation());
 }
-inline std::string* Element::_internal_mutable_unknown_45406() {
+inline std::string* Element::_internal_mutable_md5() {
   _impl_._has_bits_[0] |= 0x00000008u;
-  return _impl_.unknown_45406_.Mutable(GetArenaForAllocation());
+  return _impl_.md5_.Mutable(GetArenaForAllocation());
 }
-inline std::string* Element::release_unknown_45406() {
-  // @@protoc_insertion_point(field_release:nt_msg.Element.unknown_45406)
-  if (!_internal_has_unknown_45406()) {
+inline std::string* Element::release_md5() {
+  // @@protoc_insertion_point(field_release:nt_msg.Element.md5)
+  if (!_internal_has_md5()) {
     return nullptr;
   }
   _impl_._has_bits_[0] &= ~0x00000008u;
-  auto* p = _impl_.unknown_45406_.Release();
+  auto* p = _impl_.md5_.Release();
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.unknown_45406_.IsDefault()) {
-    _impl_.unknown_45406_.Set("", GetArenaForAllocation());
+  if (_impl_.md5_.IsDefault()) {
+    _impl_.md5_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   return p;
 }
-inline void Element::set_allocated_unknown_45406(std::string* unknown_45406) {
-  if (unknown_45406 != nullptr) {
+inline void Element::set_allocated_md5(std::string* md5) {
+  if (md5 != nullptr) {
     _impl_._has_bits_[0] |= 0x00000008u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000008u;
   }
-  _impl_.unknown_45406_.SetAllocated(unknown_45406, GetArenaForAllocation());
+  _impl_.md5_.SetAllocated(md5, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.unknown_45406_.IsDefault()) {
-    _impl_.unknown_45406_.Set("", GetArenaForAllocation());
+  if (_impl_.md5_.IsDefault()) {
+    _impl_.md5_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:nt_msg.Element.unknown_45406)
+  // @@protoc_insertion_point(field_set_allocated:nt_msg.Element.md5)
 }
 
 // optional int32 picWidth = 45411;
 inline bool Element::_internal_has_picwidth() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000400u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000800u) != 0;
   return value;
 }
 inline bool Element::has_picwidth() const {
@@ -1480,7 +1500,7 @@ inline bool Element::has_picwidth() const {
 }
 inline void Element::clear_picwidth() {
   _impl_.picwidth_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000400u;
+  _impl_._has_bits_[0] &= ~0x00000800u;
 }
 inline int32_t Element::_internal_picwidth() const {
   return _impl_.picwidth_;
@@ -1490,7 +1510,7 @@ inline int32_t Element::picwidth() const {
   return _internal_picwidth();
 }
 inline void Element::_internal_set_picwidth(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000400u;
+  _impl_._has_bits_[0] |= 0x00000800u;
   _impl_.picwidth_ = value;
 }
 inline void Element::set_picwidth(int32_t value) {
@@ -1500,7 +1520,7 @@ inline void Element::set_picwidth(int32_t value) {
 
 // optional int32 picHeight = 45412;
 inline bool Element::_internal_has_picheight() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000800u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00001000u) != 0;
   return value;
 }
 inline bool Element::has_picheight() const {
@@ -1508,7 +1528,7 @@ inline bool Element::has_picheight() const {
 }
 inline void Element::clear_picheight() {
   _impl_.picheight_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000800u;
+  _impl_._has_bits_[0] &= ~0x00001000u;
 }
 inline int32_t Element::_internal_picheight() const {
   return _impl_.picheight_;
@@ -1518,7 +1538,7 @@ inline int32_t Element::picheight() const {
   return _internal_picheight();
 }
 inline void Element::_internal_set_picheight(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000800u;
+  _impl_._has_bits_[0] |= 0x00001000u;
   _impl_.picheight_ = value;
 }
 inline void Element::set_picheight(int32_t value) {
@@ -1528,7 +1548,7 @@ inline void Element::set_picheight(int32_t value) {
 
 // optional int32 unknown_45413 = 45413;
 inline bool Element::_internal_has_unknown_45413() const {
-  bool value = (_impl_._has_bits_[0] & 0x00001000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00002000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_45413() const {
@@ -1536,7 +1556,7 @@ inline bool Element::has_unknown_45413() const {
 }
 inline void Element::clear_unknown_45413() {
   _impl_.unknown_45413_ = 0;
-  _impl_._has_bits_[0] &= ~0x00001000u;
+  _impl_._has_bits_[0] &= ~0x00002000u;
 }
 inline int32_t Element::_internal_unknown_45413() const {
   return _impl_.unknown_45413_;
@@ -1546,7 +1566,7 @@ inline int32_t Element::unknown_45413() const {
   return _internal_unknown_45413();
 }
 inline void Element::_internal_set_unknown_45413(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00001000u;
+  _impl_._has_bits_[0] |= 0x00002000u;
   _impl_.unknown_45413_ = value;
 }
 inline void Element::set_unknown_45413(int32_t value) {
@@ -1556,7 +1576,7 @@ inline void Element::set_unknown_45413(int32_t value) {
 
 // optional int32 unknown_45414 = 45414;
 inline bool Element::_internal_has_unknown_45414() const {
-  bool value = (_impl_._has_bits_[0] & 0x00002000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00004000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_45414() const {
@@ -1564,7 +1584,7 @@ inline bool Element::has_unknown_45414() const {
 }
 inline void Element::clear_unknown_45414() {
   _impl_.unknown_45414_ = 0;
-  _impl_._has_bits_[0] &= ~0x00002000u;
+  _impl_._has_bits_[0] &= ~0x00004000u;
 }
 inline int32_t Element::_internal_unknown_45414() const {
   return _impl_.unknown_45414_;
@@ -1574,7 +1594,7 @@ inline int32_t Element::unknown_45414() const {
   return _internal_unknown_45414();
 }
 inline void Element::_internal_set_unknown_45414(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00002000u;
+  _impl_._has_bits_[0] |= 0x00004000u;
   _impl_.unknown_45414_ = value;
 }
 inline void Element::set_unknown_45414(int32_t value) {
@@ -1584,7 +1604,7 @@ inline void Element::set_unknown_45414(int32_t value) {
 
 // optional int32 picType = 45416;
 inline bool Element::_internal_has_pictype() const {
-  bool value = (_impl_._has_bits_[0] & 0x00004000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00008000u) != 0;
   return value;
 }
 inline bool Element::has_pictype() const {
@@ -1592,7 +1612,7 @@ inline bool Element::has_pictype() const {
 }
 inline void Element::clear_pictype() {
   _impl_.pictype_ = 0;
-  _impl_._has_bits_[0] &= ~0x00004000u;
+  _impl_._has_bits_[0] &= ~0x00008000u;
 }
 inline int32_t Element::_internal_pictype() const {
   return _impl_.pictype_;
@@ -1602,7 +1622,7 @@ inline int32_t Element::pictype() const {
   return _internal_pictype();
 }
 inline void Element::_internal_set_pictype(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00004000u;
+  _impl_._has_bits_[0] |= 0x00008000u;
   _impl_.pictype_ = value;
 }
 inline void Element::set_pictype(int32_t value) {
@@ -1612,7 +1632,7 @@ inline void Element::set_pictype(int32_t value) {
 
 // optional int32 unknown_45418 = 45418;
 inline bool Element::_internal_has_unknown_45418() const {
-  bool value = (_impl_._has_bits_[0] & 0x00008000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00010000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_45418() const {
@@ -1620,7 +1640,7 @@ inline bool Element::has_unknown_45418() const {
 }
 inline void Element::clear_unknown_45418() {
   _impl_.unknown_45418_ = 0;
-  _impl_._has_bits_[0] &= ~0x00008000u;
+  _impl_._has_bits_[0] &= ~0x00010000u;
 }
 inline int32_t Element::_internal_unknown_45418() const {
   return _impl_.unknown_45418_;
@@ -1630,7 +1650,7 @@ inline int32_t Element::unknown_45418() const {
   return _internal_unknown_45418();
 }
 inline void Element::_internal_set_unknown_45418(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00008000u;
+  _impl_._has_bits_[0] |= 0x00010000u;
   _impl_.unknown_45418_ = value;
 }
 inline void Element::set_unknown_45418(int32_t value) {
@@ -1912,7 +1932,7 @@ inline void Element::set_allocated_originimageurl(std::string* originimageurl) {
 
 // optional int32 unknown_45805 = 45805;
 inline bool Element::_internal_has_unknown_45805() const {
-  bool value = (_impl_._has_bits_[0] & 0x00010000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00020000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_45805() const {
@@ -1920,7 +1940,7 @@ inline bool Element::has_unknown_45805() const {
 }
 inline void Element::clear_unknown_45805() {
   _impl_.unknown_45805_ = 0;
-  _impl_._has_bits_[0] &= ~0x00010000u;
+  _impl_._has_bits_[0] &= ~0x00020000u;
 }
 inline int32_t Element::_internal_unknown_45805() const {
   return _impl_.unknown_45805_;
@@ -1930,7 +1950,7 @@ inline int32_t Element::unknown_45805() const {
   return _internal_unknown_45805();
 }
 inline void Element::_internal_set_unknown_45805(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00010000u;
+  _impl_._has_bits_[0] |= 0x00020000u;
   _impl_.unknown_45805_ = value;
 }
 inline void Element::set_unknown_45805(int32_t value) {
@@ -1938,37 +1958,37 @@ inline void Element::set_unknown_45805(int32_t value) {
   // @@protoc_insertion_point(field_set:nt_msg.Element.unknown_45805)
 }
 
-// optional int32 unknown_45806 = 45806;
+// optional int64 unknown_45806 = 45806;
 inline bool Element::_internal_has_unknown_45806() const {
-  bool value = (_impl_._has_bits_[0] & 0x00020000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00040000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_45806() const {
   return _internal_has_unknown_45806();
 }
 inline void Element::clear_unknown_45806() {
-  _impl_.unknown_45806_ = 0;
-  _impl_._has_bits_[0] &= ~0x00020000u;
+  _impl_.unknown_45806_ = int64_t{0};
+  _impl_._has_bits_[0] &= ~0x00040000u;
 }
-inline int32_t Element::_internal_unknown_45806() const {
+inline int64_t Element::_internal_unknown_45806() const {
   return _impl_.unknown_45806_;
 }
-inline int32_t Element::unknown_45806() const {
+inline int64_t Element::unknown_45806() const {
   // @@protoc_insertion_point(field_get:nt_msg.Element.unknown_45806)
   return _internal_unknown_45806();
 }
-inline void Element::_internal_set_unknown_45806(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00020000u;
+inline void Element::_internal_set_unknown_45806(int64_t value) {
+  _impl_._has_bits_[0] |= 0x00040000u;
   _impl_.unknown_45806_ = value;
 }
-inline void Element::set_unknown_45806(int32_t value) {
+inline void Element::set_unknown_45806(int64_t value) {
   _internal_set_unknown_45806(value);
   // @@protoc_insertion_point(field_set:nt_msg.Element.unknown_45806)
 }
 
 // optional int32 unknown_45807 = 45807;
 inline bool Element::_internal_has_unknown_45807() const {
-  bool value = (_impl_._has_bits_[0] & 0x00040000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00080000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_45807() const {
@@ -1976,7 +1996,7 @@ inline bool Element::has_unknown_45807() const {
 }
 inline void Element::clear_unknown_45807() {
   _impl_.unknown_45807_ = 0;
-  _impl_._has_bits_[0] &= ~0x00040000u;
+  _impl_._has_bits_[0] &= ~0x00080000u;
 }
 inline int32_t Element::_internal_unknown_45807() const {
   return _impl_.unknown_45807_;
@@ -1986,7 +2006,7 @@ inline int32_t Element::unknown_45807() const {
   return _internal_unknown_45807();
 }
 inline void Element::_internal_set_unknown_45807(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00040000u;
+  _impl_._has_bits_[0] |= 0x00080000u;
   _impl_.unknown_45807_ = value;
 }
 inline void Element::set_unknown_45807(int32_t value) {
@@ -1994,9 +2014,77 @@ inline void Element::set_unknown_45807(int32_t value) {
   // @@protoc_insertion_point(field_set:nt_msg.Element.unknown_45807)
 }
 
+// optional string picPath = 45812;
+inline bool Element::_internal_has_picpath() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000100u) != 0;
+  return value;
+}
+inline bool Element::has_picpath() const {
+  return _internal_has_picpath();
+}
+inline void Element::clear_picpath() {
+  _impl_.picpath_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000100u;
+}
+inline const std::string& Element::picpath() const {
+  // @@protoc_insertion_point(field_get:nt_msg.Element.picPath)
+  return _internal_picpath();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Element::set_picpath(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000100u;
+ _impl_.picpath_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:nt_msg.Element.picPath)
+}
+inline std::string* Element::mutable_picpath() {
+  std::string* _s = _internal_mutable_picpath();
+  // @@protoc_insertion_point(field_mutable:nt_msg.Element.picPath)
+  return _s;
+}
+inline const std::string& Element::_internal_picpath() const {
+  return _impl_.picpath_.Get();
+}
+inline void Element::_internal_set_picpath(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000100u;
+  _impl_.picpath_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Element::_internal_mutable_picpath() {
+  _impl_._has_bits_[0] |= 0x00000100u;
+  return _impl_.picpath_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Element::release_picpath() {
+  // @@protoc_insertion_point(field_release:nt_msg.Element.picPath)
+  if (!_internal_has_picpath()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000100u;
+  auto* p = _impl_.picpath_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.picpath_.IsDefault()) {
+    _impl_.picpath_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void Element::set_allocated_picpath(std::string* picpath) {
+  if (picpath != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000100u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000100u;
+  }
+  _impl_.picpath_.SetAllocated(picpath, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.picpath_.IsDefault()) {
+    _impl_.picpath_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:nt_msg.Element.picPath)
+}
+
 // optional int32 unknown_45829 = 45829;
 inline bool Element::_internal_has_unknown_45829() const {
-  bool value = (_impl_._has_bits_[0] & 0x00080000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00100000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_45829() const {
@@ -2004,7 +2092,7 @@ inline bool Element::has_unknown_45829() const {
 }
 inline void Element::clear_unknown_45829() {
   _impl_.unknown_45829_ = 0;
-  _impl_._has_bits_[0] &= ~0x00080000u;
+  _impl_._has_bits_[0] &= ~0x00100000u;
 }
 inline int32_t Element::_internal_unknown_45829() const {
   return _impl_.unknown_45829_;
@@ -2014,7 +2102,7 @@ inline int32_t Element::unknown_45829() const {
   return _internal_unknown_45829();
 }
 inline void Element::_internal_set_unknown_45829(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00080000u;
+  _impl_._has_bits_[0] |= 0x00100000u;
   _impl_.unknown_45829_ = value;
 }
 inline void Element::set_unknown_45829(int32_t value) {
@@ -2092,7 +2180,7 @@ inline void Element::set_allocated_senderuidstr(std::string* senderuidstr) {
 
 // optional int32 replayMsgSeq = 47402;
 inline bool Element::_internal_has_replaymsgseq() const {
-  bool value = (_impl_._has_bits_[0] & 0x00100000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00200000u) != 0;
   return value;
 }
 inline bool Element::has_replaymsgseq() const {
@@ -2100,7 +2188,7 @@ inline bool Element::has_replaymsgseq() const {
 }
 inline void Element::clear_replaymsgseq() {
   _impl_.replaymsgseq_ = 0;
-  _impl_._has_bits_[0] &= ~0x00100000u;
+  _impl_._has_bits_[0] &= ~0x00200000u;
 }
 inline int32_t Element::_internal_replaymsgseq() const {
   return _impl_.replaymsgseq_;
@@ -2110,7 +2198,7 @@ inline int32_t Element::replaymsgseq() const {
   return _internal_replaymsgseq();
 }
 inline void Element::_internal_set_replaymsgseq(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00100000u;
+  _impl_._has_bits_[0] |= 0x00200000u;
   _impl_.replaymsgseq_ = value;
 }
 inline void Element::set_replaymsgseq(int32_t value) {
@@ -2120,7 +2208,7 @@ inline void Element::set_replaymsgseq(int32_t value) {
 
 // optional int32 senderUid = 47403;
 inline bool Element::_internal_has_senderuid() const {
-  bool value = (_impl_._has_bits_[0] & 0x00200000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00400000u) != 0;
   return value;
 }
 inline bool Element::has_senderuid() const {
@@ -2128,7 +2216,7 @@ inline bool Element::has_senderuid() const {
 }
 inline void Element::clear_senderuid() {
   _impl_.senderuid_ = 0;
-  _impl_._has_bits_[0] &= ~0x00200000u;
+  _impl_._has_bits_[0] &= ~0x00400000u;
 }
 inline int32_t Element::_internal_senderuid() const {
   return _impl_.senderuid_;
@@ -2138,7 +2226,7 @@ inline int32_t Element::senderuid() const {
   return _internal_senderuid();
 }
 inline void Element::_internal_set_senderuid(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00200000u;
+  _impl_._has_bits_[0] |= 0x00400000u;
   _impl_.senderuid_ = value;
 }
 inline void Element::set_senderuid(int32_t value) {
@@ -2148,7 +2236,7 @@ inline void Element::set_senderuid(int32_t value) {
 
 // optional int32 replyMsgTime = 47404;
 inline bool Element::_internal_has_replymsgtime() const {
-  bool value = (_impl_._has_bits_[0] & 0x00400000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00800000u) != 0;
   return value;
 }
 inline bool Element::has_replymsgtime() const {
@@ -2156,7 +2244,7 @@ inline bool Element::has_replymsgtime() const {
 }
 inline void Element::clear_replymsgtime() {
   _impl_.replymsgtime_ = 0;
-  _impl_._has_bits_[0] &= ~0x00400000u;
+  _impl_._has_bits_[0] &= ~0x00800000u;
 }
 inline int32_t Element::_internal_replymsgtime() const {
   return _impl_.replymsgtime_;
@@ -2166,7 +2254,7 @@ inline int32_t Element::replymsgtime() const {
   return _internal_replymsgtime();
 }
 inline void Element::_internal_set_replymsgtime(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00400000u;
+  _impl_._has_bits_[0] |= 0x00800000u;
   _impl_.replymsgtime_ = value;
 }
 inline void Element::set_replymsgtime(int32_t value) {
@@ -2176,7 +2264,7 @@ inline void Element::set_replymsgtime(int32_t value) {
 
 // optional int32 unknown_47411 = 47411;
 inline bool Element::_internal_has_unknown_47411() const {
-  bool value = (_impl_._has_bits_[0] & 0x02000000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x01000000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_47411() const {
@@ -2184,7 +2272,7 @@ inline bool Element::has_unknown_47411() const {
 }
 inline void Element::clear_unknown_47411() {
   _impl_.unknown_47411_ = 0;
-  _impl_._has_bits_[0] &= ~0x02000000u;
+  _impl_._has_bits_[0] &= ~0x01000000u;
 }
 inline int32_t Element::_internal_unknown_47411() const {
   return _impl_.unknown_47411_;
@@ -2194,7 +2282,7 @@ inline int32_t Element::unknown_47411() const {
   return _internal_unknown_47411();
 }
 inline void Element::_internal_set_unknown_47411(int32_t value) {
-  _impl_._has_bits_[0] |= 0x02000000u;
+  _impl_._has_bits_[0] |= 0x01000000u;
   _impl_.unknown_47411_ = value;
 }
 inline void Element::set_unknown_47411(int32_t value) {
@@ -2204,7 +2292,7 @@ inline void Element::set_unknown_47411(int32_t value) {
 
 // optional int64 unknown_47416 = 47416;
 inline bool Element::_internal_has_unknown_47416() const {
-  bool value = (_impl_._has_bits_[0] & 0x00800000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x02000000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_47416() const {
@@ -2212,7 +2300,7 @@ inline bool Element::has_unknown_47416() const {
 }
 inline void Element::clear_unknown_47416() {
   _impl_.unknown_47416_ = int64_t{0};
-  _impl_._has_bits_[0] &= ~0x00800000u;
+  _impl_._has_bits_[0] &= ~0x02000000u;
 }
 inline int64_t Element::_internal_unknown_47416() const {
   return _impl_.unknown_47416_;
@@ -2222,7 +2310,7 @@ inline int64_t Element::unknown_47416() const {
   return _internal_unknown_47416();
 }
 inline void Element::_internal_set_unknown_47416(int64_t value) {
-  _impl_._has_bits_[0] |= 0x00800000u;
+  _impl_._has_bits_[0] |= 0x02000000u;
   _impl_.unknown_47416_ = value;
 }
 inline void Element::set_unknown_47416(int64_t value) {
@@ -2232,7 +2320,7 @@ inline void Element::set_unknown_47416(int64_t value) {
 
 // optional int64 unknown_47422 = 47422;
 inline bool Element::_internal_has_unknown_47422() const {
-  bool value = (_impl_._has_bits_[0] & 0x01000000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x04000000u) != 0;
   return value;
 }
 inline bool Element::has_unknown_47422() const {
@@ -2240,7 +2328,7 @@ inline bool Element::has_unknown_47422() const {
 }
 inline void Element::clear_unknown_47422() {
   _impl_.unknown_47422_ = int64_t{0};
-  _impl_._has_bits_[0] &= ~0x01000000u;
+  _impl_._has_bits_[0] &= ~0x04000000u;
 }
 inline int64_t Element::_internal_unknown_47422() const {
   return _impl_.unknown_47422_;
@@ -2250,7 +2338,7 @@ inline int64_t Element::unknown_47422() const {
   return _internal_unknown_47422();
 }
 inline void Element::_internal_set_unknown_47422(int64_t value) {
-  _impl_._has_bits_[0] |= 0x01000000u;
+  _impl_._has_bits_[0] |= 0x04000000u;
   _impl_.unknown_47422_ = value;
 }
 inline void Element::set_unknown_47422(int64_t value) {

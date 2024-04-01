@@ -14,7 +14,7 @@ try {
     $db_sql_file="$db_dir/nt_msg.sql"
     $db_decrypt_file="$db_dir/nt_msg.decrypt.db"
 
-    $password="U2_Hs=p`sy2{TUf="
+    $password="U2_Hs=p``sy2{TUf="
     
 
     function clean {
@@ -52,11 +52,11 @@ try {
     $SqlCipherCommands = @"
 PRAGMA cipher_default_kdf_iter = 4000;
 PRAGMA cipher_default_hmac_algorithm = HMAC_SHA1;
-.open 'tmp/db/nt_msg.clean.db'
+.open '$db_clean_file'
 PRAGMA kdf_iter = 4000;
 PRAGMA hmac_algorithm = HMAC_SHA1;
-PRAGMA key = 'U2_Hs=p``sy2{TUf=';
-ATTACH DATABASE 'tmp/db/nt_msg.decrypt.db' AS paintext KEY '';
+PRAGMA key = '$password';
+ATTACH DATABASE '$db_decrypt_file' AS paintext KEY '';
 SELECT sqlcipher_export('paintext');
 DETACH DATABASE paintext;
 .q

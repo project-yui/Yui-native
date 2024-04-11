@@ -51,7 +51,11 @@ namespace nt_convert {
     }
     void hex_string_to_byte_array(const char *hex_string, char *byte_array, int byte_array_size) {
         for (int i = 0; i < byte_array_size; i++) {
+            #ifdef _WIN32
             sscanf_s(hex_string + 2 * i, "%2hhx", &byte_array[i]);
+            #elif defined (__linux__)
+            sscanf(hex_string + 2 * i, "%2hhx", &byte_array[i]);
+            #endif
         }
         byte_array[byte_array_size / 2] = '\0';
     }

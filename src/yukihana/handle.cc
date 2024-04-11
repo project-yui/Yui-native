@@ -1,9 +1,12 @@
 
+#include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <memory>
 #include <spdlog/spdlog.h>
 #include <map>
 #include <sqlite3.h>
+#include <string.h>
 #include <string>
 #include <utility>
 #include "../include/handle.hh"
@@ -20,7 +23,8 @@ namespace yukihana {
     sqlite3_stmt * stmt;
     NTMem * row;
   };
-  std::shared_ptr<NTNative::Hook> hook;
+  std::shared_ptr<NTNative::Hook> sqlit3_stmt_hooker;
+  std::shared_ptr<NTNative::Hook> hosts_hooker;
   std::map<sqlite3_stmt *, CustomQuery> nt2custom;
   
   typedef int (*stmt_func)(void * 
@@ -236,7 +240,7 @@ namespace yukihana {
           }
       }
   }
-  int execute(void* a1,
+  int sqlite3_stmt_hook(void* a1,
   void* a2,
   void* a3,
   void* a4,
@@ -244,7 +248,7 @@ namespace yukihana {
   void* a6) {
     
     // spdlog::debug("execute");
-    stmt_func fun = (stmt_func)hook->get_trampoline();
+    stmt_func fun = (stmt_func)sqlit3_stmt_hooker->get_trampoline();
     if (fun == nullptr) {
         // spdlog::debug("error nullptr!!!");
         return -1;
@@ -400,5 +404,26 @@ namespace yukihana {
     // spdlog::debug("result: {}", ret);
     return SQLITE_DONE;
 
+  }
+  
+  typedef int (* _hosts_hook_func)(char * desc, char * domain, uint8_t type, IPData* ips);
+  
+  int hosts_hook(char * desc, char * domain, uint8_t type, IPData* ips)
+  {
+    _hosts_hook_func fun = (_hosts_hook_func)hosts_hooker->get_trampoline();
+    
+    spdlog::debug("start: {}, end: {}", (void*)ips->start, (void*)ips->end);
+    spdlog::debug("desc: {}, damain: {}, type:{}, ips size: {}", desc, domain, type, ips->size());
+    if (strcmp(domain, "gchat.qpic.cn") == 0 && ips->size() > 0) {
+      auto target = ips->start[0];
+      spdlog::debug("modify first ip: {}", target.ip);
+      strcpy_s(target.ip, "127.0.0.1");
+      target.length = 10;
+      target.port = 8085;
+      ips->start[0] = target;
+    }
+    // 执行原来的调用
+    int ret = fun(desc, domain, type, ips);
+    return ret;
   }
 }

@@ -177,3 +177,7 @@ target_link_libraries(test_orm PRIVATE subhook)
 target_link_libraries(test_orm PRIVATE spdlog::spdlog)
 target_link_libraries(test_orm PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 
+
+add_executable(test
+        test/test.cc
+)

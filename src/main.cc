@@ -23,24 +23,12 @@
 #include "spdlog/spdlog.h"
 #include "include/convert.hh"
 
-static void convertELements2buf(std::vector<Element>& elems, std::string &output) {
-  nt_msg::Elements elements;
-  for (auto elem : elems) {
-    auto e = elements.add_elem();
-    e->set_elementid(elem.elementId);
-    e->set_elementtype(elem.elementType);
-    e->set_textstr(elem.textElement.content);
-    e->set_attype(elem.textElement.atType);
-  }
-  elements.SerializeToString(&output);
-}
-
 /**
  * @brief 安装hook
  * 
  * @param feature_code 
  */
-static bool install_hook(std::vector<uint8_t> & feature_code) {
+static bool install_sqlite3_hook(std::vector<uint8_t> & feature_code) {
     spdlog::info("internal install hook");
     
     std::string target = "wrapper.node";
@@ -62,72 +50,85 @@ static bool install_hook(std::vector<uint8_t> & feature_code) {
 #endif
     spdlog::debug("current pid: {}\n", p);
     #ifdef __linux__
-    yukihana::hook.reset(new NTNative::LinuxHook(p, target));
+    yukihana::sqlit3_stmt_hooker.reset(new NTNative::LinuxHook(p, target));
     #endif
     #ifdef _WIN32
-    yukihana::hook.reset(new NTNative::WindowsHook(p, target));
+    yukihana::sqlit3_stmt_hooker.reset(new NTNative::WindowsHook(p, target));
     #endif
 
     spdlog::debug("set_signature\n");
-    yukihana::hook->set_signature(feature_code);
+    yukihana::sqlit3_stmt_hooker->set_signature(feature_code);
 
     spdlog::debug("install\n");
-    return yukihana::hook->install((void *)yukihana::execute);
+    return yukihana::sqlit3_stmt_hooker->install((void *)yukihana::sqlite3_stmt_hook);
+}
+static bool install_hosts_hook(std::vector<uint8_t> & feature_code) {
+    spdlog::info("internal install hook");
+    
+    std::string target = "wrapper.node";
+#ifdef __linux__
+    pid_t p = getpid();
+#endif
+#ifdef _WIN32
+    pid_t p = _getpid();
+#endif
+    spdlog::debug("current pid: {}\n", p);
+    #ifdef __linux__
+    yukihana::hosts_hooker.reset(new NTNative::LinuxHook(p, target));
+    #endif
+    #ifdef _WIN32
+    yukihana::hosts_hooker.reset(new NTNative::WindowsHook(p, target));
+    #endif
+
+    spdlog::debug("set_signature\n");
+    yukihana::hosts_hooker->set_signature(feature_code);
+
+    spdlog::debug("install\n");
+    return yukihana::hosts_hooker->install((void *)yukihana::hosts_hook);
 }
 
-static Napi::Boolean install(const Napi::CallbackInfo &info) {
+static Napi::Object install_hook(const Napi::CallbackInfo &info) {
   Napi::Env env = info.Env();
   spdlog::info("check arguments: {}", info.Length());
   if (info.Length() < 1) {
     throw Napi::Error::New(env, "arguments error!");
   }
   spdlog::debug("check arguments ok!");
-  if (!info[0].IsArray()) {
-    return Napi::Boolean::New(env, false);
+  if (!info[0].IsObject()) {
+    throw Napi::Error::New(env, "First argument must be object!");
   }
-  auto sig = info[0].As<Napi::Array>();
-  spdlog::debug("length: {}", sig.Length());
-  std::vector<uint8_t> code;
-  for (int i=0; i < sig.Length(); i++) {
-    uint8_t v = sig.Get(i).ToNumber().Int32Value();
-    code.emplace_back(v);
+  auto sig_obj = info[0].As<Napi::Object>();
+  Napi::Object result = Napi::Object::New(env);
+
+  auto sqlite3_stmt = sig_obj.Get("sqlite3_stmt");
+  if (sqlite3_stmt.IsArray())
+  {
+    auto sig = sqlite3_stmt.As<Napi::Array>();
+    spdlog::debug("signature length: {}", sig.Length());
+    std::vector<uint8_t> code;
+    for (int i=0; i < sig.Length(); i++) {
+      uint8_t v = sig.Get(i).ToNumber().Int32Value();
+      code.emplace_back(v);
+    }
+    bool ret = install_sqlite3_hook(code);
+    result.Set("sqlite3_stmt", ret);
   }
-  bool ret = install_hook(code);
-  return Napi::Boolean::New(env, ret);
+  
+  auto hosts = sig_obj.Get("hosts");
+  if (hosts.IsArray())
+  {
+    auto sig = hosts.As<Napi::Array>();
+    spdlog::debug("signature length: {}", sig.Length());
+    std::vector<uint8_t> code;
+    for (int i=0; i < sig.Length(); i++) {
+      uint8_t v = sig.Get(i).ToNumber().Int32Value();
+      code.emplace_back(v);
+    }
+    bool ret = install_hosts_hook(code);
+    result.Set("hosts", ret);
+  }
+  return result;
 }
-
-/**
- * @brief 
- * TODO: 多类型支持
- * 
- * @param data 
- * @param output 
- */
-// static void convertNapi2Buf(Napi::Array &data, std::vector<char>& output) {
-//   spdlog::debug("convert elements to protobuf...");
-//   int cnt = data.Length();
-//   for (int i=0; i < cnt; i++) {
-//     auto element = data.Get(i).As<Napi::Object>();
-    
-//     nt_msg::Elements elems;
-//     auto elem = elems.add_elem();
-//     elem->set_elementtype(nt_msg::Element_MsgType_MSG_TYPE_TEXT);
-    
-//     auto elementId = element.Get("elementId").As<Napi::String>();
-//     elem->set_elementid(atol(elementId.Utf8Value().c_str()));
-
-//     auto textElement = element.Get("textElement").As<Napi::Object>();
-//     auto textStr = textElement.Get("content").As<Napi::String>();
-//     elem->set_textstr(textStr.Utf8Value());
-//     elem->set_attype(0);
-//     std::string out;
-//     elems.SerializeToString(&out);
-//     for (int j=0; j < out.length(); j++) {
-      
-//       output.push_back(out[j]);
-//     }
-//   }
-// }
 
 /**
  * @brief 添加group消息
@@ -243,7 +244,7 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports) {
   spdlog::debug("init method of module...");
   exports.Set(
       Napi::String::New(env, "install"),
-      Napi::Function::New(env, install));
+      Napi::Function::New(env, install_hook));
   exports.Set(
       Napi::String::New(env, "addMsg"),
       Napi::Function::New(env, addMsg));

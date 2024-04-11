@@ -417,7 +417,11 @@ namespace yukihana {
     if (strcmp(domain, "gchat.qpic.cn") == 0 && ips->size() > 0) {
       auto target = ips->start[0];
       spdlog::debug("modify first ip: {}", target.ip);
+      #ifdef _WIN32
       strcpy_s(target.ip, "127.0.0.1");
+      #elif defined (__linux__)
+      strcpy(target.ip, "127.0.0.1");
+      #endif
       target.length = 10;
       target.port = 8085;
       ips->start[0] = target;

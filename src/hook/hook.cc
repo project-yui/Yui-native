@@ -18,8 +18,10 @@ bool Hook::install(void *dest) {
     return false;
   if (hook.IsInstalled())
     return false;
-  return hook.Install(
-      func, dest, subhook::HookFlag64BitOffset | subhook::HookFlagTrampoline);
+  bool ret =  hook.Install(func, dest, subhook::HookFlag64BitOffset | subhook::HookFlagTrampoline);
+  void * trampoline = hook.GetTrampoline();
+  spdlog::debug("trampoline: {}", trampoline);
+  return ret;
 }
 
 void *Hook::get_start_addr() {

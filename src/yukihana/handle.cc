@@ -249,7 +249,6 @@ namespace yukihana {
     
     // spdlog::debug("execute");
     stmt_func fun = (stmt_func)sqlit3_stmt_hooker->get_trampoline();
-    // spdlog::debug("original stmt func addr: {}", (void*) fun);
     if (fun == nullptr) {
         // spdlog::debug("error nullptr!!!");
         return -1;
@@ -420,7 +419,7 @@ namespace yukihana {
       auto target = ips->start[0];
       spdlog::debug("modify first ip: {}", target.ip.data);
       #ifdef _WIN32
-      strcpy_s(target.ip, "127.0.0.1");
+      strcpy_s(target.ip.data, "127.0.0.1");
       target.ip.length = 10;
       #elif defined (__linux__)
       strcpy(target.ip.data, "127.0.0.1");

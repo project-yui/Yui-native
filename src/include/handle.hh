@@ -15,7 +15,7 @@ namespace yukihana {
 
 #ifdef _WIN32
   struct StrItem {
-    char ip[16] = "";
+    char data[16] = "";
     size_t length = 0;
     size_t capacity = 0;
   };

@@ -1,4 +1,5 @@
 #include "../include/hook.hh"
+#include "subhook.h"
 #include <spdlog/spdlog.h>
 namespace NTNative {
 

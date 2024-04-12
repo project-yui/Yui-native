@@ -249,6 +249,7 @@ namespace yukihana {
     
     // spdlog::debug("execute");
     stmt_func fun = (stmt_func)sqlit3_stmt_hooker->get_trampoline();
+    // spdlog::debug("original stmt func addr: {}", (void*) fun);
     if (fun == nullptr) {
         // spdlog::debug("error nullptr!!!");
         return -1;
@@ -406,28 +407,33 @@ namespace yukihana {
 
   }
   
-  typedef int (* _hosts_hook_func)(char * desc, char * domain, uint8_t type, IPData* ips);
+  typedef int (* _hosts_hook_func)(StrItem * desc, StrItem * domain, uint8_t type, IPData* ips);
   
-  int hosts_hook(char * desc, char * domain, uint8_t type, IPData* ips)
+  int hosts_hook(StrItem * desc, StrItem * domain, uint8_t type, IPData* ips)
   {
-    _hosts_hook_func fun = (_hosts_hook_func)hosts_hooker->get_trampoline();
+    // spdlog::info("hosts requet......");
+    _hosts_hook_func func = (_hosts_hook_func)hosts_hooker->get_trampoline();
     
     spdlog::debug("start: {}, end: {}", (void*)ips->start, (void*)ips->end);
-    spdlog::debug("desc: {}, damain: {}, type:{}, ips size: {}", desc, domain, type, ips->size());
-    if (strcmp(domain, "gchat.qpic.cn") == 0 && ips->size() > 0) {
+    spdlog::debug("desc: {}, damain: {}, type:{}, ips size: {}", desc->data, domain->data, type, ips->size());
+    if (strcmp(domain->data, "gchat.qpic.cn") == 0 && ips->size() > 0) {
       auto target = ips->start[0];
-      spdlog::debug("modify first ip: {}", target.ip);
+      spdlog::debug("modify first ip: {}", target.ip.data);
       #ifdef _WIN32
       strcpy_s(target.ip, "127.0.0.1");
+      target.ip.length = 10;
       #elif defined (__linux__)
-      strcpy(target.ip, "127.0.0.1");
+      strcpy(target.ip.data, "127.0.0.1");
+      target.ip.length = 20;
       #endif
-      target.length = 10;
-      target.port = 8085;
+      // target.port = 8085;
       ips->start[0] = target;
     }
     // 执行原来的调用
-    int ret = fun(desc, domain, type, ips);
-    return ret;
+    spdlog::debug("func address: {}", (void*) func);
+    spdlog::debug("call func ...");
+    // linux会崩溃
+    // int ret = func(desc, domain, type, ips);
+    return 1;
   }
 }

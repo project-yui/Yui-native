@@ -12,10 +12,21 @@ namespace yukihana {
   extern std::shared_ptr<NTNative::Hook> sqlit3_stmt_hooker;
   extern std::shared_ptr<NTNative::Hook> hosts_hooker;
   int sqlite3_stmt_hook(void* , void* , void* , void* , void* , void* );
-  struct IPItem {
+
+#ifdef _WIN32
+  struct StrItem {
     char ip[16] = "";
     size_t length = 0;
     size_t capacity = 0;
+  };
+#elif defined(__linux__)
+  struct StrItem {
+    uint8_t length;
+    char data[23];
+  };
+#endif
+  struct IPItem {
+    StrItem ip;
     int port;
   };
   struct IPData {
@@ -34,6 +45,6 @@ namespace yukihana {
    * @param ips ip列表
    * @return int 
    */
-  int hosts_hook(char * desc, char * domain, uint8_t type, IPData* ips);
+  int hosts_hook(StrItem * desc, StrItem * domain, uint8_t type, IPData* ips);
 }
 #endif

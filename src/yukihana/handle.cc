@@ -8,6 +8,7 @@
 #include <sqlite3.h>
 #include <string.h>
 #include <string>
+#include <sys/cdefs.h>
 #include <utility>
 #include "../include/handle.hh"
 #include "../include/sqlite3/nt/sqlite3.hh"
@@ -432,7 +433,7 @@ namespace yukihana {
     spdlog::debug("func address: {}", (void*) func);
     spdlog::debug("call func ...");
     // linux会崩溃
-    // int ret = func(desc, domain, type, ips);
-    return 1;
+    int ret = func(desc, domain, type, ips);
+    return ret;
   }
 }

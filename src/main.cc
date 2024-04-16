@@ -24,7 +24,7 @@
 #include "include/convert.hh"
 
 /**
- * @brief 计算当前汇编指令的长度（一条）
+ * @brief 计算当前汇编指令的长度（一条的字节数）
  * 
  * @param src 汇编数据
  * @param reloc_op_offset 0?

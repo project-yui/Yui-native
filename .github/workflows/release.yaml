@@ -46,7 +46,7 @@ jobs:
 
       - name: Prepare
         run: |
-          pnpm install
+          pnpm install --no-frozen-lockfile
 
       - name: Generate TAG
         id: Tag
@@ -111,7 +111,7 @@ jobs:
         uses: lukka/run-vcpkg@v11.5  # Option 2: specify 'latest' or 'latestrc' in the input version arguments:
       - name: Prepare
         run: |
-          pnpm install
+          pnpm install --no-frozen-lockfile
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.arch }}

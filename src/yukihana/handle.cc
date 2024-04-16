@@ -8,7 +8,6 @@
 #include <sqlite3.h>
 #include <string.h>
 #include <string>
-#include <sys/cdefs.h>
 #include <utility>
 #include "../include/handle.hh"
 #include "../include/sqlite3/nt/sqlite3.hh"

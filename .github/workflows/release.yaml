@@ -93,6 +93,20 @@ jobs:
         with:
           version: latest
           run_install: false
+
+      - name: Generate TAG
+        id: Tag
+        run: |
+          $tag="continuous"
+          $name="Continuous Build"
+          if ( "true" -eq "${{ startsWith(github.ref, 'refs/tags/') }}" ) {
+            $tag="${{ github.ref_name }}"
+            $name='${{ github.ref_name }}'
+          }
+          echo "tag result: $tag - $name"
+          echo "::set-output name=tag::$tag"
+          echo "::set-output name=name::$name"
+         
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v11.5
       - name: Setup cmake
@@ -103,20 +117,6 @@ jobs:
       - name: Prepare
         run: |
           pnpm install
-
-      - name: Generate TAG
-        id: Tag
-        run: |
-          tag='continuous'
-          name='Continuous Build'
-          if ( "true" -eq "${{ startsWith(github.ref, 'refs/tags/') }}" ) {
-            tag='${{ github.ref_name }}'
-            name='${{ github.ref_name }}'
-          }
-          echo "tag result: $tag - $name"
-          echo "::set-output name=tag::$tag"
-          echo "::set-output name=name::$name"
-         
       - name: Build
         run: |
           tools/windows/ci.ps1

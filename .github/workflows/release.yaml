@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        ARCH: ['x86_64']
+        arch: ['x86_64']
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v2.3.1
         with:
           # Artifact name
-          name: telecord-${{ matrix.ARCH }}.build
+          name: telecord-${{ matrix.arch }}.build
           path: tmp/build
 
   build-windows:
@@ -79,7 +79,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        ARCH: ['x86_64']
+        arch: ['x86_64']
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -109,25 +109,21 @@ jobs:
          
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v11.5  # Option 2: specify 'latest' or 'latestrc' in the input version arguments:
-      - name: Get latest CMake and Ninja
-        uses: lukka/get-cmake@latest
-        with:
-          cmakeVersion: latestrc      # <--= optional, use the latest release candidate (notice the 'rc' suffix).
-          ninjaVersion: latest        # <--= optional, use the latest release (non candidate).
-
       - name: Prepare
         run: |
           pnpm install
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.arch }}
       - name: Build
         run: |
-          cl -v
-          tools/windows/ci.ps1
+          powershell tools/windows/ci.ps1
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           # Artifact name
-          name: telecord-${{ matrix.ARCH }}.build
+          name: telecord-${{ matrix.arch }}.build
           path: tmp/build
 
   upload:

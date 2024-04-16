@@ -109,12 +109,10 @@ jobs:
          
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v11.5  # Option 2: specify 'latest' or 'latestrc' in the input version arguments:
-        with:
-          runVcpkgInstall: true
       - name: Prepare
         run: |
           pnpm install --no-frozen-lockfile
-      - uses: ilammy/msvc-dev-cmd@v1
+      - uses: TheMrMilchmann/setup-msvc-dev@v3
         with:
           arch: ${{ matrix.arch }}
       - name: Build

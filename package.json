@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "cmake-js compile",
-    "c": "cmake-js compile"
+    "compile": "cmake-js compile"
   },
   "keywords": [],
   "author": "",

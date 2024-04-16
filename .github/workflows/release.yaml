@@ -18,7 +18,7 @@ on:
 jobs:
   build-src:
     name: Build Base Packages
-    runs-on: [ubuntu-latest, windows-latest]
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:

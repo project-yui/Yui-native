@@ -109,6 +109,8 @@ jobs:
          
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v11.5  # Option 2: specify 'latest' or 'latestrc' in the input version arguments:
+        with:
+          runVcpkgInstall: true
       - name: Prepare
         run: |
           pnpm install --no-frozen-lockfile

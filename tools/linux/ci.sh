@@ -24,4 +24,4 @@ cmake ..
 make
 cd $root_dir
 mkdir -p tmp/build
-mv build/*.node tmp/build/telecord-native-linux.node
+mv build/*.node "tmp/build/telecord-native-linux-$1-$2.node"

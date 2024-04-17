@@ -63,7 +63,7 @@ jobs:
          
       - name: Build
         run: |
-          tools/linux/ci.sh
+          tools/linux/ci.sh ${{ matrix.arch }} ${{ steps.tag.outputs.tag }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2.3.1
@@ -117,7 +117,7 @@ jobs:
           arch: ${{ matrix.arch }}
       - name: Build
         run: |
-          powershell tools/windows/ci.ps1
+          powershell tools/windows/ci.ps1 ${{ matrix.arch }} ${{ steps.tag.outputs.tag }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2.3.1

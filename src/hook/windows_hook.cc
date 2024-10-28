@@ -48,7 +48,7 @@ namespace NTNative {
             (LPFN_GetModuleInformation)GetProcAddress(hPsapi, "GetModuleInformation");
         pGetModuleInformation(
             GetCurrentProcess(), moduleHandle, &moduleInfo, sizeof(MODULEINFO));
-        spdlog::debug("start address: {} <-> {}", moduleInfo.lpBaseOfDll, (void *)moduleInfo.lpBaseOfDll);
+        spdlog::debug("start address: {} <-> {}", moduleInfo.lpBaseOfDll, moduleInfo.SizeOfImage);
         std::pair<void *, long> r(moduleInfo.lpBaseOfDll, moduleInfo.SizeOfImage);
         spdlog::debug("get_module_address result: {}", *(char *)moduleInfo.lpBaseOfDll);
         return r;

@@ -1,5 +1,6 @@
 #include "../include/hook.hh"
 #include "subhook.h"
+#include <cstdint>
 #include <spdlog/spdlog.h>
 namespace NTNative {
 
@@ -52,12 +53,19 @@ bool Hook::is_feature_code_matched(const uint8_t *data) {
 
 const uint8_t *Hook::search_feature_code(const uint8_t *data, size_t size) {
     spdlog::debug("search_feature_code: {} - {}", (void *)data, size);
-    for (size_t i = 0; i < size - signature.size(); ++i) {
+    const uint8_t * result = nullptr;
+    for (size_t i = 0; i < size * 0.9; ++i) {
+        // spdlog::info("Check: {}", i);
         if (is_feature_code_matched(data + i)) {
-            return data + i;
+            if (result != nullptr)
+            {
+                spdlog::error("More than one position was found!");
+                return nullptr;
+            }
+            result = data + i;
         }
     }
-    return nullptr;
+    return result;
 }
 
 void * Hook::get_trampoline() {

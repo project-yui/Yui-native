@@ -1,4 +1,6 @@
+#include <cstdint>
 #include <spdlog/spdlog.h>
+#include <subhook.h>
 /**
  * @brief 计算当前汇编指令的长度（一条的字节数）
  * 
@@ -9,6 +11,7 @@
 int custom_disasm(void *src, int *reloc_op_offset) {
   spdlog::debug("custom disasm start");
   spdlog::debug("src: {}, reloc_op_offset: {} -> ", src, (void *)reloc_op_offset, *reloc_op_offset);
+  spdlog::debug("hex: {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X}", ((uint8_t *)src)[0], ((uint8_t *)src)[1], ((uint8_t *)src)[2], ((uint8_t *)src)[3], ((uint8_t *)src)[4], ((uint8_t *)src)[5], ((uint8_t *)src)[6], ((uint8_t *)src)[7]);
   enum flags {
     MODRM      = 1,
     PLUS_R     = 1 << 1,
@@ -185,8 +188,10 @@ int custom_disasm(void *src, int *reloc_op_offset) {
   }
 
   if (!found_opcode) {
+    spdlog::debug("opcode not found!");
     return 0;
   }
+  spdlog::debug("opcode: {:#04X}", opcode);
 
   if (reloc_op_offset != NULL && opcodes[i].flags & RELOC) {
     /* Either a call or a jump instruction that uses an absolute or relative
@@ -199,6 +204,7 @@ int custom_disasm(void *src, int *reloc_op_offset) {
   }
 
   if (opcodes[i].flags & MODRM) {
+    spdlog::debug("MODRM");
     uint8_t modrm = code[len++]; /* +1 for Mod/RM byte */
     uint8_t mod = modrm >> 6;
     uint8_t rm = modrm & 0x07;
@@ -220,6 +226,7 @@ int custom_disasm(void *src, int *reloc_op_offset) {
     }
 
 #ifdef SUBHOOK_X86_64
+    spdlog::debug("SUBHOOK_X86_64");
     if (reloc_op_offset != NULL && mod == 0 && rm == 5) {
       /* RIP-relative addressing: target is at [RIP + disp32]. */
       *reloc_op_offset = (int32_t)len;

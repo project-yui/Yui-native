@@ -23,7 +23,6 @@ namespace yui {
     NTMem * row;
   };
   std::shared_ptr<NTNative::Hook> sqlit3_stmt_hooker;
-  std::shared_ptr<NTNative::Hook> hosts_hooker;
   std::map<sqlite3_stmt *, CustomQuery> nt2custom;
   
   typedef int (*stmt_func)(void * 
@@ -246,7 +245,7 @@ namespace yui {
   void* a5,
   void* a6) {
     
-    // spdlog::debug("execute");
+    // spdlog::debug("sqlite3_stmt_hook execute");
     stmt_func fun = (stmt_func)sqlit3_stmt_hooker->get_trampoline();
     if (fun == nullptr) {
         // spdlog::debug("error nullptr!!!");

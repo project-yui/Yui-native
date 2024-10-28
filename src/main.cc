@@ -29,10 +29,10 @@
  * 
  * @param feature_code 
  */
-static bool install_sqlite3_hook(std::vector<uint8_t> & feature_code) {
+static bool install_sqlite3_hook(std::string &name, std::vector<uint8_t> & feature_code) {
     spdlog::info("internal install hook");
     
-    std::string target = "wrapper.node";
+    std::string target = name;
     // init();
     sqlite3_initialize();
     // printf("pid of this process:%d\n", pid);
@@ -63,10 +63,10 @@ static bool install_sqlite3_hook(std::vector<uint8_t> & feature_code) {
     spdlog::debug("install\n");
     return yui::sqlit3_stmt_hooker->install((void *)yui::sqlite3_stmt_hook);
 }
-static bool install_hosts_hook(std::vector<uint8_t> & feature_code) {
+static bool install_hosts_hook(std::string &name, std::vector<uint8_t> & feature_code) {
     spdlog::info("internal install hook");
     
-    std::string target = "wrapper.node";
+    std::string target = name;
 #ifdef __linux__
     pid_t p = getpid();
 #endif
@@ -87,22 +87,52 @@ static bool install_hosts_hook(std::vector<uint8_t> & feature_code) {
     spdlog::debug("install\n");
     return yui::hosts_hooker->install((void *)yui::hosts_hook);
 }
+static bool install_msf_hook(std::string &name, std::vector<uint8_t> & feature_code) {
+    spdlog::info("internal install hook");
+    
+    std::string target = name;
+#ifdef __linux__
+    pid_t p = getpid();
+#endif
+#ifdef _WIN32
+    pid_t p = _getpid();
+#endif
+    spdlog::debug("current pid: {}\n", p);
+    #ifdef __linux__
+    yui::msf_hooker.reset(new NTNative::LinuxHook(p, target));
+    #endif
+    #ifdef _WIN32
+    yui::msf_hooker.reset(new NTNative::WindowsHook(p, target));
+    #endif
+
+    spdlog::debug("set_signature\n");
+    yui::msf_hooker->set_signature(feature_code);
+
+    spdlog::debug("install\n");
+    return yui::msf_hooker->install((void *)yui::msf_hook);
+}
 
 static Napi::Object install_hook(const Napi::CallbackInfo &info) {
   Napi::Env env = info.Env();
   spdlog::info("check arguments: {}", info.Length());
-  if (info.Length() < 1) {
+  if (info.Length() < 2) {
     throw Napi::Error::New(env, "arguments error!");
   }
   spdlog::debug("check arguments ok!");
-  if (!info[0].IsObject()) {
-    throw Napi::Error::New(env, "First argument must be object!");
+  if (!info[0].IsString()) {
+    throw Napi::Error::New(env, "First argument must be string!");
   }
-  auto sig_obj = info[0].As<Napi::Object>();
+  if (!info[1].IsObject()) {
+    throw Napi::Error::New(env, "Second argument must be object!");
+  }
+  auto module_name = info[0].As<Napi::String>();
+  auto sig_obj = info[1].As<Napi::Object>();
   Napi::Object result = Napi::Object::New(env);
+  std::string name = module_name.Utf8Value();
 
   subhook_set_disasm_handler(custom_disasm);
 
+  spdlog::info("install hook for sqlite3_stmt!");
   auto sqlite3_stmt = sig_obj.Get("sqlite3_stmt");
   if (sqlite3_stmt.IsArray())
   {
@@ -113,10 +143,11 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
       uint8_t v = sig.Get(i).ToNumber().Int32Value();
       code.emplace_back(v);
     }
-    bool ret = install_sqlite3_hook(code);
+    bool ret = install_sqlite3_hook(name, code);
     result.Set("sqlite3_stmt", ret);
   }
   
+  spdlog::info("install hook for hosts!");
   auto hosts = sig_obj.Get("hosts");
   if (hosts.IsArray())
   {
@@ -127,8 +158,23 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
       uint8_t v = sig.Get(i).ToNumber().Int32Value();
       code.emplace_back(v);
     }
-    bool ret = install_hosts_hook(code);
+    bool ret = install_hosts_hook(name, code);
     result.Set("hosts", ret);
+  }
+
+  spdlog::info("install hook for msf!");
+  auto msf = sig_obj.Get("msf");
+  if (msf.IsArray())
+  {
+    auto sig = msf.As<Napi::Array>();
+    spdlog::debug("signature length: {}", sig.Length());
+    std::vector<uint8_t> code;
+    for (int i=0; i < sig.Length(); i++) {
+      uint8_t v = sig.Get(i).ToNumber().Int32Value();
+      code.emplace_back(v);
+    }
+    bool ret = install_msf_hook(name, code);
+    result.Set("msf", ret);
   }
   return result;
 }

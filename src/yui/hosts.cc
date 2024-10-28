@@ -8,6 +8,7 @@
 #include "../include/handle.hh"
 
 namespace yui {
+  std::shared_ptr<NTNative::Hook> hosts_hooker;
   typedef int (* _hosts_hook_func)(StrItem * desc, StrItem * domain, uint8_t type, IPData* ips);
   int hosts_hook(StrItem * desc, StrItem * domain, uint8_t type, IPData* ips)
   {
@@ -31,7 +32,7 @@ namespace yui {
     }
     // 执行原来的调用
     spdlog::debug("func address: {}", (void*) func);
-    spdlog::debug("call func ...");
+    spdlog::debug("call hosts func ...");
     // linux会崩溃
     int ret = func(desc, domain, type, ips);
     return ret;

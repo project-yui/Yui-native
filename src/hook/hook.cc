@@ -27,7 +27,7 @@ bool Hook::install(void *dest) {
 void *Hook::get_start_addr() {
   auto addrRange = get_module_address();
   if (addrRange.first != 0) {
-      spdlog::debug("module address range: {} -> {}", addrRange.first, addrRange.second);
+      spdlog::debug("module address range: {} -> {}(size)", addrRange.first, addrRange.second);
       spdlog::debug("module address first: {}", *(char *)addrRange.first);
     // 找到地址
     auto ptr = search_feature_code((const uint8_t *)addrRange.first,

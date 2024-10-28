@@ -103,6 +103,7 @@ add_library(${MODULE_NAME}
     src/include/linux_hook.hh
     src/include/windows_hook.hh
     src/include/db/group_msg_table.hh
+    src/include/disasm.hh
     src/proto/message.pb.h
     src/main.cc
     src/hook/hook.cc
@@ -111,7 +112,10 @@ add_library(${MODULE_NAME}
     src/proto/message.pb.cc
     src/db/group_msg_table.cc
     src/proto/message.pb.cc
-    src/yui/handle.cc
+    src/disasm/custom_disasm.cc
+    src/yui/hosts.cc
+    src/yui/stmt.cc
+    src/yui/msf_task.cc
     src/yui/convert.cc
     src/include/db/model/group_msg_table.hh
     ${CMAKE_JS_SRC}
@@ -167,7 +171,7 @@ add_executable(test_orm
         test/test_orm.cc
         src/hook/hook.cc
         src/hook/linux_hook.cc
-        src/yui/handle.cc
+        src/yui/stmt.cc
         src/db/group_msg_table.cc
         src/proto/message.pb.cc
 )

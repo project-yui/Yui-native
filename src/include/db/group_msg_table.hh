@@ -7,7 +7,7 @@
 
 
 namespace nt_db {
-  static auto storage = sqlite_orm::make_storage(yukihana::db_name,
+  static auto storage = sqlite_orm::make_storage(yui::db_name,
                               sqlite_orm::make_table("group_msg_table",
                                         sqlite_orm::make_column("40001", &nt_model::GroupMsgTable::msgId, sqlite_orm::primary_key()),
                                         sqlite_orm::make_column("40002", &nt_model::GroupMsgTable::msgRandom),

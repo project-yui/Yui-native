@@ -298,17 +298,17 @@ static bool install_sqlite3_hook(std::vector<uint8_t> & feature_code) {
 #endif
     spdlog::debug("current pid: {}\n", p);
     #ifdef __linux__
-    yukihana::sqlit3_stmt_hooker.reset(new NTNative::LinuxHook(p, target));
+    yui::sqlit3_stmt_hooker.reset(new NTNative::LinuxHook(p, target));
     #endif
     #ifdef _WIN32
-    yukihana::sqlit3_stmt_hooker.reset(new NTNative::WindowsHook(p, target));
+    yui::sqlit3_stmt_hooker.reset(new NTNative::WindowsHook(p, target));
     #endif
 
     spdlog::debug("set_signature\n");
-    yukihana::sqlit3_stmt_hooker->set_signature(feature_code);
+    yui::sqlit3_stmt_hooker->set_signature(feature_code);
 
     spdlog::debug("install\n");
-    return yukihana::sqlit3_stmt_hooker->install((void *)yukihana::sqlite3_stmt_hook);
+    return yui::sqlit3_stmt_hooker->install((void *)yui::sqlite3_stmt_hook);
 }
 static bool install_hosts_hook(std::vector<uint8_t> & feature_code) {
     spdlog::info("internal install hook");
@@ -322,17 +322,17 @@ static bool install_hosts_hook(std::vector<uint8_t> & feature_code) {
 #endif
     spdlog::debug("current pid: {}\n", p);
     #ifdef __linux__
-    yukihana::hosts_hooker.reset(new NTNative::LinuxHook(p, target));
+    yui::hosts_hooker.reset(new NTNative::LinuxHook(p, target));
     #endif
     #ifdef _WIN32
-    yukihana::hosts_hooker.reset(new NTNative::WindowsHook(p, target));
+    yui::hosts_hooker.reset(new NTNative::WindowsHook(p, target));
     #endif
 
     spdlog::debug("set_signature\n");
-    yukihana::hosts_hooker->set_signature(feature_code);
+    yui::hosts_hooker->set_signature(feature_code);
 
     spdlog::debug("install\n");
-    return yukihana::hosts_hooker->install((void *)yukihana::hosts_hook);
+    return yui::hosts_hooker->install((void *)yui::hosts_hook);
 }
 
 static Napi::Object install_hook(const Napi::CallbackInfo &info) {

@@ -17,8 +17,8 @@
 #include "../include/sqlite3/nt/vdbe.hh"
 #include "../include/sqlite3/official/vdbe.hh"
 
-namespace yukihana {
-  const char* db_name = "./yukihana.db";
+namespace yui {
+  const char* db_name = "./yui.db";
   struct CustomQuery {
     sqlite3_stmt * stmt;
     NTMem * row;

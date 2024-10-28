@@ -111,8 +111,8 @@ add_library(${MODULE_NAME}
     src/proto/message.pb.cc
     src/db/group_msg_table.cc
     src/proto/message.pb.cc
-    src/yukihana/handle.cc
-    src/yukihana/convert.cc
+    src/yui/handle.cc
+    src/yui/convert.cc
     src/include/db/model/group_msg_table.hh
     ${CMAKE_JS_SRC}
     )
@@ -167,7 +167,7 @@ add_executable(test_orm
         test/test_orm.cc
         src/hook/hook.cc
         src/hook/linux_hook.cc
-        src/yukihana/handle.cc
+        src/yui/handle.cc
         src/db/group_msg_table.cc
         src/proto/message.pb.cc
 )

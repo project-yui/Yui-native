@@ -7,7 +7,7 @@
 
 #include "../include/hook.hh"
 
-namespace yukihana {
+namespace yui {
   extern const char * db_name;
   extern std::shared_ptr<NTNative::Hook> sqlit3_stmt_hooker;
   extern std::shared_ptr<NTNative::Hook> hosts_hooker;

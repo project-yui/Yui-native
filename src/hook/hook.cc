@@ -19,9 +19,17 @@ bool Hook::install(void *dest) {
     return false;
   if (hook.IsInstalled())
     return false;
-  bool ret =  hook.Install(func, dest, subhook::HookFlag64BitOffset | subhook::HookFlagTrampoline);
+  original_func = func;
+  // nearby: 如果分配的内存过远会被subhook判定溢出
+  bool ret =  hook.Install(func, dest, subhook::HookFlag64BitOffset | subhook::HookFlagTrampoline | subhook::HookFlagTrampolineAllocNearby);
+  
+  spdlog::debug("trampoline start");
   void * trampoline = hook.GetTrampoline();
   spdlog::debug("trampoline: {}", trampoline);
+  if (trampoline != nullptr)
+  {
+    spdlog::debug("hex: {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X}", ((uint8_t *)trampoline)[0], ((uint8_t *)trampoline)[1], ((uint8_t *)trampoline)[2], ((uint8_t *)trampoline)[3], ((uint8_t *)trampoline)[4], ((uint8_t *)trampoline)[5], ((uint8_t *)trampoline)[6], ((uint8_t *)trampoline)[7]);
+  }
   return ret;
 }
 

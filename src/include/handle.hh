@@ -12,7 +12,7 @@ namespace yui {
   extern std::shared_ptr<NTNative::Hook> sqlit3_stmt_hooker;
   extern std::shared_ptr<NTNative::Hook> hosts_hooker;
   extern std::shared_ptr<NTNative::Hook> msf_hooker;
-  int sqlite3_stmt_hook(void* , void* , void* , void* , void* , void* );
+  int sqlite3_stmt_hook(void*);
 
 #ifdef _WIN32
   struct StrItem {

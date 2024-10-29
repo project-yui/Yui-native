@@ -55,6 +55,8 @@ public:
    * @return void* 
    */
   void * get_trampoline();
+  void* original_func;
+  subhook::Hook hook;
 
 protected:
   /**
@@ -91,7 +93,6 @@ protected:
    */
   virtual std::pair<void *, long> get_module_address() = 0;
   
-  subhook::Hook hook;
   // 进程id
   pid_t pid = -1;
   // 模块名称

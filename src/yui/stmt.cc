@@ -25,14 +25,7 @@ namespace yui {
   std::shared_ptr<NTNative::Hook> sqlit3_stmt_hooker;
   std::map<sqlite3_stmt *, CustomQuery> nt2custom;
   
-  typedef int (*stmt_func)(void * 
-  ,void *
-  ,void *  
-  ,void *  
-  ,void * 
-  ,void *  
-  //  ,int 
-  );
+  typedef int (*stmt_func)(void *);
   NTMem * conver2NTMem(Vdbe *src, NTVdbe *dest) {
       int srcColN = sqlite3_column_count((sqlite3_stmt *)src);
     // spdlog::debug("conver2NTMem: {}", srcColN);
@@ -238,15 +231,12 @@ namespace yui {
           }
       }
   }
-  int sqlite3_stmt_hook(void* a1,
-  void* a2,
-  void* a3,
-  void* a4,
-  void* a5,
-  void* a6) {
-    
+  int sqlite3_stmt_hook(void* a1) {
+    // subhook::ScopedHookRemove remove(&sqlit3_stmt_hooker->hook);
     // spdlog::debug("sqlite3_stmt_hook execute");
+    
     stmt_func fun = (stmt_func)sqlit3_stmt_hooker->get_trampoline();
+    // stmt_func fun = (stmt_func)sqlit3_stmt_hooker->original_func;
     if (fun == nullptr) {
         // spdlog::debug("error nullptr!!!");
         return -1;
@@ -295,13 +285,7 @@ namespace yui {
     }
     
     // 1. 执行原来的调用
-    int ret = fun(a1
-        , a2
-        , a3
-        , a4
-        , a5
-        , a6
-    );
+    int ret = fun(a1);
 
     // 2. SQLITE_ROW就返回
     if (ret == SQLITE_ROW) {
@@ -311,7 +295,7 @@ namespace yui {
     }
     // 3. 非SQLITE_ROW继续
     
-    // spdlog::debug("stmt(...) called: {}", ret);;
+    // spdlog::debug("stmt(...) called: {}", ret);
     if (ntStmt != nullptr)
     {
         // spdlog::debug("read from v");

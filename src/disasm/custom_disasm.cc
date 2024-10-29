@@ -10,7 +10,7 @@
  */
 int custom_disasm(void *src, int *reloc_op_offset) {
   spdlog::debug("custom disasm start");
-  spdlog::debug("src: {}, reloc_op_offset: {} -> ", src, (void *)reloc_op_offset, *reloc_op_offset);
+  spdlog::debug("src: {}, reloc_op_offset: {}", src, *reloc_op_offset);
   spdlog::debug("hex: {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X} {:#04X}", ((uint8_t *)src)[0], ((uint8_t *)src)[1], ((uint8_t *)src)[2], ((uint8_t *)src)[3], ((uint8_t *)src)[4], ((uint8_t *)src)[5], ((uint8_t *)src)[6], ((uint8_t *)src)[7]);
   enum flags {
     MODRM      = 1,

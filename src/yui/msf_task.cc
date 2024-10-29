@@ -1,6 +1,5 @@
 
-#include "../include/handle.hh"
-#include <cstdio>
+#include "../include/native_msf.hh"
 #include <iomanip>
 #include <ios>
 #include <memory>
@@ -8,22 +7,21 @@
 #include <spdlog/spdlog.h>
 #include <sqlite3.h>
 #include <sstream>
-#include <stdio.h>
 
 namespace yui {
-std::shared_ptr<NTNative::Hook> msf_hooker;
-typedef int (*_msf_hook_func)(void *_this, MsfPkg **pkg);
+std::shared_ptr<NTNative::Hook> msf_request_hooker;
+typedef int (*_msf_request_hook_func)(void *_this, MsfReqPkg **pkg);
 
 /**
- * @brief MSF的拦截执行函数
+ * @brief MSF的请求拦截执行函数
  * 
  * @param _this 
  * @param pkg 
  * @return int 
  */
-int msf_hook(void *_this, MsfPkg **p) {
+int msf_request_hook(void *_this, MsfReqPkg **p) {
   spdlog::info("msf requet......");
-  _msf_hook_func func = (_msf_hook_func)msf_hooker->get_trampoline();
+  _msf_request_hook_func func = (_msf_request_hook_func)msf_request_hooker->get_trampoline();
   if (func == nullptr)
   {
     spdlog::info("msf requet null");
@@ -48,6 +46,43 @@ int msf_hook(void *_this, MsfPkg **p) {
   spdlog::debug("call msf func ...");
 
   int ret = func(_this, p);
+  spdlog::debug("msf result: {}", ret);
+  return ret;
+}
+
+
+std::shared_ptr<NTNative::Hook> msf_response_hooker;
+typedef int (*_msf_response_hook_func)(void *_this, MsfRespPkg **pkg, int);
+/**
+ * @brief MSF的响应拦截执行函数
+ * 
+ * @param _this 
+ * @param pkg 
+ * @return int 
+ */
+int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
+  spdlog::info("msf response......");
+  _msf_response_hook_func func = (_msf_response_hook_func)msf_response_hooker->get_trampoline();
+  if (func == nullptr)
+  {
+    spdlog::info("msf response null");
+    return -1;
+  }
+  auto pkg = *p;
+
+  spdlog::debug("error code: {}", a3);
+  spdlog::debug("seq: {}", pkg->seq);
+  spdlog::debug("uin: {}", pkg->uin);
+  spdlog::debug("data start: {}, end: {}", (void*)pkg->data->dataStart, (void*)pkg->data->dataEnd);
+  spdlog::debug("data size: {}", pkg->data->dataEnd - pkg->data->dataStart);
+  std::stringstream ss;
+  for (uint8_t *i = pkg->data->dataStart; i < pkg->data->dataEnd; i++) {
+    ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
+  }
+  ss << std::endl;
+  spdlog::debug("data: {}", ss.str());
+
+  int ret = func(_this, p, a3);
   spdlog::debug("msf result: {}", ret);
   return ret;
 }

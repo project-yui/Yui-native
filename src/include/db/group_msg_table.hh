@@ -2,7 +2,7 @@
 #define __DB_GROUP_MSG_TABLE_HH__
 #include "sqlite_orm/sqlite_orm.h"
 #include "model/group_msg_table.hh"
-#include "../handle.hh"
+#include "../native_stmt.hh"
 #include <spdlog/spdlog.h>
 
 

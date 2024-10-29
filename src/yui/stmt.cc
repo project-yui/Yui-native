@@ -8,7 +8,7 @@
 #include <string.h>
 #include <string>
 #include <utility>
-#include "../include/handle.hh"
+#include "../include/native_stmt.hh"
 #include "../include/sqlite3/nt/sqlite3.hh"
 #include "../include/sqlite3/nt/base.hh"
 #include "../include/sqlite3/official/base.hh"

@@ -117,6 +117,9 @@ add_library(${MODULE_NAME}
     src/yui/stmt.cc
     src/yui/msf_task.cc
     src/yui/convert.cc
+    src/install/hook_hosts.cc
+    src/install/hook_msf.cc
+    src/install/hook_stmt.cc
     src/include/db/model/group_msg_table.hh
     ${CMAKE_JS_SRC}
     )

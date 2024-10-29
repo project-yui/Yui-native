@@ -1,6 +1,8 @@
 #include "include/db/group_msg_table.hh"
 #include "include/nt/element.hh"
-#include "include/handle.hh"
+#include "include/native_stmt.hh"
+#include "include/native_hosts.hh"
+#include "include/native_msf.hh"
 #include "proto/message.pb.h"
 #include <cstdint>
 #include <cstdlib>
@@ -22,95 +24,8 @@
 #include "test/test_sqlite3.hh"
 #include "spdlog/spdlog.h"
 #include "include/convert.hh"
+#include "include/install.hh"
 #include "include/disasm.hh"
-
-/**
- * @brief 安装hook
- * 
- * @param feature_code 
- */
-static bool install_sqlite3_hook(std::string &name, std::vector<uint8_t> & feature_code) {
-    spdlog::info("internal install hook");
-    
-    std::string target = name;
-    // init();
-    sqlite3_initialize();
-    // printf("pid of this process:%d\n", pid);
-    // getNameByPid(pid, task_name);
-
-    /*
-    strcpy(task_name, argv[0]+2);
-    printf("task name is %s\n", task_name);
-    getPidByName(task_name);
-    */
-#ifdef __linux__
-    pid_t p = getpid();
-#endif
-#ifdef _WIN32
-    pid_t p = _getpid();
-#endif
-    spdlog::debug("current pid: {}\n", p);
-    #ifdef __linux__
-    yui::sqlit3_stmt_hooker.reset(new NTNative::LinuxHook(p, target));
-    #endif
-    #ifdef _WIN32
-    yui::sqlit3_stmt_hooker.reset(new NTNative::WindowsHook(p, target));
-    #endif
-
-    spdlog::debug("set_signature\n");
-    yui::sqlit3_stmt_hooker->set_signature(feature_code);
-
-    spdlog::debug("install\n");
-    return yui::sqlit3_stmt_hooker->install((void *)yui::sqlite3_stmt_hook);
-}
-static bool install_hosts_hook(std::string &name, std::vector<uint8_t> & feature_code) {
-    spdlog::info("internal install hook");
-    
-    std::string target = name;
-#ifdef __linux__
-    pid_t p = getpid();
-#endif
-#ifdef _WIN32
-    pid_t p = _getpid();
-#endif
-    spdlog::debug("current pid: {}\n", p);
-    #ifdef __linux__
-    yui::hosts_hooker.reset(new NTNative::LinuxHook(p, target));
-    #endif
-    #ifdef _WIN32
-    yui::hosts_hooker.reset(new NTNative::WindowsHook(p, target));
-    #endif
-
-    spdlog::debug("set_signature\n");
-    yui::hosts_hooker->set_signature(feature_code);
-
-    spdlog::debug("install\n");
-    return yui::hosts_hooker->install((void *)yui::hosts_hook);
-}
-static bool install_msf_hook(std::string &name, std::vector<uint8_t> & feature_code) {
-    spdlog::info("internal install hook");
-    
-    std::string target = name;
-#ifdef __linux__
-    pid_t p = getpid();
-#endif
-#ifdef _WIN32
-    pid_t p = _getpid();
-#endif
-    spdlog::debug("current pid: {}\n", p);
-    #ifdef __linux__
-    yui::msf_hooker.reset(new NTNative::LinuxHook(p, target));
-    #endif
-    #ifdef _WIN32
-    yui::msf_hooker.reset(new NTNative::WindowsHook(p, target));
-    #endif
-
-    spdlog::debug("set_signature\n");
-    yui::msf_hooker->set_signature(feature_code);
-
-    spdlog::debug("install\n");
-    return yui::msf_hooker->install((void *)yui::msf_hook);
-}
 
 static Napi::Object install_hook(const Napi::CallbackInfo &info) {
   Napi::Env env = info.Env();
@@ -175,6 +90,21 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
     }
     bool ret = install_msf_hook(name, code);
     result.Set("msf", ret);
+  }
+
+  spdlog::info("install hook for msf response!");
+  auto msfResp = sig_obj.Get("msf_resp");
+  if (msfResp.IsArray())
+  {
+    auto sig = msfResp.As<Napi::Array>();
+    spdlog::debug("signature length: {}", sig.Length());
+    std::vector<uint8_t> code;
+    for (int i=0; i < sig.Length(); i++) {
+      uint8_t v = sig.Get(i).ToNumber().Int32Value();
+      code.emplace_back(v);
+    }
+    bool ret = install_msf_response_hook(name, code);
+    result.Set("msfResp", ret);
   }
   return result;
 }

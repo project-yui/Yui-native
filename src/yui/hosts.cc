@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 #include <sqlite3.h>
 #include <string.h>
-#include "../include/handle.hh"
+#include "../include/native_hosts.hh"
 
 namespace yui {
   std::shared_ptr<NTNative::Hook> hosts_hooker;

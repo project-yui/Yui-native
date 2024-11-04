@@ -15,8 +15,23 @@ namespace yui {
   };
   
   extern std::shared_ptr<NTNative::Hook> msf_request_hooker;
+  struct NTStr {
+    /**
+     * @brief 长度左移一位
+     * 
+     */
+    uint8_t size = 0;
+    char data[23] = {0};
+  };
   struct CmdAndData{
-      char cmd[32] = "";
+      NTStr cmd;
+      uint8_t pad[8];
+      /**
+       * @brief
+       * 
+       * offset 32
+       * 
+       */
       Data *data = nullptr;
   };
   /**
@@ -25,14 +40,15 @@ namespace yui {
    */
   struct MsfReqPkg {
       CmdAndData *cmdAndData = nullptr;
-      int offset_8 = 0;
+      int offset_8 = 32;
       char pad1[20] = "";
       /**
        * @brief QQ
        * 
        * offset_32
        */
-      char uin[32] = "";
+      NTStr uin;
+      uint8_t pad1_1[8] = {0};
       /**
        * @brief seq 
        * 
@@ -40,7 +56,17 @@ namespace yui {
        * 
        */
       long seq = 0;
-      uint8_t pad2[18];
+      uint8_t pad2[4] = {0};
+      /**
+       * @brief 一个函数
+       * 
+       */
+      void * offset_72 = nullptr;
+      /**
+       * @brief 一个函数
+       * 
+       */
+      void * offset_80 = nullptr;
       /**
        * @brief 一个函数
        * 
@@ -51,7 +77,12 @@ namespace yui {
        * 
        */
       void * offset_96 = nullptr;
-      uint8_t pad3[104];
+      /**
+       * @brief 一个函数
+       * 
+       */
+      void * offset_104 = nullptr;
+      uint8_t pad3[96] = {0};
   };
   /**
    * @brief MSF请求函数定义
@@ -59,6 +90,12 @@ namespace yui {
    * @return int 
    */
   int msf_request_hook(void * _this, MsfReqPkg ** pkg);
+struct CustomTaskPkg {
+  std::string cmd;
+  std::string uin;
+  std::vector<uint8_t> data;
+};
+  void msf_request_add(CustomTaskPkg pkg);
 
 
   extern std::shared_ptr<NTNative::Hook> msf_response_hooker;
@@ -67,7 +104,7 @@ namespace yui {
      * @brief 占位
      * 
      */
-    char uin[24];
+    NTStr uin;
     /**
      * @brief seq
      * 
@@ -75,18 +112,14 @@ namespace yui {
      * 
      */
     long seq;
+    uint8_t pad[4] = {0};
     /**
      * @brief cmd
      * 
      * offset 32
      * 
      */
-    char *cmd;
-    /**
-     * @brief 占位
-     * 
-     */
-    uint8_t pad2[16];
+    NTStr cmd;
     /**
      * @brief 数据
      *

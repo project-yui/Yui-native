@@ -18,6 +18,7 @@ if(MSVC)
     # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/Debug")
     # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/Release")
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")
 endif()
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
@@ -111,7 +112,7 @@ add_library(${MODULE_NAME}
     src/hook/windows_hook.cc
     src/proto/message.pb.cc
     src/db/group_msg_table.cc
-    src/proto/message.pb.cc
+    src/proto/search.pb.cc
     src/disasm/custom_disasm.cc
     src/yui/hosts.cc
     src/yui/stmt.cc

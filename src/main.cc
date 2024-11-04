@@ -1,9 +1,5 @@
 #include "include/db/group_msg_table.hh"
-#include "include/nt/element.hh"
-#include "include/native_stmt.hh"
-#include "include/native_hosts.hh"
 #include "include/native_msf.hh"
-#include "proto/message.pb.h"
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
@@ -15,13 +11,11 @@
 #endif
 #ifdef _WIN32
 #include <process.h>
-#include "include/windows_hook.hh"
 #endif
 #include <vector>
 #include <napi.h>
 #include <subhook.h>
 #include <sqlite3.h>
-#include "test/test_sqlite3.hh"
 #include "spdlog/spdlog.h"
 #include "include/convert.hh"
 #include "include/install.hh"
@@ -115,7 +109,7 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
  * @param info 
  * @return Napi::Boolean 
  */
-static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
+static Napi::Boolean add_msg(const Napi::CallbackInfo &info) {
   spdlog::debug("Call addMsg...");
   auto env = info.Env();
   if (info.Length() == 0) {
@@ -209,6 +203,63 @@ static Napi::Boolean addMsg(const Napi::CallbackInfo &info) {
   auto result = db.add(m);
   return Napi::Boolean::New(env, result);
 }
+/**
+ * @brief 添加group消息
+ * 
+ * @param info 
+ * @return Napi::Boolean 
+ */
+static Napi::Boolean add_pkg(const Napi::CallbackInfo &info) {
+  auto env= info.Env();
+  if (info.Length() < 1)
+  {
+    throw Napi::Error::New(env, "参数不足!");
+  }
+  auto arg1 = info[0];
+  if (!arg1.IsObject())
+  {
+    throw Napi::Error::New(env, "参数需要是对象类型!");
+  }
+  auto pkgInfo = arg1.As<Napi::Object>();
+
+  auto uin = pkgInfo.Get("uin");
+  if (!uin.IsString() && !uin.IsNumber())
+  {
+    throw Napi::Error::New(env, "uin需要是字符串或数字类型!");
+  }
+
+  auto cmd = pkgInfo.Get("cmd");
+  if (!cmd.IsString())
+  {
+    throw Napi::Error::New(env, "cmd需要是字符串类型!");
+  }
+  
+  auto dataN = pkgInfo.Get("data");
+  if (!dataN.IsArray())
+  {
+    throw Napi::Error::New(env, "data需要是数组类型!");
+  }
+  
+  yui::CustomTaskPkg pkg;
+
+  pkg.cmd = cmd.As<Napi::String>().Utf8Value();
+  if (uin.IsString())
+  {
+    pkg.uin = uin.As<Napi::String>().Utf8Value();
+  }
+  else if (uin.IsNumber())
+  {
+    pkg.uin = std::to_string(uin.As<Napi::Number>().Int64Value());
+  }
+  auto data = dataN.As<Napi::Array>();
+  for (int i=0; i < data.Length(); i++) {
+    uint8_t v = data.Get(i).ToNumber().Int32Value();
+    pkg.data.emplace_back(v);
+  }
+
+  yui::msf_request_add(pkg);
+  return Napi::Boolean::New(env, true);
+}
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
 
 #ifdef NATIVE_DEBUG
@@ -225,7 +276,10 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports) {
       Napi::Function::New(env, install_hook));
   exports.Set(
       Napi::String::New(env, "addMsg"),
-      Napi::Function::New(env, addMsg));
+      Napi::Function::New(env, add_msg));
+  exports.Set(
+      Napi::String::New(env, "addPkg"),
+      Napi::Function::New(env, add_pkg));
 
   return exports;
 }

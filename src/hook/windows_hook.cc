@@ -1,4 +1,5 @@
 #include "../include/windows_hook.hh"
+#include <utility>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -34,10 +35,14 @@ namespace NTNative {
       } while (Module32Next(handle, &moduleEntry));
       spdlog::warn("Can not find the handle of module {}.", moduleName);
       CloseHandle(handle); 
-      return 0;
+      return NULL;
   }
     std::pair<void*, long> WindowsHook::get_module_address() {
         auto moduleHandle = GetProcessModuleHandle(pid, m_moduleName.c_str());
+        if (moduleHandle == NULL)
+        {
+            return std::pair<void*, long>(0, 0);
+        }
         MODULEINFO moduleInfo;
         typedef BOOL(WINAPI* LPFN_GetModuleInformation)(
             HANDLE hProcess, HMODULE hModule, LPMODULEINFO lpmodinfo, DWORD cb);

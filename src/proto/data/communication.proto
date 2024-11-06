@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package nt.communication;
+
+
+message TcpBase {
+    int32 command = 1;
+    int32 subCommand = 2;
+    optional int32 errorCode = 3;
+    bytes body = 4;
+    optional string errorMsg = 5;
+    repeated Property properties = 11;
+    int32 reserved = 12;
+}
+
+message Property {
+    string key = 1;
+    bytes value = 2;
+}
+
+// 戳一戳
+message PokeReq {
+    uint32 uin = 1;
+    optional uint32 groupUin = 2;
+    optional uint32 friendUin = 5;
+    uint32 Ext = 6;
+}
+
+// 好友搜索
+message StrangerSearchReq {
+    string targetUin = 1;
+    Settings settings = 3;
+}
+message Settings {
+    uint32 filed4 = 4;
+    string filed11 = 11;
+    string setting = 55;
+}
+message StrangerSearchResp {
+    StrangerSearchRespField1 field1 = 1;
+    optional int32 field2 = 2;
+    bytes field3 = 3;
+}
+message StrangerSearchRespField1 {
+    int32 field1 = 1;
+    string field2 = 2;
+    optional int32 field4 = 4;
+}
+// 好友搜索 end
+

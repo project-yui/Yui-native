@@ -112,11 +112,12 @@ add_library(${MODULE_NAME}
     src/hook/windows_hook.cc
     src/proto/message.pb.cc
     src/db/group_msg_table.cc
-    src/proto/search.pb.cc
+    src/proto/communication.pb.cc
     src/disasm/custom_disasm.cc
     src/yui/hosts.cc
     src/yui/stmt.cc
     src/yui/msf_task.cc
+    src/yui/msf_worker.cc
     src/yui/convert.cc
     src/install/hook_hosts.cc
     src/install/hook_msf.cc
@@ -166,9 +167,9 @@ target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
 
 add_executable(test_protobuf
     test/test_protobuf.cc
-    ./src/proto/message.pb.cc
+    ./src/proto/communication.pb.cc
 )
-# target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
+target_link_libraries(test_protobuf PRIVATE spdlog::spdlog)
 target_link_libraries(test_protobuf PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 
 add_executable(test_orm

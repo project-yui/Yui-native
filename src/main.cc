@@ -1,5 +1,6 @@
 #include "include/db/group_msg_table.hh"
 #include "include/native_msf.hh"
+#include "include/msf_worker.hh"
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
@@ -12,14 +13,15 @@
 #ifdef _WIN32
 #include <process.h>
 #endif
-#include <vector>
-#include <napi.h>
-#include <subhook.h>
-#include <sqlite3.h>
-#include "spdlog/spdlog.h"
 #include "include/convert.hh"
-#include "include/install.hh"
 #include "include/disasm.hh"
+#include "include/install.hh"
+#include "spdlog/spdlog.h"
+#include <napi.h>
+#include <sqlite3.h>
+#include <subhook.h>
+#include <vector>
+
 
 static Napi::Object install_hook(const Napi::CallbackInfo &info) {
   Napi::Env env = info.Env();
@@ -43,27 +45,25 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
 
   spdlog::info("install hook for sqlite3_stmt!");
   auto sqlite3_stmt = sig_obj.Get("sqlite3_stmt");
-  if (sqlite3_stmt.IsArray())
-  {
+  if (sqlite3_stmt.IsArray()) {
     auto sig = sqlite3_stmt.As<Napi::Array>();
     spdlog::debug("signature length: {}", sig.Length());
     std::vector<uint8_t> code;
-    for (int i=0; i < sig.Length(); i++) {
+    for (int i = 0; i < sig.Length(); i++) {
       uint8_t v = sig.Get(i).ToNumber().Int32Value();
       code.emplace_back(v);
     }
     bool ret = install_sqlite3_hook(name, code);
     result.Set("sqlite3_stmt", ret);
   }
-  
+
   spdlog::info("install hook for hosts!");
   auto hosts = sig_obj.Get("hosts");
-  if (hosts.IsArray())
-  {
+  if (hosts.IsArray()) {
     auto sig = hosts.As<Napi::Array>();
     spdlog::debug("signature length: {}", sig.Length());
     std::vector<uint8_t> code;
-    for (int i=0; i < sig.Length(); i++) {
+    for (int i = 0; i < sig.Length(); i++) {
       uint8_t v = sig.Get(i).ToNumber().Int32Value();
       code.emplace_back(v);
     }
@@ -73,12 +73,11 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
 
   spdlog::info("install hook for msf!");
   auto msf = sig_obj.Get("msf");
-  if (msf.IsArray())
-  {
+  if (msf.IsArray()) {
     auto sig = msf.As<Napi::Array>();
     spdlog::debug("signature length: {}", sig.Length());
     std::vector<uint8_t> code;
-    for (int i=0; i < sig.Length(); i++) {
+    for (int i = 0; i < sig.Length(); i++) {
       uint8_t v = sig.Get(i).ToNumber().Int32Value();
       code.emplace_back(v);
     }
@@ -88,12 +87,11 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
 
   spdlog::info("install hook for msf response!");
   auto msfResp = sig_obj.Get("msf_resp");
-  if (msfResp.IsArray())
-  {
+  if (msfResp.IsArray()) {
     auto sig = msfResp.As<Napi::Array>();
     spdlog::debug("signature length: {}", sig.Length());
     std::vector<uint8_t> code;
-    for (int i=0; i < sig.Length(); i++) {
+    for (int i = 0; i < sig.Length(); i++) {
       uint8_t v = sig.Get(i).ToNumber().Int32Value();
       code.emplace_back(v);
     }
@@ -105,9 +103,9 @@ static Napi::Object install_hook(const Napi::CallbackInfo &info) {
 
 /**
  * @brief 添加group消息
- * 
- * @param info 
- * @return Napi::Boolean 
+ *
+ * @param info
+ * @return Napi::Boolean
  */
 static Napi::Boolean add_msg(const Napi::CallbackInfo &info) {
   spdlog::debug("Call addMsg...");
@@ -199,66 +197,63 @@ static Napi::Boolean add_msg(const Napi::CallbackInfo &info) {
 
   spdlog::debug("Create db handle...");
   nt_db::GroupMsgTableDb db;
-  
+
   auto result = db.add(m);
   return Napi::Boolean::New(env, result);
 }
+
 /**
  * @brief 添加group消息
- * 
- * @param info 
- * @return Napi::Boolean 
+ *
+ * @param info
+ * @return Napi::Promise
  */
-static Napi::Boolean add_pkg(const Napi::CallbackInfo &info) {
-  auto env= info.Env();
-  if (info.Length() < 1)
-  {
+static Napi::Promise add_pkg(const Napi::CallbackInfo &info) {
+  auto env = info.Env();
+  if (info.Length() < 1) {
     throw Napi::Error::New(env, "参数不足!");
   }
   auto arg1 = info[0];
-  if (!arg1.IsObject())
-  {
+  if (!arg1.IsObject()) {
     throw Napi::Error::New(env, "参数需要是对象类型!");
   }
   auto pkgInfo = arg1.As<Napi::Object>();
 
   auto uin = pkgInfo.Get("uin");
-  if (!uin.IsString() && !uin.IsNumber())
-  {
+  if (!uin.IsString() && !uin.IsNumber()) {
     throw Napi::Error::New(env, "uin需要是字符串或数字类型!");
   }
 
   auto cmd = pkgInfo.Get("cmd");
-  if (!cmd.IsString())
-  {
+  if (!cmd.IsString()) {
     throw Napi::Error::New(env, "cmd需要是字符串类型!");
   }
-  
+
   auto dataN = pkgInfo.Get("data");
-  if (!dataN.IsArray())
-  {
+  if (!dataN.IsBuffer()) {
     throw Napi::Error::New(env, "data需要是数组类型!");
   }
-  
+
   yui::CustomTaskPkg pkg;
 
   pkg.cmd = cmd.As<Napi::String>().Utf8Value();
-  if (uin.IsString())
-  {
+  if (uin.IsString()) {
     pkg.uin = uin.As<Napi::String>().Utf8Value();
-  }
-  else if (uin.IsNumber())
-  {
+  } else if (uin.IsNumber()) {
     pkg.uin = std::to_string(uin.As<Napi::Number>().Int64Value());
   }
-  auto data = dataN.As<Napi::Array>();
-  for (int i=0; i < data.Length(); i++) {
+  auto data = dataN.As<Napi::Uint8Array>();
+  for (int i = 0; i < data.ByteLength(); i++) {
     uint8_t v = data.Get(i).ToNumber().Int32Value();
     pkg.data.emplace_back(v);
   }
 
-  yui::msf_request_add(pkg);
-  return Napi::Boolean::New(env, true);
+  auto deferred = Napi::Promise::Deferred::New(env);
+  MsfWorker *piWorker = new MsfWorker(env, pkg, deferred);
+  spdlog::debug("queue...");
+  piWorker->Queue();
+  spdlog::debug("queue done.");
+  return deferred.Promise();
 }
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
 
@@ -271,15 +266,12 @@ static Napi::Object Init(Napi::Env env, Napi::Object exports) {
   // freopen_s(reinterpret_cast<FILE **> stdout, "CONOUT$", "w", stdout);
 
   spdlog::debug("init method of module...");
-  exports.Set(
-      Napi::String::New(env, "install"),
-      Napi::Function::New(env, install_hook));
-  exports.Set(
-      Napi::String::New(env, "addMsg"),
-      Napi::Function::New(env, add_msg));
-  exports.Set(
-      Napi::String::New(env, "addPkg"),
-      Napi::Function::New(env, add_pkg));
+  exports.Set(Napi::String::New(env, "install"),
+              Napi::Function::New(env, install_hook));
+  exports.Set(Napi::String::New(env, "addMsg"),
+              Napi::Function::New(env, add_msg));
+  exports.Set(Napi::String::New(env, "addPkg"),
+              Napi::Function::New(env, add_pkg));
 
   return exports;
 }

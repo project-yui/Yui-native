@@ -27,4 +27,4 @@ $Env:Path="$cache_dir/protoc-${protoc_ver}/bin;$Env:Path"
 protoc --version
 
 protoc -I="$root_dir/src/proto/data" --cpp_out="$root_dir/src/proto/" "$root_dir/src/proto/data/message.proto"
-protoc -I="$root_dir/src/proto/data" --cpp_out="$root_dir/src/proto/" "$root_dir/src/proto/data/search.proto"
+protoc -I="$root_dir/src/proto/data" --cpp_out="$root_dir/src/proto/" "$root_dir/src/proto/data/communication.proto"

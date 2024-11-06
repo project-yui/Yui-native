@@ -1,9 +1,12 @@
 #ifndef __NATIVE_MSF_HH__
 #define __NATIVE_MSF_HH__
 #include <cstdint>
+#include <future>
 #include <memory>
 #include <sqlite3.h>
+#include <utility>
 #include <vector>
+#include <napi.h>
 
 #include "../include/hook.hh"
 
@@ -94,6 +97,7 @@ struct CustomTaskPkg {
   std::string cmd;
   std::string uin;
   std::vector<uint8_t> data;
+  std::promise<std::pair<void *, long>> * promise;
 };
   void msf_request_add(CustomTaskPkg pkg);
 

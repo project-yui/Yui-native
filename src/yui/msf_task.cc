@@ -12,7 +12,8 @@
 #include <sqlite3.h>
 #include <sstream>
 #include <utility>
-#include "../proto/search.pb.h"
+#include "../proto/communication.pb.h"
+#include "napi.h"
 
 namespace yui {
 std::queue<CustomTaskPkg> task_queue;
@@ -22,6 +23,7 @@ typedef int (*_msf_request_hook_func)(void *_this, MsfReqPkg **pkg);
 struct RecoveryData {
   Data *data;
   Data originalData;
+  std::promise<std::pair<void *, long>> * promise;
 };
 /**
  * @brief recovery data for msf
@@ -52,6 +54,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
   auto data = pkg->cmdAndData->data;
   spdlog::debug("data address: {} -> {}", (void*)data->dataStart, (void *)data->dataEnd);
   spdlog::debug("data size: {}", data->dataEnd - data->dataStart);
+  
   std::stringstream ss;
   for (uint8_t *i = data->dataStart; i < data->dataEnd; i++) {
     ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
@@ -63,10 +66,14 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
   {
     // 1. search friend
     // 2. target uin: 1145141919810
-    nt::search::Stranger stranger_search;
+    nt::communication::TcpBase request;
     auto data = pkg->cmdAndData->data;
-    stranger_search.ParsePartialFromArray(data->dataStart, data->dataEnd - data->dataStart);
-    std::string uin = stranger_search.body().targetuin();
+    request.ParsePartialFromArray(data->dataStart, data->dataEnd - data->dataStart);
+    nt::communication::StrangerSearchReq body;
+    body.ParseFromString(request.body());
+
+    spdlog::debug("command: {}", request.command());
+    std::string uin = body.targetuin();
     spdlog::debug("target uin: {}", uin.data());
     // 3. ok
 
@@ -92,7 +99,8 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
 
         recovery_msf_data[pkg->seq] = {
           data,
-          *data
+          *data,
+          customPkg.promise,
         };
 
         spdlog::debug("original address: {} -> {}", (void*)data->dataStart, (void*)data->dataEnd);
@@ -153,14 +161,62 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     free(rec.data->dataStart);
     *rec.data = rec.originalData;
     recovery_msf_data.erase(pkg->seq);
+    auto size = pkg->data->dataEnd - pkg->data->dataStart;
+    auto rd = new uint8_t[size];
+    memcpy(rd, pkg->data->dataStart, size);
+    rec.promise->set_value(std::make_pair<void*, long>(rd, size));
+    
+    // =========================response peocess start===========================
+    // 1. parse resp
+    // length:665
+    // nt::communication::TcpBase resp;
+    // // 2. modify msg
+    // resp.set_command(2418);
+    // resp.set_subcommand(6);
+    // resp.set_errorcode(0);
+    // resp.set_errormsg("this is error msg");
+    // // 3. repack
+
+    // auto respBody = new nt::communication::StrangerSearchResp();
+    // auto f1 = new nt::communication::StrangerSearchRespField1();
+    // f1->set_field1(1000);
+    // f1->set_field2("查找人");
+    // f1->set_field4(114);
+    // respBody->set_allocated_field1(f1);
+    // respBody->set_field2(114);
+    // uint8_t f3[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    // respBody->set_field3(f3, 15);
+    // resp.set_body(respBody->SerializePartialAsString());
+    // resp.clear_properties();
+
+    // auto size = resp.ByteSizeLong();
+    // uint8_t* result = new uint8_t[size];
+    // resp.SerializePartialToArray(result, size);
+    // Data backup = *pkg->data;
+    // pkg->data->dataStart = result;
+    // pkg->data->dataEnd = result + size;
+
+    // std::stringstream ss;
+    // for (uint8_t *i = pkg->data->dataStart; i < pkg->data->dataEnd; i++) {
+    //   ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
+    // }
+    // ss << std::endl;
+    // spdlog::debug("data: {}", ss.str());
+    
+    // // 4. clean memory
+    // int ret = func(_this, p, a3);
+    // spdlog::debug("msf result: {}", ret);
+    // *pkg->data = backup;
+    // // delete [] result;
+    // return ret;
   }
 
-  std::stringstream ss;
-  for (uint8_t *i = pkg->data->dataStart; i < pkg->data->dataEnd; i++) {
-    ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
-  }
-  ss << std::endl;
-  spdlog::debug("data: {}", ss.str());
+  // std::stringstream ss;
+  // for (uint8_t *i = pkg->data->dataStart; i < pkg->data->dataEnd; i++) {
+  //   ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
+  // }
+  // ss << std::endl;
+  // spdlog::debug("data: {}", ss.str());
 
   int ret = func(_this, p, a3);
   spdlog::debug("msf result: {}", ret);

@@ -3,7 +3,7 @@
 #include <memory>
 #include <sys/types.h>
 #ifdef __linux__
-#include "include/linux_hook.hh"
+#include "../include/linux_hook.hh"
 #include <unistd.h>
 #endif
 #ifdef _WIN32

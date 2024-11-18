@@ -13,7 +13,7 @@
 #include <sstream>
 #include <utility>
 #include "../proto/communication.pb.h"
-#include "napi.h"
+
 
 namespace yui {
 std::queue<CustomTaskPkg> task_queue;
@@ -85,10 +85,20 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         auto customPkg = task_queue.front();
         task_queue.pop();
         spdlog::debug("copy uin...");
+        #ifdef _WIN32
         strcpy_s(pkg->uin.data, customPkg.uin.c_str());
+        #endif
+        #ifdef __linux__
+        strcpy(pkg->uin.data, customPkg.uin.c_str());
+        #endif
         pkg->uin.size = customPkg.uin.length() << 1;
         spdlog::debug("copy cmd...");
+        #ifdef _WIN32
         strcpy_s(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
+        #endif
+        #ifdef __linux__
+        strcpy(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
+        #endif
         pkg->cmdAndData->cmd.size = customPkg.cmd.length() << 1;
         spdlog::debug("copy data...");
         uint8_t * t = (uint8_t *)malloc(customPkg.data.size());

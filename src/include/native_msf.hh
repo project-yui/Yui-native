@@ -116,7 +116,9 @@ struct CustomTaskPkg {
      * 
      */
     long seq;
+    #ifdef _WIN32
     uint8_t pad[4] = {0};
+    #endif
     /**
      * @brief cmd
      * 

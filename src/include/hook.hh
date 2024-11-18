@@ -57,6 +57,12 @@ public:
   void * get_trampoline();
   void* original_func;
   subhook::Hook hook;
+  /**
+   * @brief 自动搜索起始地址
+   * 
+   * @return void* 
+   */
+  virtual void * auto_search_func_address(std::string& keyword);
 
 protected:
   /**

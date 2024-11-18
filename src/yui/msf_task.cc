@@ -164,7 +164,7 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     auto size = pkg->data->dataEnd - pkg->data->dataStart;
     auto rd = new uint8_t[size];
     memcpy(rd, pkg->data->dataStart, size);
-    rec.promise->set_value(std::make_pair<void*, long>(rd, size));
+    rec.promise->set_value(std::make_pair<void*, long>(rd, long(size)));
     
     // =========================response peocess start===========================
     // 1. parse resp

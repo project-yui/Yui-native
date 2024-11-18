@@ -1,6 +1,7 @@
 #include "../include/hook.hh"
 #include "subhook.h"
 #include <cstdint>
+#include <cstring>
 #include <spdlog/spdlog.h>
 namespace NTNative {
 
@@ -62,7 +63,7 @@ bool Hook::is_feature_code_matched(const uint8_t *data) {
 const uint8_t *Hook::search_feature_code(const uint8_t *data, size_t size) {
     spdlog::debug("search_feature_code: {} - {}", (void *)data, size);
     const uint8_t * result = nullptr;
-    for (size_t i = 0; i < size * 0.9; ++i) {
+    for (size_t i = 0; i < size - signature.size(); ++i) {
         // spdlog::info("Check: {}", i);
         if (is_feature_code_matched(data + i)) {
             if (result != nullptr)
@@ -79,4 +80,67 @@ const uint8_t *Hook::search_feature_code(const uint8_t *data, size_t size) {
 void * Hook::get_trampoline() {
   return hook.GetTrampoline();
 }
+void * Hook::auto_search_func_address(std::string& keyword) {
+  // 1. 搜索字符串，得到“字符串位置”
+  auto addrRange = get_module_address();
+  uint8_t * strAddr = nullptr;
+  for (long start = addrRange.second; start > 0; start--) {
+    auto addr = (char*)addrRange.first + start;
+    if (addr == strstr(addr, keyword.data()))
+    {
+      while (*addr != 0) {
+        strAddr = (uint8_t *)addr;
+        addr--;
+      }
+      break;
+    }
+  }
+
+  // 2. 往前搜索表达式：指令位置 + 指令长度 + 指令立即数 = “字符串位置”
+  // 下一个指令位置 + 32位指令立即数 = “字符串位置”
+  uint8_t * refAddr = nullptr;
+  for (uint8_t* nextCmd = strAddr - 1; nextCmd > (uint8_t *)addrRange.first + 7; nextCmd--) {
+    // 48 8D 05 88 D8 27 03
+    auto prefix = *(nextCmd - 7);
+    auto opCode = *(nextCmd - 6);
+    auto mod = *(nextCmd - 5);
+    if (prefix != 0x48 || opCode != 0x8D || mod != 0x05) continue;
+
+    long offset = *(nextCmd - 1) < 8*3 + *(nextCmd - 2) < 8*2+ *(nextCmd - 3) < 8*1 + *(nextCmd - 4);
+    if (nextCmd + offset == strAddr)
+    {
+      refAddr = nextCmd - 7;
+      break;
+    }
+  }
+
+  // 3. 往 "下一个指令位置" 前搜索函数起始地址
+  if (keyword == "stmt")
+  {
+    uint8_t signature[] = {
+      0x41, 0x56,
+      0x56,
+      0x57,
+      0x55,
+      0x53
+    };
+    int size = 6;
+    for (auto addr = refAddr - size; addr > (uint8_t *)addrRange.first; addr--) {
+      bool result = true;
+      for (int i=0; i < size; i++ ) {
+        if(addr[i] != signature[i])
+        {
+          result = false;
+        }
+      }
+      if (result)
+      {
+        return (void *)addr;
+      }
+    }
+  }
+
+  return nullptr;
+}
+
 } // namespace NTNative

@@ -40,7 +40,7 @@ std::map<long, RecoveryData> recovery_msf_data;
  * @return int 
  */
 int msf_request_hook(void *_this, MsfReqPkg **p) {
-  spdlog::info("msf requet......");
+  spdlog::debug("msf requet......");
   _msf_request_hook_func func = (_msf_request_hook_func)msf_request_hooker->get_trampoline();
   if (func == nullptr)
   {
@@ -48,9 +48,9 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
     return -1;
   }
   auto pkg = *p;
-  spdlog::info("seq: {}", pkg->seq);
-  spdlog::info("uin: {}", pkg->uin.data);
-  spdlog::info("cmd: {}", pkg->cmdAndData->cmd.data);
+  spdlog::debug("seq: {}", pkg->seq);
+  spdlog::debug("uin: {}", pkg->uin.data);
+  spdlog::debug("cmd: {}", pkg->cmdAndData->cmd.data);
   auto data = pkg->cmdAndData->data;
   spdlog::debug("data address: {} -> {}", (void*)data->dataStart, (void *)data->dataEnd);
   spdlog::debug("data size: {}", data->dataEnd - data->dataStart);
@@ -148,7 +148,7 @@ typedef int (*_msf_response_hook_func)(void *_this, MsfRespPkg **pkg, int);
  * @return int 
  */
 int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
-  spdlog::info("msf response......");
+  spdlog::debug("msf response......");
   _msf_response_hook_func func = (_msf_response_hook_func)msf_response_hooker->get_trampoline();
   if (func == nullptr)
   {

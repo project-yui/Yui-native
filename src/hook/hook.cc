@@ -63,7 +63,7 @@ bool Hook::is_feature_code_matched(const uint8_t *data) {
 const uint8_t *Hook::search_feature_code(const uint8_t *data, size_t size) {
     spdlog::debug("search_feature_code: {} - {}", (void *)data, size);
     const uint8_t * result = nullptr;
-    for (size_t i = 0; i < size - signature.size(); ++i) {
+    for (size_t i = 0; i < size * 0.9; ++i) {
         // spdlog::info("Check: {}", i);
         if (is_feature_code_matched(data + i)) {
             if (result != nullptr)

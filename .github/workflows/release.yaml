@@ -46,6 +46,7 @@ jobs:
 
       - name: Prepare
         run: |
+          sudo apt install -y ninja-build
           pnpm install --no-frozen-lockfile
 
       - name: Generate TAG

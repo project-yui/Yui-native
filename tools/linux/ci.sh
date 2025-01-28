@@ -18,10 +18,11 @@ fail() {
 }
 
 cd $root_dir
-mkdir build
-cd build
-cmake ..
-make
+rm -rf build
+mkdir -p build
+# cd build
+cmake -S./ -B./build -DCMAKE_BUILD_TYPE:STRING=Release -G Ninja
+cmake --build ./build --config Release --target nt_native
 cd $root_dir
 mkdir -p tmp/build
-mv build/*.node "tmp/build/telecord-native-linux-$1-$2.node"
+cp build/*.node "tmp/build/telecord-native-linux-$1-$2.node"

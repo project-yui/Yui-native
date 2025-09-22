@@ -40,11 +40,11 @@ std::map<long, RecoveryData> recovery_msf_data;
  * @return int 
  */
 int msf_request_hook(void *_this, MsfReqPkg **p) {
-  spdlog::debug("msf requet......");
+  spdlog::debug("msf request......");
   _msf_request_hook_func func = (_msf_request_hook_func)msf_request_hooker->get_trampoline();
   if (func == nullptr)
   {
-    spdlog::info("msf requet null");
+    spdlog::info("msf request null");
     return -1;
   }
   auto pkg = *p;

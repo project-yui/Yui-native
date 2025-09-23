@@ -49,20 +49,31 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
   // }
   subhook::ScopedHookRemove remove(&msf_request_hooker->hook);
   _msf_request_hook_func func = (_msf_request_hook_func)msf_request_hooker->original_func;
+  
   auto pkg = *p;
+  // {
+  //   std::stringstream ss;
+  //   for (uint8_t *i = (uint8_t *)pkg; i < (uint8_t *)pkg + sizeof(MsfReqPkg); i++) {
+  //     ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
+  //   }
+  //   ss << std::endl;
+  //   spdlog::debug("data: {}", ss.str());
+  // }
   spdlog::debug("seq: {}", pkg->seq);
   spdlog::debug("uin: {}", pkg->uin.data);
+  spdlog::debug("uin type: {}", pkg->uinType);
   spdlog::debug("cmd: {}", pkg->cmdAndData->cmd.data);
   auto data = pkg->cmdAndData->data;
   spdlog::debug("data address: {} -> {}", (void*)data->dataStart, (void *)data->dataEnd);
   spdlog::debug("data size: {}", data->dataEnd - data->dataStart);
-  
-  std::stringstream ss;
-  for (uint8_t *i = data->dataStart; i < data->dataEnd; i++) {
-    ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
-  }
-  ss << std::endl;
-  spdlog::debug("data: {}", ss.str());
+  // {
+  //   std::stringstream ss;
+  //   for (uint8_t *i = data->dataStart; i < data->dataEnd; i++) {
+  //     ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
+  //   }
+  //   ss << std::endl;
+  //   spdlog::debug("data: {}", ss.str());
+  // }
 
   if (strcmp(pkg->cmdAndData->cmd.data, "OidbSvcTrpcTcp.0x972_6") == 0)
   {
@@ -173,6 +184,7 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     auto rec = recovery_msf_data[pkg->seq];
     spdlog::debug("original address: {} -> {}", (void *)rec.originalData.dataStart, (void *)rec.originalData.dataEnd);
     free(rec.data->dataStart);
+    // 还原数据地址
     *rec.data = rec.originalData;
     recovery_msf_data.erase(pkg->seq);
     auto size = pkg->data->dataEnd - pkg->data->dataStart;
@@ -180,7 +192,7 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     memcpy(rd, pkg->data->dataStart, size);
     rec.promise->set_value(std::make_pair<void*, long>(rd, long(size)));
     
-    // =========================response peocess start===========================
+    // =========================fake response process start===========================
     // 1. parse resp
     // length:665
     // nt::communication::TcpBase resp;
@@ -230,7 +242,7 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
   //   ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(*i);
   // }
   // ss << std::endl;
-  // spdlog::debug("data: {}", ss.str());
+  // spdlog::debug("response data: {}", ss.str());
 
   int ret = func(_this, p, a3);
   spdlog::debug("msf result: {}", ret);

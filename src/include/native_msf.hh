@@ -44,22 +44,29 @@ namespace yui {
   struct MsfReqPkg {
       CmdAndData *cmdAndData = nullptr;
       int offset_8 = 32;
-      char pad1[20] = "";
+      char pad1[44] = "";
       /**
        * @brief QQ
        * 
-       * offset_32
+       * offset_56
        */
       NTStr uin;
-      uint8_t pad1_1[8] = {0};
+      uint8_t pad2[8] = {0};
       /**
        * @brief seq 
        * 
-       * offset_64
+       * offset_88
        * 
        */
       long seq = 0;
-      uint8_t pad2[4] = {0};
+      uint8_t pad3[58] = {0};
+      /**
+       * @brief uinType 
+       * 
+       * offset_160
+       * 
+       */
+      int uinType = 0;
       /**
        * @brief 一个函数
        * 
@@ -85,7 +92,7 @@ namespace yui {
        * 
        */
       void * offset_104 = nullptr;
-      uint8_t pad3[96] = {0};
+      uint8_t pad4[96] = {0};
   };
   /**
    * @brief MSF请求函数定义

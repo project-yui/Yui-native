@@ -41,12 +41,14 @@ std::map<long, RecoveryData> recovery_msf_data;
  */
 int msf_request_hook(void *_this, MsfReqPkg **p) {
   spdlog::debug("msf request......");
-  _msf_request_hook_func func = (_msf_request_hook_func)msf_request_hooker->get_trampoline();
-  if (func == nullptr)
-  {
-    spdlog::info("msf request null");
-    return -1;
-  }
+  // _msf_request_hook_func func = (_msf_request_hook_func)msf_request_hooker->get_trampoline();
+  // if (func == nullptr)
+  // {
+  //   spdlog::info("msf request null");
+  //   return -1;
+  // }
+  subhook::ScopedHookRemove remove(&msf_request_hooker->hook);
+  _msf_request_hook_func func = (_msf_request_hook_func)msf_request_hooker->original_func;
   auto pkg = *p;
   spdlog::debug("seq: {}", pkg->seq);
   spdlog::debug("uin: {}", pkg->uin.data);
@@ -149,12 +151,14 @@ typedef int (*_msf_response_hook_func)(void *_this, MsfRespPkg **pkg, int);
  */
 int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
   spdlog::debug("msf response......");
-  _msf_response_hook_func func = (_msf_response_hook_func)msf_response_hooker->get_trampoline();
-  if (func == nullptr)
-  {
-    spdlog::info("msf response null");
-    return -1;
-  }
+  // _msf_response_hook_func func = (_msf_response_hook_func)msf_response_hooker->get_trampoline();
+  // if (func == nullptr)
+  // {
+  //   spdlog::info("msf response null");
+  //   return -1;
+  // }
+  subhook::ScopedHookRemove remove(&msf_response_hooker->hook);
+  _msf_response_hook_func func = (_msf_response_hook_func)msf_response_hooker->original_func;
   auto pkg = *p;
 
   spdlog::debug("error code: {}", a3);

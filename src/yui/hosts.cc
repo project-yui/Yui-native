@@ -13,7 +13,9 @@ namespace yui {
   int hosts_hook(StrItem * desc, StrItem * domain, uint8_t type, IPData* ips)
   {
     // spdlog::info("hosts requet......");
-    _hosts_hook_func func = (_hosts_hook_func)hosts_hooker->get_trampoline();
+    // _hosts_hook_func func = (_hosts_hook_func)hosts_hooker->get_trampoline();
+    subhook::ScopedHookRemove remove(&hosts_hooker->hook);
+    _hosts_hook_func func = (_hosts_hook_func)hosts_hooker->original_func;
     
     spdlog::debug("start: {}, end: {}", (void*)ips->start, (void*)ips->end);
     spdlog::debug("desc: {}, damain: {}, type:{}, ips size: {}", desc->data, domain->data, type, ips->size());

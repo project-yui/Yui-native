@@ -235,8 +235,10 @@ namespace yui {
     // subhook::ScopedHookRemove remove(&sqlit3_stmt_hooker->hook);
     // spdlog::debug("sqlite3_stmt_hook execute");
     
-    stmt_func fun = (stmt_func)sqlit3_stmt_hooker->get_trampoline();
+    // stmt_func fun = (stmt_func)sqlit3_stmt_hooker->get_trampoline();
     // stmt_func fun = (stmt_func)sqlit3_stmt_hooker->original_func;
+    subhook::ScopedHookRemove remove(&sqlit3_stmt_hooker->hook);
+    stmt_func fun = (stmt_func)sqlit3_stmt_hooker->original_func;
     if (fun == nullptr) {
         // spdlog::debug("error nullptr!!!");
         return -1;

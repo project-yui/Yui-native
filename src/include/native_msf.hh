@@ -24,7 +24,8 @@ namespace yui {
      * 
      */
     uint8_t size = 0;
-    char data[23] = {0};
+    char data[15] = {0};
+    char *longStr = nullptr;
   };
   struct CmdAndData{
       NTStr cmd;

@@ -24,6 +24,7 @@ struct RecoveryData {
   Data *data;
   Data originalData;
   std::promise<std::pair<void *, long>> * promise;
+  NTStr backupCmd;
 };
 /**
  * @brief recovery data for msf
@@ -105,14 +106,25 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         strcpy(pkg->uin.data, customPkg.uin.c_str());
         #endif
         pkg->uin.size = customPkg.uin.length() << 1;
+
         spdlog::debug("copy cmd...");
+        pkg->cmdAndData->cmd.size = customPkg.cmd.length() << 1;
+        NTStr backupCmd = pkg->cmdAndData->cmd;
         #ifdef _WIN32
         strcpy_s(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
         #endif
         #ifdef __linux__
-        strcpy(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
+        if (customPkg.cmd.length() > 15) {
+          pkg->cmdAndData->cmd.size |= 1;
+          pkg->cmdAndData->cmd.longStr = (char *)malloc(customPkg.cmd.length() + 1);
+          memset(pkg->cmdAndData->cmd.longStr, 0, customPkg.cmd.length() + 1);
+          strcpy(pkg->cmdAndData->cmd.longStr, customPkg.cmd.c_str());
+          spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr);
+        } else {
+          strcpy(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
+        }
         #endif
-        pkg->cmdAndData->cmd.size = customPkg.cmd.length() << 1;
+
         spdlog::debug("copy data...");
         uint8_t * t = (uint8_t *)malloc(customPkg.data.size());
         for (int i=0; i < customPkg.data.size(); i++) {
@@ -124,6 +136,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
           data,
           *data,
           customPkg.promise,
+          backupCmd,
         };
 
         spdlog::debug("original address: {} -> {}", (void*)data->dataStart, (void*)data->dataEnd);
@@ -184,6 +197,12 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     auto rec = recovery_msf_data[pkg->seq];
     spdlog::debug("original address: {} -> {}", (void *)rec.originalData.dataStart, (void *)rec.originalData.dataEnd);
     free(rec.data->dataStart);
+    if (pkg->cmd.size & 1) {
+      free(pkg->cmd.longStr);
+      pkg->cmd.longStr = nullptr;
+    }
+    // 还原cmd
+    pkg->cmd = rec.backupCmd;
     // 还原数据地址
     *rec.data = rec.originalData;
     recovery_msf_data.erase(pkg->seq);

@@ -76,6 +76,24 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
   //   spdlog::debug("data: {}", ss.str());
   // }
 
+  {
+    uint8_t size = pkg->cmdAndData->cmd.size >> 1;
+    pkg->cmdAndData->cmd.longStr = new char[size + 1];
+    memset(pkg->cmdAndData->cmd.longStr, 0, size + 1);
+    strncpy(pkg->cmdAndData->cmd.longStr, pkg->cmdAndData->cmd.data, size);
+
+    pkg->cmdAndData->cmd.size |= 1;
+    pkg->cmdAndData->cmd.data[0] = 0x00;
+    pkg->cmdAndData->cmd.data[1] = 0x00;
+    pkg->cmdAndData->cmd.data[2] = 0x00;
+
+    pkg->cmdAndData->cmd.data[3] = 0x00;
+    pkg->cmdAndData->cmd.data[4] = 0x00;
+    pkg->cmdAndData->cmd.data[5] = 0x00;
+    pkg->cmdAndData->cmd.data[6] = 0x00;
+    *(int32_t *)(pkg->cmdAndData->cmd.data + 7) = size;
+    spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr);
+  }
   if (strcmp(pkg->cmdAndData->cmd.data, "OidbSvcTrpcTcp.0x972_6") == 0)
   {
     // 1. search friend
@@ -90,7 +108,6 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
     std::string uin = body.targetuin();
     spdlog::debug("target uin: {}", uin.data());
     // 3. ok
-
     if (uin == "1145141919810")
     {
       spdlog::debug("queue size: {}", task_queue.size());
@@ -114,9 +131,10 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         strcpy_s(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
         #endif
         #ifdef __linux__
-        if (customPkg.cmd.length() > 15) {
+        if (customPkg.cmd.length() > 5) {
           pkg->cmdAndData->cmd.size |= 1;
-          pkg->cmdAndData->cmd.longStr = (char *)malloc(customPkg.cmd.length() + 1);
+          pkg->cmdAndData->cmd.data[7] = customPkg.cmd.length() + 16;
+          pkg->cmdAndData->cmd.longStr = new char[customPkg.cmd.length() + 1];
           memset(pkg->cmdAndData->cmd.longStr, 0, customPkg.cmd.length() + 1);
           strcpy(pkg->cmdAndData->cmd.longStr, customPkg.cmd.c_str());
           spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr);
@@ -198,6 +216,7 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     spdlog::debug("original address: {} -> {}", (void *)rec.originalData.dataStart, (void *)rec.originalData.dataEnd);
     free(rec.data->dataStart);
     if (pkg->cmd.size & 1) {
+      spdlog::debug("free long cmd");
       free(pkg->cmd.longStr);
       pkg->cmd.longStr = nullptr;
     }

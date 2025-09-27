@@ -2,7 +2,7 @@ $root_dir = Resolve-Path (Join-Path $PSScriptRoot "../../")
 $cache_dir = Join-Path $root_dir "cache"
 Write-Host $root_dir
 
-$protoc_ver = "21.12"
+$protoc_ver = "29.5"
 $protoc_url="https://github.com/protocolbuffers/protobuf/releases/download/v${protoc_ver}/protoc-${protoc_ver}-win64.zip"
 
 Write-Host $protoc_url

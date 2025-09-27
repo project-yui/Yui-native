@@ -13,7 +13,6 @@
 #include <vector>
 #include <napi.h>
 #include <subhook.h>
-#include <sqlite3.h>
 #include "spdlog/spdlog.h"
 
 bool install_msf_hook(std::string &name, std::vector<uint8_t> & feature_code) {

@@ -3,7 +3,6 @@
 #include <cstdint>
 #include <future>
 #include <memory>
-#include <sqlite3.h>
 #include <utility>
 #include <vector>
 #include <napi.h>

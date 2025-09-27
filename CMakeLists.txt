@@ -25,9 +25,7 @@ include("${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
 message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
-find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(Protobuf CONFIG REQUIRED)
-find_package(SqliteOrm CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
 find_program(PNPM_EXECUTABLE pnpm)
@@ -98,31 +96,19 @@ add_subdirectory(thirds/subhook)
 set(MODULE_NAME nt_native)
 add_library(${MODULE_NAME}
     SHARED
-    src/include/sqlite3/official/sqlite3.hh
-    src/include/convert.hh
     src/include/hook.hh
     src/include/linux_hook.hh
     src/include/windows_hook.hh
-    src/include/db/group_msg_table.hh
     src/include/disasm.hh
-    src/proto/message.pb.h
     src/main.cc
     src/hook/hook.cc
     src/hook/linux_hook.cc
     src/hook/windows_hook.cc
-    src/proto/message.pb.cc
-    src/db/group_msg_table.cc
     src/proto/communication.pb.cc
     src/disasm/custom_disasm.cc
-    src/yui/hosts.cc
-    src/yui/stmt.cc
     src/yui/msf_task.cc
     src/yui/msf_worker.cc
-    src/yui/convert.cc
-    src/install/hook_hosts.cc
     src/install/hook_msf.cc
-    src/install/hook_stmt.cc
-    src/include/db/model/group_msg_table.hh
     ${CMAKE_JS_SRC}
     )
 if (WIN32)
@@ -144,12 +130,10 @@ endif()
 if (WIN32)
     target_link_libraries(${MODULE_NAME} subhook)
     target_link_libraries(${MODULE_NAME} protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
-    target_link_libraries(${MODULE_NAME} sqlite_orm::sqlite_orm)
     target_link_libraries(${MODULE_NAME} spdlog::spdlog)
 else()
     target_link_libraries(${MODULE_NAME} PRIVATE subhook)
     target_link_libraries(${MODULE_NAME} PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
-    target_link_libraries(${MODULE_NAME} PRIVATE sqlite_orm::sqlite_orm)
     target_link_libraries(${MODULE_NAME} PRIVATE spdlog::spdlog)
 endif()
 target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
@@ -159,11 +143,6 @@ set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
 ################test##################
 
-add_executable(test_sqlite
-        test/test_sqlite3.cc
-)
-target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
-# target_link_libraries(test_sqlite PRIVATE sqlite3)
 
 add_executable(test_protobuf
     test/test_protobuf.cc
@@ -171,20 +150,6 @@ add_executable(test_protobuf
 )
 target_link_libraries(test_protobuf PRIVATE spdlog::spdlog)
 target_link_libraries(test_protobuf PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
-
-add_executable(test_orm
-        test/test_orm.cc
-        src/hook/hook.cc
-        src/hook/linux_hook.cc
-        src/yui/stmt.cc
-        src/db/group_msg_table.cc
-        src/proto/message.pb.cc
-)
-# target_link_libraries(test_sqlite PRIVATE unofficial::sqlite3::sqlite3)
-target_link_libraries(test_orm PRIVATE sqlite_orm::sqlite_orm)
-target_link_libraries(test_orm PRIVATE subhook)
-target_link_libraries(test_orm PRIVATE spdlog::spdlog)
-target_link_libraries(test_orm PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 
 
 add_executable(test

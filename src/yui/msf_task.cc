@@ -2,15 +2,10 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <iomanip>
-#include <ios>
 #include <map>
 #include <memory>
-#include <ostream>
 #include <queue>
 #include <spdlog/spdlog.h>
-#include <sqlite3.h>
-#include <sstream>
 #include <utility>
 #include "../proto/communication.pb.h"
 

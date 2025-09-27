@@ -90,7 +90,6 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
     std::string uin = body.targetuin();
     spdlog::debug("target uin: {}", uin.data());
     // 3. ok
-
     if (uin == "1145141919810")
     {
       spdlog::debug("queue size: {}", task_queue.size());
@@ -111,12 +110,24 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         pkg->cmdAndData->cmd.size = customPkg.cmd.length() << 1;
         NTStr backupCmd = pkg->cmdAndData->cmd;
         #ifdef _WIN32
-        strcpy_s(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
-        #endif
-        #ifdef __linux__
         if (customPkg.cmd.length() > 15) {
           pkg->cmdAndData->cmd.size |= 1;
-          pkg->cmdAndData->cmd.longStr = (char *)malloc(customPkg.cmd.length() + 1);
+          memset(pkg->cmdAndData->cmd.data, 0, 15);
+          pkg->cmdAndData->cmd.data[7] = customPkg.cmd.length() + 16;
+          pkg->cmdAndData->cmd.longStr = new char[customPkg.cmd.length() + 1];
+          memset(pkg->cmdAndData->cmd.longStr, 0, customPkg.cmd.length() + 1);
+          strcpy_s(pkg->cmdAndData->cmd.longStr, customPkg.cmd.length() + 1, customPkg.cmd.c_str());
+          spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr);
+        } else {
+          strcpy_s(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
+        }
+        #endif
+        #ifdef __linux__
+        if (customPkg.cmd.length() > 5) {
+          pkg->cmdAndData->cmd.size |= 1;
+          memset(pkg->cmdAndData->cmd.data, 0, 15);
+          pkg->cmdAndData->cmd.data[7] = customPkg.cmd.length();
+          pkg->cmdAndData->cmd.longStr = new char[customPkg.cmd.length() + 1];
           memset(pkg->cmdAndData->cmd.longStr, 0, customPkg.cmd.length() + 1);
           strcpy(pkg->cmdAndData->cmd.longStr, customPkg.cmd.c_str());
           spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr);
@@ -188,7 +199,11 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
   spdlog::debug("error code: {}", a3);
   spdlog::debug("seq: {}", pkg->seq);
   spdlog::debug("uin: {}", pkg->uin.data);
-  spdlog::debug("cmd: {}", pkg->cmd.data);
+  if (pkg->cmd.size & 1) {
+    spdlog::debug("long cmd: {}", pkg->cmd.longStr);
+  } else {
+    spdlog::debug("short cmd: {}", pkg->cmd.data);
+  }
   spdlog::debug("data start: {}, end: {}", (void*)pkg->data->dataStart, (void*)pkg->data->dataEnd);
   spdlog::debug("data size: {}", pkg->data->dataEnd - pkg->data->dataStart);
   spdlog::debug("try to find recovery data.");
@@ -198,7 +213,8 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     spdlog::debug("original address: {} -> {}", (void *)rec.originalData.dataStart, (void *)rec.originalData.dataEnd);
     free(rec.data->dataStart);
     if (pkg->cmd.size & 1) {
-      free(pkg->cmd.longStr);
+      spdlog::debug("free long cmd");
+      delete[] pkg->cmd.longStr;
       pkg->cmd.longStr = nullptr;
     }
     // 还原cmd

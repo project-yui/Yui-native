@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           # Artifact name
-          name: telecord-${{ matrix.arch }}.build
+          name: telecord-${{ matrix.arch }}-linux.build
           path: tmp/build
 
   build-windows:
@@ -108,7 +108,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           # Artifact name
-          name: telecord-${{ matrix.arch }}.build
+          name: telecord-${{ matrix.arch }}-win32.build
           path: tmp/build
 
   upload:

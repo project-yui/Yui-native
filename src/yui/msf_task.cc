@@ -133,7 +133,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         }
         #endif
         #ifdef __linux__
-        if (customPkg.cmd.length() > 22) {
+        if (customPkg.cmd.length() > 15) {
           pkg->cmdAndData->cmd.size |= 1;
           memset(pkg->cmdAndData->cmd.data, 0, 15);
           pkg->cmdAndData->cmd.data[7] = customPkg.cmd.length();

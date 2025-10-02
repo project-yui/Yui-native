@@ -12,15 +12,20 @@
 
 namespace yui {
 std::queue<CustomTaskPkg> task_queue;
+// queue lock
+std::mutex task_queue_mutex;
 
 std::shared_ptr<NTNative::Hook> msf_request_hooker;
 typedef int (*_msf_request_hook_func)(void *_this, MsfReqPkg **pkg);
+
+// 用于响应时的复原与清理
 struct RecoveryData {
   Data *data;
   Data originalData;
   std::promise<std::pair<void *, long>> * promise;
   NTStr backupCmd;
 };
+
 /**
  * @brief recovery data for msf
  * 
@@ -28,6 +33,14 @@ struct RecoveryData {
  * 
  */
 std::map<long, RecoveryData> recovery_msf_data;
+void printHex(uint8_t *data, int len) {
+  std::stringstream ss;
+  for (int i = 0; i < len; i++) {
+    ss << " 0x" << std::uppercase << std::setfill('0') << std::setw(2) <<  std::hex << static_cast<unsigned int>(data[i]);
+  }
+  ss << std::endl;
+  spdlog::debug("data: {}", ss.str());
+}
 /**
  * @brief MSF的请求拦截执行函数
  * 
@@ -62,6 +75,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
   auto data = pkg->cmdAndData->data;
   spdlog::debug("data address: {} -> {}", (void*)data->dataStart, (void *)data->dataEnd);
   spdlog::debug("data size: {}", data->dataEnd - data->dataStart);
+  printHex(data->dataStart, data->dataEnd - data->dataStart);
   // {
   //   std::stringstream ss;
   //   for (uint8_t *i = data->dataStart; i < data->dataEnd; i++) {
@@ -87,6 +101,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
     // 3. ok
     if (uin == "1145141919810")
     {
+      std::lock_guard<std::mutex> lock(task_queue_mutex);
       spdlog::debug("queue size: {}", task_queue.size());
       if (task_queue.size() > 0)
       {
@@ -118,7 +133,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         }
         #endif
         #ifdef __linux__
-        if (customPkg.cmd.length() > 5) {
+        if (customPkg.cmd.length() > 22) {
           pkg->cmdAndData->cmd.size |= 1;
           memset(pkg->cmdAndData->cmd.data, 0, 15);
           pkg->cmdAndData->cmd.data[7] = customPkg.cmd.length();
@@ -167,6 +182,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
 
 void msf_request_add(CustomTaskPkg pkg)
 {
+  std::lock_guard<std::mutex> lock(task_queue_mutex);
   task_queue.emplace(pkg);
 }
 
@@ -201,6 +217,7 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
   }
   spdlog::debug("data start: {}, end: {}", (void*)pkg->data->dataStart, (void*)pkg->data->dataEnd);
   spdlog::debug("data size: {}", pkg->data->dataEnd - pkg->data->dataStart);
+  printHex(pkg->data->dataStart, pkg->data->dataEnd - pkg->data->dataStart);
   spdlog::debug("try to find recovery data.");
   if (recovery_msf_data.find(pkg->seq) != recovery_msf_data.end())
   {

@@ -69,9 +69,15 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
   //   spdlog::debug("data: {}", ss.str());
   // }
   spdlog::debug("seq: {}", pkg->seq);
-  spdlog::debug("uin: {}", pkg->uin.data);
+  spdlog::debug("uin: {}", pkg->uin.shortStr.data);
   spdlog::debug("uin type: {}", pkg->uinType);
-  spdlog::debug("cmd: {}", pkg->cmdAndData->cmd.data);
+  {
+    if (pkg->cmdAndData->cmd.shortStr.size & 1) {
+      spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr.pStr);
+    } else {
+      spdlog::debug("short cmd: {}", pkg->cmdAndData->cmd.shortStr.data);
+    }
+  }
   auto data = pkg->cmdAndData->data;
   spdlog::debug("data address: {} -> {}", (void*)data->dataStart, (void *)data->dataEnd);
   spdlog::debug("data size: {}", data->dataEnd - data->dataStart);
@@ -85,7 +91,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
   //   spdlog::debug("data: {}", ss.str());
   // }
 
-  if (strcmp(pkg->cmdAndData->cmd.data, "OidbSvcTrpcTcp.0x972_6") == 0)
+  if (strcmp(pkg->cmdAndData->cmd.shortStr.data, "OidbSvcTrpcTcp.0x972_6") == 0)
   {
     // 1. search friend
     // 2. target uin: 1145141919810
@@ -112,12 +118,12 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         strcpy_s(pkg->uin.data, customPkg.uin.c_str());
         #endif
         #ifdef __linux__
-        strcpy(pkg->uin.data, customPkg.uin.c_str());
+        strcpy(pkg->uin.shortStr.data, customPkg.uin.c_str());
         #endif
-        pkg->uin.size = customPkg.uin.length() << 1;
+        pkg->uin.shortStr.size = customPkg.uin.length() << 1;
 
         spdlog::debug("copy cmd...");
-        pkg->cmdAndData->cmd.size = customPkg.cmd.length() << 1;
+        pkg->cmdAndData->cmd.shortStr.size = customPkg.cmd.length() << 1;
         NTStr backupCmd = pkg->cmdAndData->cmd;
         #ifdef _WIN32
         if (customPkg.cmd.length() > 15) {
@@ -133,16 +139,15 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         }
         #endif
         #ifdef __linux__
-        if (customPkg.cmd.length() > 15) {
-          pkg->cmdAndData->cmd.size |= 1;
-          memset(pkg->cmdAndData->cmd.data, 0, 15);
-          pkg->cmdAndData->cmd.data[7] = customPkg.cmd.length();
-          pkg->cmdAndData->cmd.longStr = new char[customPkg.cmd.length() + 1];
-          memset(pkg->cmdAndData->cmd.longStr, 0, customPkg.cmd.length() + 1);
-          strcpy(pkg->cmdAndData->cmd.longStr, customPkg.cmd.c_str());
-          spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr);
+        if (customPkg.cmd.length() > 23) {
+          pkg->cmdAndData->cmd.shortStr.size |= 1;
+          pkg->cmdAndData->cmd.longStr.realSize = customPkg.cmd.length();
+          pkg->cmdAndData->cmd.longStr.pStr = new char[customPkg.cmd.length() + 1];
+          memset(pkg->cmdAndData->cmd.longStr.pStr, 0, customPkg.cmd.length() + 1);
+          strcpy(pkg->cmdAndData->cmd.longStr.pStr, customPkg.cmd.c_str());
+          spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr.pStr);
         } else {
-          strcpy(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
+          strcpy(pkg->cmdAndData->cmd.shortStr.data, customPkg.cmd.c_str());
         }
         #endif
 
@@ -209,11 +214,11 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
 
   spdlog::debug("error code: {}", a3);
   spdlog::debug("seq: {}", pkg->seq);
-  spdlog::debug("uin: {}", pkg->uin.data);
-  if (pkg->cmd.size & 1) {
-    spdlog::debug("long cmd: {}", pkg->cmd.longStr);
+  spdlog::debug("uin: {}", pkg->uin.shortStr.data);
+  if (pkg->cmd.shortStr.size & 1) {
+    spdlog::debug("long cmd: {}", pkg->cmd.longStr.pStr);
   } else {
-    spdlog::debug("short cmd: {}", pkg->cmd.data);
+    spdlog::debug("short cmd: {}", pkg->cmd.shortStr.data);
   }
   spdlog::debug("data start: {}, end: {}", (void*)pkg->data->dataStart, (void*)pkg->data->dataEnd);
   spdlog::debug("data size: {}", pkg->data->dataEnd - pkg->data->dataStart);
@@ -224,10 +229,10 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
     auto rec = recovery_msf_data[pkg->seq];
     spdlog::debug("original address: {} -> {}", (void *)rec.originalData.dataStart, (void *)rec.originalData.dataEnd);
     free(rec.data->dataStart);
-    if (pkg->cmd.size & 1) {
+    if (pkg->cmd.shortStr.size & 1) {
       spdlog::debug("free long cmd");
-      delete[] pkg->cmd.longStr;
-      pkg->cmd.longStr = nullptr;
+      delete[] pkg->cmd.longStr.pStr;
+      pkg->cmd.longStr.pStr = nullptr;
     }
     // 还原cmd
     pkg->cmd = rec.backupCmd;

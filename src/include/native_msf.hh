@@ -17,14 +17,27 @@ namespace yui {
   };
   
   extern std::shared_ptr<NTNative::Hook> msf_request_hooker;
-  struct NTStr {
+  struct NTLongStr {
     /**
      * @brief 长度左移一位
      * 
      */
-    uint8_t size = 0;
-    char data[15] = {0};
-    char *longStr = nullptr;
+    uint8_t size;
+    char pad[7];
+    int64_t realSize;
+    char *pStr;
+  };
+  struct NTShortStr {
+    /**
+     * @brief 长度左移一位
+     * 
+     */
+    uint8_t size;
+    char data[23];
+  };
+  union NTStr {
+    NTLongStr longStr;
+    NTShortStr shortStr;
   };
   struct CmdAndData{
       NTStr cmd;

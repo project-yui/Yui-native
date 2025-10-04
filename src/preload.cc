@@ -11,10 +11,8 @@ void qq_magic_napi_register(napi_module *m) {
     spdlog::info("call qq_magic_napi_register");
     napi_module_register(m);
 }
-void init() {
-    // 引用一下gnutls_global_init，确保gnutls库被链接进来
-    void * _ = (void *)gnutls_global_init;
-}
+// Ensure gnutls_xxx is linked in
+void * _force_gnutls_global_init __attribute__((used)) = (void *)gnutls_global_init;
 }
 
 #endif

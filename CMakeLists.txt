@@ -27,6 +27,8 @@ message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 find_package(Protobuf CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GNUTLS REQUIRED IMPORTED_TARGET gnutls)
 
 find_program(PNPM_EXECUTABLE pnpm)
 if(NOT PNPM_EXECUTABLE)
@@ -126,7 +128,7 @@ if (WIN32)
     target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ.lib)
     target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ64.lib)
 endif()
-# target_link_libraries(${MODULE_NAME} PRIVATE unofficial::sqlite3::sqlite3)
+
 if (WIN32)
     target_link_libraries(${MODULE_NAME} subhook)
     target_link_libraries(${MODULE_NAME} protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
@@ -138,8 +140,20 @@ else()
 endif()
 target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 
-target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1> $<$<CONFIG:Debug>:SQLITE_DEBUG>)
+target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
+
+################preload###############
+
+add_library(preload
+    SHARED
+    src/preload.cc
+    ${CMAKE_JS_SRC}
+    )
+target_link_libraries(preload PRIVATE spdlog::spdlog)
+target_link_libraries(preload PRIVATE PkgConfig::GNUTLS)
+target_include_directories(preload PRIVATE ${GNUTLS_INCLUDE_DIRS})
+set_target_properties(preload PROPERTIES PREFIX "" SUFFIX ".node")
 
 ################test##################
 
@@ -154,4 +168,7 @@ target_link_libraries(test_protobuf PRIVATE protobuf::libprotoc protobuf::libpro
 
 add_executable(test
         test/test.cc
+)
+add_executable(test_preload
+        test/test_preload.cc
 )

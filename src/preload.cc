@@ -1,0 +1,28 @@
+
+#include "napi.h"
+#include "spdlog/spdlog.h"
+#include <dlfcn.h>
+#include <gnutls/gnutls.h>
+
+#if defined(__linux__) || defined(__APPLE__)
+extern "C" {
+// Keep the existing registration helper
+void qq_magic_napi_register(napi_module *m) {
+    spdlog::info("call qq_magic_napi_register");
+    napi_module_register(m);
+}
+void init() {
+    // 引用一下gnutls_global_init，确保gnutls库被链接进来
+    void * _ = (void *)gnutls_global_init;
+}
+}
+
+#endif
+
+
+static Napi::Object Init(Napi::Env env, Napi::Object exports) {
+
+  return exports;
+}
+
+NODE_API_MODULE(cmnative, Init)

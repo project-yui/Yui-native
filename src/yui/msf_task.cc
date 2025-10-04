@@ -152,7 +152,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         #endif
 
         spdlog::debug("copy data...");
-        uint8_t * t = (uint8_t *)malloc(customPkg.data.size());
+        uint8_t * t = new uint8_t[customPkg.data.size()];
         for (int i=0; i < customPkg.data.size(); i++) {
           t[i] = customPkg.data[i];
         }
@@ -228,9 +228,9 @@ int msf_response_hook(void *_this, MsfRespPkg **p, int a3) {
   {
     auto rec = recovery_msf_data[pkg->seq];
     spdlog::debug("original address: {} -> {}", (void *)rec.originalData.dataStart, (void *)rec.originalData.dataEnd);
-    free(rec.data->dataStart);
+    delete[] rec.data->dataStart;
     if (pkg->cmd.shortStr.size & 1) {
-      spdlog::debug("free long cmd");
+      spdlog::debug("delete long cmd");
       delete[] pkg->cmd.longStr.pStr;
       pkg->cmd.longStr.pStr = nullptr;
     }

@@ -6,6 +6,7 @@
 #include <memory>
 #include <queue>
 #include <spdlog/spdlog.h>
+#include <string.h>
 #include <utility>
 #include "../proto/communication.pb.h"
 
@@ -115,7 +116,7 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         task_queue.pop();
         spdlog::debug("copy uin...");
         #ifdef _WIN32
-        strcpy_s(pkg->uin.data, customPkg.uin.c_str());
+        strcpy_s(pkg->uin.shortStr.data, customPkg.uin.c_str());
         #endif
         #ifdef __linux__
         strcpy(pkg->uin.shortStr.data, customPkg.uin.c_str());
@@ -126,16 +127,14 @@ int msf_request_hook(void *_this, MsfReqPkg **p) {
         pkg->cmdAndData->cmd.shortStr.size = customPkg.cmd.length() << 1;
         NTStr backupCmd = pkg->cmdAndData->cmd;
         #ifdef _WIN32
-        if (customPkg.cmd.length() > 15) {
-          pkg->cmdAndData->cmd.size |= 1;
-          memset(pkg->cmdAndData->cmd.data, 0, 15);
-          pkg->cmdAndData->cmd.data[7] = customPkg.cmd.length() + 16;
-          pkg->cmdAndData->cmd.longStr = new char[customPkg.cmd.length() + 1];
-          memset(pkg->cmdAndData->cmd.longStr, 0, customPkg.cmd.length() + 1);
-          strcpy_s(pkg->cmdAndData->cmd.longStr, customPkg.cmd.length() + 1, customPkg.cmd.c_str());
-          spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr);
+        if (customPkg.cmd.length() > 23) {
+          pkg->cmdAndData->cmd.shortStr.size |= 1;
+          pkg->cmdAndData->cmd.longStr.pStr = new char[customPkg.cmd.length() + 1];
+          memset(pkg->cmdAndData->cmd.longStr.pStr, 0, customPkg.cmd.length() + 1);
+          strcpy_s(pkg->cmdAndData->cmd.longStr.pStr, customPkg.cmd.length() + 1, customPkg.cmd.c_str());
+          spdlog::debug("long cmd: {}", pkg->cmdAndData->cmd.longStr.pStr);
         } else {
-          strcpy_s(pkg->cmdAndData->cmd.data, customPkg.cmd.c_str());
+          strcpy_s(pkg->cmdAndData->cmd.shortStr.data, customPkg.cmd.length(), customPkg.cmd.c_str());
         }
         #endif
         #ifdef __linux__

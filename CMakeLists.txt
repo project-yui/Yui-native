@@ -27,8 +27,10 @@ message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 find_package(Protobuf CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GNUTLS REQUIRED IMPORTED_TARGET gnutls)
+if (LINUX)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GNUTLS REQUIRED IMPORTED_TARGET gnutls)
+endif()
 
 find_program(PNPM_EXECUTABLE pnpm)
 if(NOT PNPM_EXECUTABLE)
@@ -65,6 +67,12 @@ execute_process(COMMAND
     ${PNPM_EXECUTABLE} cmake-js print-cmakejs-include --silent -l error
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     OUTPUT_VARIABLE CMAKE_JS_INC
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+execute_process(COMMAND
+    ${PNPM_EXECUTABLE} cmake-js print-cmakejs-lib --silent -l error
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE CMAKE_JS_LIB
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 # string(REPLACE ";" "\;" CMAKE_JS_INC "${CMAKE_JS_INC}")
@@ -150,10 +158,23 @@ add_library(preload
     src/preload.cc
     ${CMAKE_JS_SRC}
     )
-target_link_libraries(preload PRIVATE spdlog::spdlog)
-target_link_libraries(preload PRIVATE PkgConfig::GNUTLS)
-target_include_directories(preload PRIVATE ${GNUTLS_INCLUDE_DIRS})
-set_target_properties(preload PROPERTIES PREFIX "" SUFFIX ".node")
+    
+if (WIN32)
+    execute_process(COMMAND
+        node tools/windows/download_lib.js
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    )
+    # Generate node.lib
+    target_link_libraries(preload PRIVATE spdlog::spdlog)
+
+else()
+    target_link_libraries(preload PRIVATE spdlog::spdlog)
+    target_link_libraries(preload PRIVATE PkgConfig::GNUTLS)
+    target_include_directories(preload PRIVATE ${GNUTLS_INCLUDE_DIRS})
+    # Ensure we also link with cmake-js / node libs on non-Windows
+    target_link_libraries(preload PRIVATE ${CMAKE_JS_LIB})
+endif()
+set_target_properties(preload PROPERTIES PREFIX "" SUFFIX ".dll")
 
 ################test##################
 

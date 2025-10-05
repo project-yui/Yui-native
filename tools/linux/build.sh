@@ -19,6 +19,7 @@ export NVM_DIR="$HOME/.nvm"
 [ "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 node --version
 pnpm --version
+cmake --version
 cd $root_dir
 pnpm install --force
 

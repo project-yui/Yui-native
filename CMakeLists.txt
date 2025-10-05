@@ -76,8 +76,11 @@ if(NOT EXISTS ${CMAKE_JS_LIB})
     execute_process(COMMAND
         node tools/windows/download_lib.js
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        COMMAND_ERROR_IS_FATAL ANY
+        RESULT_VARIABLE ret
     )
+    if(ret EQUAL "1")
+        message( FATAL_ERROR "Bad exit status")
+    endif()
 endif()
 
 message("CMAKE_JS_INC:" ${CMAKE_JS_INC})

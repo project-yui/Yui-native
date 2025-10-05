@@ -23,24 +23,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     return TRUE;
 }
 
-// Generic forwarding helpers. For functions with unknown signatures we
-// implement no-arg wrappers and for qq_magic_napi_register we preserve
-// the single-argument form used elsewhere in the project.
-
-extern "C" {
-
-} // extern "C"
-
-// Additional forwarding wrappers for N-API and libuv functions imported from QQNT.dll
-extern "C" {
-
 // 这个函数，node没有自带
 // Wrapper for mangled C++ symbol: ?IsEnvironmentStopping@node@@YA_NPEAVIsolate@v8@@@Z
 // Original signature: bool IsEnvironmentStopping(node::Isolate*) (approx)
 extern "C" __declspec(dllexport) int My_IsEnvironmentStopping_node(void* isolate)
 {
+    spdlog::info("My_IsEnvironmentStopping_node called");
     return 0;
 }
-
-} // extern "C"
-

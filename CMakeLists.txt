@@ -27,10 +27,6 @@ message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 find_package(Protobuf CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-if (LINUX)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(GNUTLS REQUIRED IMPORTED_TARGET gnutls)
-endif()
 
 find_program(PNPM_EXECUTABLE pnpm)
 if(NOT PNPM_EXECUTABLE)

@@ -15,5 +15,5 @@ target_link_libraries(preload PRIVATE PkgConfig::GNUTLS)
 target_include_directories(preload PRIVATE ${GNUTLS_INCLUDE_DIRS})
 # Ensure we also link with cmake-js / node libs on non-Windows
 target_link_libraries(preload PRIVATE ${CMAKE_JS_LIB})
-
+set_target_properties(preload PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set_target_properties(preload PROPERTIES PREFIX "" SUFFIX ".node")

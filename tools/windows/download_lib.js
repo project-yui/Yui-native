@@ -5,6 +5,7 @@ const path = require('path');
 
 // https://nodejs.org/dist/v22.13.1/win-x64/node.lib
 function downloadFileAsync(uri, dest){
+  console.log(`Downloading ${uri} to ${dest}`);
   return new Promise((resolve, reject)=>{
       // 确保dest路径存在
     const file = fs.createWriteStream(dest);
@@ -35,5 +36,5 @@ function downloadFileAsync(uri, dest){
 }
 
 ;(async () => {
-    await downloadFileAsync('https://nodejs.org/dist/v22.13.1/win-x64/node.lib', path.resolve(__dirname, '../../build/node.lib'))
+    await downloadFileAsync(`https://nodejs.org/dist/v${process.versions.node}/win-x64/node.lib`, path.resolve(__dirname, '../../build/node.lib'))
 })()

@@ -71,7 +71,15 @@ execute_process(COMMAND
     OUTPUT_VARIABLE CMAKE_JS_LIB
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-# string(REPLACE ";" "\;" CMAKE_JS_INC "${CMAKE_JS_INC}")
+
+if(NOT EXISTS ${CMAKE_JS_LIB})
+    execute_process(COMMAND
+        node tools/windows/download_lib.js
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        COMMAND_ERROR_IS_FATAL ANY
+    )
+endif()
+
 message("CMAKE_JS_INC:" ${CMAKE_JS_INC})
 foreach(item IN LISTS CMAKE_JS_INC)
     message("include: ${item}")
@@ -117,21 +125,6 @@ add_library(${MODULE_NAME}
     src/install/hook_msf.cc
     ${CMAKE_JS_SRC}
     )
-if (WIN32)
-    message("生成 QQ.lib")
-    execute_process(COMMAND
-        ${CMAKE_AR} /def:QQ.def /out:QQ.lib /machine:x86 ${CMAKE_STATIC_LINKER_FLAGS}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-        COMMAND_ERROR_IS_FATAL ANY
-    )
-    execute_process(COMMAND
-        ${CMAKE_AR} /def:QQ64.def /out:QQ64.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-        COMMAND_ERROR_IS_FATAL ANY
-    )
-    target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ.lib)
-    target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ64.lib)
-endif()
 
 if (WIN32)
     target_link_libraries(${MODULE_NAME} subhook)

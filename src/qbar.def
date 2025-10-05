@@ -1,0 +1,23 @@
+
+LIBRARY "qbar.dll"
+EXPORTS
+    ??0Area@qbar@@QEAA@HHHH@Z=qbar.original.dll.??0Area@qbar@@QEAA@HHHH@Z
+    ??0Area@qbar@@QEAA@XZ=qbar.original.dll.??0Area@qbar@@QEAA@XZ
+    ??0Decoder@qbar@@QEAA@AEBUOptions@01@@Z=qbar.original.dll.??0Decoder@qbar@@QEAA@AEBUOptions@01@@Z
+    ??0Point@qbar@@QEAA@MM@Z=qbar.original.dll.??0Point@qbar@@QEAA@MM@Z
+    ??0Point@qbar@@QEAA@XZ=qbar.original.dll.??0Point@qbar@@QEAA@XZ
+    ??0String@qbar@@QEAA@PEAD_K@Z=qbar.original.dll.??0String@qbar@@QEAA@PEAD_K@Z
+    ??0String@qbar@@QEAA@XZ=qbar.original.dll.??0String@qbar@@QEAA@XZ
+    ??1Decoder@qbar@@QEAA@XZ=qbar.original.dll.??1Decoder@qbar@@QEAA@XZ
+    ??4Area@qbar@@QEAAAEAU01@$$QEAU01@@Z=qbar.original.dll.??4Area@qbar@@QEAAAEAU01@$$QEAU01@@Z
+    ??4Area@qbar@@QEAAAEAU01@AEBU01@@Z=qbar.original.dll.??4Area@qbar@@QEAAAEAU01@AEBU01@@Z
+    ??4Decoder@qbar@@QEAAAEAV01@AEBV01@@Z=qbar.original.dll.??4Decoder@qbar@@QEAAAEAV01@AEBV01@@Z
+    ??4Point@qbar@@QEAAAEAU01@$$QEAU01@@Z=qbar.original.dll.??4Point@qbar@@QEAAAEAU01@$$QEAU01@@Z
+    ??4Point@qbar@@QEAAAEAU01@AEBU01@@Z=qbar.original.dll.??4Point@qbar@@QEAAAEAU01@AEBU01@@Z
+    ??4String@qbar@@QEAAAEAU01@$$QEAU01@@Z=qbar.original.dll.??4String@qbar@@QEAAAEAU01@$$QEAU01@@Z
+    ??4String@qbar@@QEAAAEAU01@AEBU01@@Z=qbar.original.dll.??4String@qbar@@QEAAAEAU01@AEBU01@@Z
+    ?GetResults@Decoder@qbar@@QEAAHPEAPEAUResult@12@PEA_K@Z=qbar.original.dll.?GetResults@Decoder@qbar@@QEAAHPEAPEAUResult@12@PEA_K@Z
+    ?ReleaseResults@Decoder@qbar@@QEAAXPEAUResult@12@@Z=qbar.original.dll.?ReleaseResults@Decoder@qbar@@QEAAXPEAUResult@12@@Z
+    ?ScanImage@Decoder@qbar@@QEAAHPEAEII@Z=qbar.original.dll.?ScanImage@Decoder@qbar@@QEAAHPEAEII@Z
+    ?SetReaders@Decoder@qbar@@QEAAHPEAW4Reader@2@_K@Z=MySetReaders
+

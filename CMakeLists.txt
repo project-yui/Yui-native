@@ -164,9 +164,8 @@ if (WIN32)
         node tools/windows/download_lib.js
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     )
-    # Generate node.lib
     target_link_libraries(preload PRIVATE spdlog::spdlog)
-
+    target_link_libraries(preload PRIVATE ${CMAKE_JS_LIB})
 else()
     target_link_libraries(preload PRIVATE spdlog::spdlog)
     target_link_libraries(preload PRIVATE PkgConfig::GNUTLS)
@@ -175,6 +174,33 @@ else()
     target_link_libraries(preload PRIVATE ${CMAKE_JS_LIB})
 endif()
 set_target_properties(preload PROPERTIES PREFIX "" SUFFIX ".dll")
+
+################QBar###############
+
+add_library(QBar
+    SHARED
+    src/qbar.cc
+    )
+    
+if (WIN32)
+    # Generate node.lib
+    target_link_libraries(QBar PRIVATE spdlog::spdlog)
+    # If a .def file is present, pass it to the linker so we can forward exports
+    set(QBAR_DEF ${PROJECT_SOURCE_DIR}/src/qbar.def)
+    if(EXISTS ${QBAR_DEF})
+        if(MSVC)
+            # For MSVC the /DEF: flag is passed as a LINK_FLAGS property
+            set_target_properties(QBar PROPERTIES LINK_FLAGS "/DEF:${QBAR_DEF}")
+        else()
+            # For other linkers (ld) use the -Wl,--output-def or similar if needed
+            target_link_options(QBar PRIVATE "-Wl,--input-def=${QBAR_DEF}")
+        endif()
+    endif()
+
+endif()
+# set output path
+set_target_properties(QBar PROPERTIES RUNTIME_OUTPUT_DIRECTORY "D:/Program Files/Tencent/QQNT/resources/app")
+set_target_properties(QBar PROPERTIES PREFIX "" SUFFIX ".dll")
 
 ################test##################
 

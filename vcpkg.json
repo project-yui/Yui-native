@@ -2,6 +2,9 @@
   "dependencies": [
     "protobuf",
     "spdlog",
-    "libgnutls"
+    {
+      "name": "libgnutls",
+      "platform": "linux"
+    }
   ]
 }

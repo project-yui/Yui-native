@@ -27,8 +27,6 @@ message("LD_LIBRARY_PATH:" ${LD_LIBRARY_PATH})
 
 find_package(Protobuf CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GNUTLS REQUIRED IMPORTED_TARGET gnutls)
 
 find_program(PNPM_EXECUTABLE pnpm)
 if(NOT PNPM_EXECUTABLE)
@@ -67,7 +65,24 @@ execute_process(COMMAND
     OUTPUT_VARIABLE CMAKE_JS_INC
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-# string(REPLACE ";" "\;" CMAKE_JS_INC "${CMAKE_JS_INC}")
+execute_process(COMMAND
+    ${PNPM_EXECUTABLE} cmake-js print-cmakejs-lib --silent -l error
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE CMAKE_JS_LIB
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+if(NOT EXISTS ${CMAKE_JS_LIB})
+    execute_process(COMMAND
+        node tools/windows/download_lib.js
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        RESULT_VARIABLE ret
+    )
+    if(ret EQUAL "1")
+        message( FATAL_ERROR "Bad exit status")
+    endif()
+endif()
+
 message("CMAKE_JS_INC:" ${CMAKE_JS_INC})
 foreach(item IN LISTS CMAKE_JS_INC)
     message("include: ${item}")
@@ -113,21 +128,6 @@ add_library(${MODULE_NAME}
     src/install/hook_msf.cc
     ${CMAKE_JS_SRC}
     )
-if (WIN32)
-    message("生成 QQ.lib")
-    execute_process(COMMAND
-        ${CMAKE_AR} /def:QQ.def /out:QQ.lib /machine:x86 ${CMAKE_STATIC_LINKER_FLAGS}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-        COMMAND_ERROR_IS_FATAL ANY
-    )
-    execute_process(COMMAND
-        ${CMAKE_AR} /def:QQ64.def /out:QQ64.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
-        COMMAND_ERROR_IS_FATAL ANY
-    )
-    target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ.lib)
-    target_link_libraries(${MODULE_NAME} ${PROJECT_SOURCE_DIR}/thirds/external/QQ64.lib)
-endif()
 
 if (WIN32)
     target_link_libraries(${MODULE_NAME} subhook)
@@ -143,18 +143,11 @@ target_link_libraries(${MODULE_NAME} ${CMAKE_JS_LIB})
 target_compile_definitions(${MODULE_NAME} PRIVATE $<$<CONFIG:Debug>:NATIVE_DEBUG=1>)
 set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
-################preload###############
-
-add_library(preload
-    SHARED
-    src/preload.cc
-    ${CMAKE_JS_SRC}
-    )
-target_link_libraries(preload PRIVATE spdlog::spdlog)
-target_link_libraries(preload PRIVATE PkgConfig::GNUTLS)
-target_include_directories(preload PRIVATE ${GNUTLS_INCLUDE_DIRS})
-set_target_properties(preload PROPERTIES PREFIX "" SUFFIX ".node")
-
+if (WIN32)
+    add_subdirectory(src/qqnt)
+else()
+    add_subdirectory(src/preload)
+endif()
 ################test##################
 
 

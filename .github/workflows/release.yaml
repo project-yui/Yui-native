@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           # Artifact name
-          name: telecord-${{ matrix.arch }}-linux.build
+          name: yui-${{ matrix.arch }}-linux.build
           path: tmp/build
 
   build-windows:
@@ -108,7 +108,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           # Artifact name
-          name: telecord-${{ matrix.arch }}-win32.build
+          name: yui-${{ matrix.arch }}-win32.build
           path: tmp/build
 
   upload:
@@ -146,6 +146,7 @@ jobs:
           chmod +x pyuploadtool-x86_64.AppImage
           ./pyuploadtool-x86_64.AppImage \
           **build/*.node
+          **build/*.dll
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -157,3 +158,4 @@ jobs:
           tag_name: ${{ steps.tag.outputs.tag }}
           files: |
             **build/*.node
+            **build/*.dll

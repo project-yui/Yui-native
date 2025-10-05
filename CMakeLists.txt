@@ -202,6 +202,39 @@ endif()
 set_target_properties(QBar PROPERTIES RUNTIME_OUTPUT_DIRECTORY "D:/Program Files/Tencent/QQNT/resources/app")
 set_target_properties(QBar PROPERTIES PREFIX "" SUFFIX ".dll")
 
+################QQNT###############
+
+add_library(QQNT
+    SHARED
+    src/qqnt.cc
+)
+if (WIN32)
+    target_link_libraries(QQNT PRIVATE spdlog::spdlog)
+    # Ensure QQNT links with the node/cmake-js libraries (provides libuv symbols)
+    # target_link_libraries(QQNT PRIVATE ${CMAKE_JS_LIB})
+    # Also link the project's QQ64 import library which contains many Cr_z_* exports
+    # (generated earlier via ${CMAKE_AR}). If present, link it so QQNT resolves zlib wrappers.
+    execute_process(COMMAND
+        ${CMAKE_AR} /def:QQNT.def /out:QQNT.lib /machine:x64 ${CMAKE_STATIC_LINKER_FLAGS}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/thirds/external
+        COMMAND_ERROR_IS_FATAL ANY
+    )
+    set(QQNT_LIB ${PROJECT_SOURCE_DIR}/thirds/external/QQNT.lib)
+    if(EXISTS ${QQNT_LIB})
+        target_link_libraries(QQNT PRIVATE ${QQNT_LIB})
+    endif()
+    set(QQNT_DEF ${PROJECT_SOURCE_DIR}/src/qqnt.def)
+    if(EXISTS ${QQNT_DEF})
+        if(MSVC)
+            set_target_properties(QQNT PROPERTIES LINK_FLAGS "/DEF:${QQNT_DEF}")
+        else()
+            target_link_options(QQNT PRIVATE "-Wl,--input-def=${QQNT_DEF}")
+        endif()
+    endif()
+endif()
+set_target_properties(QQNT PROPERTIES RUNTIME_OUTPUT_DIRECTORY "D:/Program Files/Tencent/QQNT/resources/app")
+set_target_properties(QQNT PROPERTIES PREFIX "" SUFFIX ".dll")
+
 ################test##################
 
 

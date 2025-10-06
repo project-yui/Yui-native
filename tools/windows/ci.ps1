@@ -13,7 +13,7 @@ try
     cmake --build "$root_dir/build" --config Release --target QQNT --
     mkdir "$root_dir/tmp/build"
     mv "$root_dir/build/nt_native.node" "$root_dir/tmp/build/yui-native-win32-$arch-$tag.node"
-    mv "$root_dir/build/QQNT.dll" "$root_dir/tmp/build/node-win32-$arch-$tag.dll"
+    mv "$root_dir/build/QQNT.dll" "$root_dir/tmp/build/qqnt-win32-$arch-$tag.dll"
 }catch{
     exit 1
 }
